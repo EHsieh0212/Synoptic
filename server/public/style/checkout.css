@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+body{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+h3{
+    font-size: 40px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.big-sec{
+    display: inline-block;
+    text-align: left;
+}
+.sec{
+    border: solid;
+    width: 800px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 180px;
+    box-sizing: border-box;
+}
+.tpfield{
+    height: 10px;
+    width: 480px;
+    border: 1px solid gray;
+    margin: 5px 0;
+    padding: 5px;
+}
+.field{
+    font-family: 'Poppins', sans-serif;
+    width: 200px;
+}
+.tappay-field-focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.tappay-field-focus:invalid {
+    border-color: red;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.submit-btn{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.order-result{
+    visibility: hidden;
+}

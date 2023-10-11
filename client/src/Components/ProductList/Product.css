@@ -1,0 +1,17 @@
+.product-img{
+    max-width: 90%;
+    max-height: 90%;
+    min-width: 153px;
+    min-height: 204px;
+    padding: 0px;
+}
+.product-details{
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.product-color-btn{
+    width:20px;
+    height:15px
+}

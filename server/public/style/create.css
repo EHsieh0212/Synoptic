@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+body{
+    font-family: 'Poppins', sans-serif;
+}
+h1{
+    text-align: center;
+    font-size: 50px;
+}
+.form{
+    text-align: center;
+}
+.big-sec{
+    display: inline-block;
+    text-align: left;
+}
+.sec{
+    border: solid;
+    width: 900px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 180px;
+    padding-right: 180px;
+    box-sizing: border-box;
+}
+.sec-title{
+    font-size: 25px;
+}
+textarea {
+    width: 400px;
+    height: 70px;
+}
+.input{
+    font-family: 'Poppins', sans-serif;
+}
+.btn-div{
+    text-align: center;
+}
+.btn{
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 30px;
+}
+.btn:hover{
+    cursor: pointer;
+}
+.btn-stock{
+    position: relative;
+    border: 1px solid #888888;
+    background: #888888;
+    color: white;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 20px;
+}
+.btn-stock:hover{
+    cursor: pointer;
+}
+.select{
+    font-family: 'Poppins', sans-serif;   
+}
+.newEntry{
+    float: left;
+}
+.deleteTag{
+    font-family: 'Poppins', sans-serif;
+    float: right;
+    /* text-align: center; */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    border: 2px dashed;
+}
+.deleteTag:hover{
+    cursor: pointer;
+}
+.entry-msg{
+    width: 900px;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 0px;
+    padding-bottom: 10px;   
+}
+.newEntry{
+    clear: both;
+}
+.newEntry{
+    box-sizing: border-box;
+    padding-left: 50px;
+    padding-top: 10px;
+}
+.details{
+    visibility: hidden;
+}   
