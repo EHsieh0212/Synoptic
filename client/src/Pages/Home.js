@@ -4,19 +4,17 @@ import { Routes, Route } from "react-router-dom";
 import CarouselFade from "../Components/Carousel/Carousel";
 import ProductList from "../Components/ProductList/ProductList";
 
-import React, { useState, useRef } from 'react'
+import React from 'react'
 
 
 const Home = () => {
 
-  
-
   return (
     <>
       <CarouselFade />
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<ProductList />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 };

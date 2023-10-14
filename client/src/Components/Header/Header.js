@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // import pictures
-import logo from "../../Assests/logo.png";
+import logo from "../../Assests/newlogo.png";
 import search from "../../Assests/search.png";
 import cart from "../../Assests/cart.png";
 import member from "../../Assests/member.png";
@@ -40,7 +40,7 @@ const Header = () => {
 const Logo = () => {
   return (
     <div className="p-0 align-item-center mx-auto">
-      <Link to="/" className="navbar-brand mx-xl-5 logo">
+      <Link to="/" className="navbar-brand mx-xl- logo">
         <img className="logo" src={logo} alt="logo" />
       </Link>
       <button

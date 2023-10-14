@@ -1,6 +1,6 @@
 .logo {
     width: 258px;
-    height: 48px;
+    height: 80px;
 }
 .search-btn{
     width: 44px;
@@ -15,7 +15,7 @@
 @media screen and (max-width: 1200px){
     .logo {
         width: 129px;
-        height: 24px;
+        height: 35px;
     }
     .search-btn{
         width: 40px;
