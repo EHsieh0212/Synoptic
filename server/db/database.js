@@ -41,7 +41,5 @@ const dbTransaction = async (actions) => {
       }
 }
 
-
-
 module.exports = {dbSqlCommand, dbTransaction};
 
