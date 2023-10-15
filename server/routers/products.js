@@ -1,152 +1,30 @@
 const { Router } = require('express');
 const router = Router();
-const { dbSqlCommand } = require('../db/database');
-const axios = require('axios');
-const { v4: uuidv4 } = require('uuid');
+const product = require('../services/products');
+const asyncHandler = require('../utils/asyncHandler');
 
-// Product Search API: p.product_name, p.product_price, p.product_img, product_colors
-// return: results{}
-router.get('/search', async (req, res) => {
-    try {
-        const keyword = req.query.keyword;
-        const selectProduct =
-            `
-        SELECT p.product_id, p.product_name, p.product_price, p.product_img, 
-        (
-            SELECT JSON_ARRAYAGG(pc.product_color)
-            FROM product_inventory as pc
-            WHERE p.product_id = pc.product_id
-        ) as product_colors
-        FROM product as p
-        WHERE p.product_name LIKE ?;
-        `;
-        const query = await dbSqlCommand(selectProduct, [`%${keyword}%`]);
-        if (query[0].length != 0) {
-            const result = {};
-            result.results = query[0];
+
+
+// Product Search API
+
+router.get("/search",
+    asyncHandler(async (req, res) => {
+        const result = await product.getProductsByKeyword(req.query.keyword);
+        if (result) {
             res.json(result);
         } else {
-            res.status(404).json({ msg: "No query." });
+            const err = new Error("Resource not found");
+            err.status = 404;
+            throw err;
         }
-    } catch (error) {
-        return res.status(400).send({
-            msg: error.message
-        });
-    }
-});
+    }));
 
 
-////////////////////////////////////////////////////
-// 1.read john's api 2.store in stylish3 database
-router.get('/storeData', async (req, res) => {
-    const resultFromApi = await axios.get('http://35.75.145.100:1234/api/1.0/order/data');
-    const data = resultFromApi.data;
-    try {
-        for (let i in data) {
-            // 1. insert into "orderNew"
-            const insertOrderScript = `INSERT INTO ${process.env.DB}.orderNew(o_id, o_total) 
-                                       VALUES(?,?)`;
-            const orderId = uuidv4();
-            const orderTotal = data[i].total;
-            const insertOrderQuery = await dbSqlCommand(insertOrderScript, [orderId, orderTotal]);
-            // 2. insert into "orderDetailNew"
-            const orderDetail = data[i].list;
-            for (let j in orderDetail) {
-                const insertProductScript = `INSERT INTO ${process.env.DB}.orderDetailNew(o_id, o_total, p_id, p_size, p_qty, p_price, p_color_code, p_color_name)
-                                             VALUES(?,?,?,?,?,?,?,?)`;
-                const id = orderDetail[j].id;
-                const size = orderDetail[j].size;
-                const qty = orderDetail[j].qty;
-                const price = orderDetail[j].price;
-                const colorCode = orderDetail[j].color.code;
-                const colorName = orderDetail[j].color.name;
-                const insertProductQuery = await dbSqlCommand(insertProductScript, [orderId, orderTotal, id, size, qty, price, colorCode, colorName]);
-            }
-        }
-        return res.status(200).send({ msg: "insert successfully." })
-    } catch (error) {
-        return res.status(400).send({
-            msg: error.message
-        });
-    }
-})
 
 
-// get total revenue from orderNew
-router.get('/getTotalRevenue', async (req, res) => {
-    try {
-        const countRvScript = `select sum(o_total) as totalRevenue from ${process.env.DB}.orderNew;`;
-        const result = await dbSqlCommand(countRvScript);
-        return res.json(result[0][0]);
-
-    } catch (error) {
-        return res.status(404).send({
-            msg: error.message
-        });
-    }
-})
 
 
-// get color-qty 
-router.get('/getColorQty', async (req, res) => {
-    try {
-        const countRvScript = `select p_color_name as p_name, count(p_qty) as p_count from ${process.env.DB}.orderDetailNew group by p_color_name;`;
-        const result = await dbSqlCommand(countRvScript);
-        return res.json(result[0]);
 
-    } catch (error) {
-        return res.status(404).send({
-            msg: error.message
-        });
-    }
-})
-
-
-router.get('/getPriceQty', async (req, res) => {
-    try {
-        const countRvScript = `select p_price from ${process.env.DB}.orderDetailNew order by p_price;`;
-        const result = await dbSqlCommand(countRvScript);
-        return res.json(result[0]);
-
-    } catch (error) {
-        return res.status(404).send({
-            msg: error.message
-        });
-    }
-})
-
-
-router.get('/getTop5ProductsAndSize', async (req, res) => {
-    try {
-        // 1.top 5
-        const countRvScript = `select p_id, count(p_qty) as count from ${process.env.DB}.orderDetailNew group by p_id order by count desc limit 5;`;
-        const result = await dbSqlCommand(countRvScript);
-        const top5Product = result[0];
-
-        // 2. size of top5 
-        const top5s = top5Product.map(e => e.p_id);
-        const sizes = ['S', 'M', 'L'];
-        const sizesInfo = [top5s];
-        const tmp = [];
-
-        for (let i in sizes) {
-            const getProductsofSize = `select p_id, count(p_qty) as count from stylish3.orderDetailNew where p_id = ? or p_id = ? or p_id = ? or p_id = ? or p_id = ? and p_size = ? group by p_id order by p_id;`;
-            let inf = Object.keys(top5s).map((key) => top5s[key]);
-            inf.push(sizes[i])
-            const result2 = await dbSqlCommand(getProductsofSize, inf);
-            let obj = {}
-            obj[sizes[i]] = result2[0]
-            tmp.push(obj);
-        }
-        sizesInfo.push(tmp);
-        return res.json(sizesInfo);
-
-    } catch (error) {
-        return res.status(404).send({
-            msg: error.message
-        });
-    }
-})
 
 
 // Product List API: p.product_name, p.product_price, p.product_img, product_colors

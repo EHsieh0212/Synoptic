@@ -1,45 +1,54 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
+if (!process.env.DB_HOST ||
+    !process.env.DB_USER ||
+    !process.env.DB_PWD) {
+    throw new Error("HOST/USER/PWD should be set in environment variables");
+}
+
 const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB
+    password: process.env.DB_PWD,
+    database: process.env.DB_NAME
 })
 
-const dbSqlCommand = async(sql, target) => {
-    let queryResult;
-    if (target){
-        try{
-            queryResult = await db.promise().query(sql, target);
-        } catch(error){
-            console.log(error)
-            throw error;
-        }
-    } else{
-        try{
-            queryResult = await db.promise().query(sql);
-        } catch(error){
-            throw error;
-        }
+/**
+ * Perform async/await SQL command
+ * @param {string} sql: the main sql command
+ * @param {Array} inputString: prepared statements in an array
+ */
+const dbSqlCommand = async (sql, params) => {
+    try {
+        params = params || [];
+        const queryResult = await db.promise().execute(sql, params);
+        return queryResult;
+    } catch (error) {
+        console.error('Error executing SQL:', error);
+        throw error;
     }
-    return queryResult;
 }
 
+/**
+ * Perform SQL transaction, mainly used in admin product creation.
+ * @param {} actions 
+ */
 const dbTransaction = async (actions) => {
     try {
         await db.promise().query('START TRANSACTION');
-        for (let i in actions){
-            await dbSqlCommand(actions[i][0], actions[i][1]);
+        for (let i = 0; i < actions.length; i++) {
+            await dbSqlCommand(actions, actions[i][0], actions[i][1]);
         }
-      } catch (error) {
+        await db.promise().query('COMMIT');
+    } catch (error) {
         if (db) {
-            await conn.query('ROLLBACK');
+            await db.promise().query('ROLLBACK');
         };
-        throw error;
-      }
+        console.error(error);
+        throw new Error("Error occurrs when performing SQL transaction, resulting in a rollback.");
+    }
 }
 
-module.exports = {dbSqlCommand, dbTransaction};
+module.exports = { db, dbSqlCommand, dbTransaction };
 
