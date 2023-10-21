@@ -3,7 +3,7 @@ const router = Router();
 const { validateRegister } = require('../utilsvalidate')
 const { IsLoggedIn } = require('../middleware/validate')
 const bcrpyt = require('bcrypt');
-const { dbSqlCommand } = require('../db/database');
+const { dbSqlCommand } = require('../database/mysql/models/Products');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 

@@ -1,64 +1,85 @@
-const { dbSqlCommand, dbTransaction } = require('../db/database');
-const CATEGORIES = ["all", "men", "women"];
+const productsRepository = require('../repositories/ProductsRepository');
+const variantsRepository = require('../repositories/VariantsRepository')
+const { PAGE_SIZE } = require('../repositories/constants/Products.constants');
 
 /**
- * Get products by keyword
+ * Get all product complete information by keyword
  * @param {string} keyword
+ * @returns {Object}
  */
 const getProductsByKeyword = async (keyword) => {
-    if (keyword === undefined || keyword === "") {
-        throw new Error("Invalid keyword");
-    }
-
-    const searchQuery = `SELECT id FROM products WHERE title LIKE ?`;
-    const searchParam = [`%${keyword}%`];
-    const searchIds = await dbSqlCommand(searchQuery, searchParam).then(result => result[0].map(obj => obj.id));
+    const productsRepositoryInstance = productsRepository();
+    const variantsRepositoryInstance = variantsRepository();
+    const productIds = await productsRepositoryInstance.findIdsByKeyword(keyword);
+    const mainProducts = await productsRepositoryInstance.findProductsByIds(productIds);
+    const mainProductsVariants = await variantsRepositoryInstance.findVariantsByProductIds(productIds);
+    const productsWithVariants = await _combineProductWithVariant(mainProducts, mainProductsVariants);
 
     return {
-        data: await _getAllInformationByIds(searchIds),
-        resultCount: searchIds.length
-    }
+        data: productsWithVariants,
+        dataCount: productsWithVariants.length,
+    };
 };
 
 /**
- * Gets products of all category by page number
- * @param {number} pageNum
+ * Get all product complete information by category and page number
+ * @param {string} category 
+ * @param {number} pageNum 
+ * @returns {Object}
  */
-const getProductsByPage = async(pageNum) => {
-    if (typeof pageNum !== "number" || isNaN(pageNum) || pageNum < 0) {
-        throw new Error("Invalid page number");
-    }
-};
+const getProductsByCategory = async (category, pageNum = 0) => {
+    const offset = pageNum * PAGE_SIZE;
+    const productsRepositoryInstance = productsRepository();
+    const variantsRepositoryInstance = variantsRepository();
+    const { count, ids } = await productsRepositoryInstance.findIdsByCategoryAndPage(category, pageNum, offset, PAGE_SIZE);
+    const mainProducts = await productsRepositoryInstance.findProductsByIds(ids);
+    const mainProductsVariants = await variantsRepositoryInstance.findVariantsByProductIds(ids);
+    const result = await _combineProductWithVariant(mainProducts, mainProductsVariants);
 
-
-
-
-
-
-
-/**
- * Internal function to get the complete product informations by given ids
-*/
-const _getAllInformationByIds = async(ids) => {
-    if (ids.length === 0) {
-        return [];
-    }
-
-    const idQuery = 
-    'SELECT id, category, title, price, img_src, description, more '+
-    'FROM products WHERE id IN ' +
-    `(${Array(ids.length).fill("?").join(", ")})`;
-    const productObjectArray = await dbSqlCommand(idQuery, ids).then(result => result[0]);
-
-    const stockQuery = `SELECT size, color, number FROM variants WHERE product_id = ?`;
-    for (const [idx, product] of productObjectArray.entries()) {
-        product.stock = await dbSqlCommand(stockQuery, product.id).then(result => result[0]);
+    const returnObject = {
+        data: result,
+        dataCount: result.length,
     };
 
-    return productObjectArray;
+    if (count === PAGE_SIZE) {
+        returnObject.nextPaging = pageNum + 1;
+    }
+
+    return returnObject;
 };
 
+/**
+ * Get one product complete information by product id
+ * @param {string} id 
+ * @returns {Object}
+ */
+const getProductDetailById = async (id) => {
+    const productsRepositoryInstance = productsRepository();
+    const variantsRepositoryInstance = variantsRepository();
+    const mainProduct = await productsRepositoryInstance.findProductById(id);
+    const mainProductVariant = await variantsRepositoryInstance.findVariantByProductId(id);
+    const productsWithVariants = Object.assign(mainProduct, { stock: mainProductVariant });
+
+    return productsWithVariants;
+};
+
+/**
+ * Inner function to combine main product info with product variant info
+ * @param {Object} productArray 
+ * @param {Object} variantArray 
+ * @returns {Object}
+ */
+const _combineProductWithVariant = (productArray, variantArray) => {
+    const productsWithVariants = productArray.map((product) => {
+        const result = variantArray.find((v) => v.productId === product.id);
+        const variant = result ? result : null;
+        return Object.assign(product, { stock: variant });
+    });
+    return productsWithVariants;
+};
 
 module.exports = {
-    getProductsByKeyword
-}
+    getProductsByKeyword,
+    getProductsByCategory,
+    getProductDetailById
+};

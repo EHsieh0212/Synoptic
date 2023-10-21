@@ -60,7 +60,7 @@ async function fetchCategoryItems(category){
 async function searchProduct(keyword){    
     const keywordValue = keyword.value;
     try{
-        await fetch(`/api/v1/products/search/?keyword=${keywordValue}`, {method: "get", headers:{"Content-Type": "application/json"}})
+        await fetch(`/api/v1/search/?keyword=${keywordValue}`, {method: "get", headers:{"Content-Type": "application/json"}})
         .then((res) => (res.json()))    
         .then((res) => renderMainpageProducts(res.results)); 
     } catch(error){
