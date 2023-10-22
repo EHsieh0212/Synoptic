@@ -33,7 +33,7 @@ router.post('/signIn', authenticator('login'), signJwt, asyncHandler(async (req,
         const err = Object.assign(new Error(errorMessage), { status: 401, msg: authFail });
         throw err;
     }
-    res.json(res.user);
+    res.json(req.user);
 }));
 
 

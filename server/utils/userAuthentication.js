@@ -32,8 +32,8 @@ const loginOptions = {
   usernameField: "email", passwordField: "password"
 };
 passport.use('login', new LocalStrategy(
-  loginOptions, 
-  async function(email, password, done) {
+  loginOptions,
+  async function (email, password, done) {
     const usersRepoInstance = usersRepository();
     const ifEmailExist = await usersRepoInstance.checkExistence({ email });
     if (!ifEmailExist) {
@@ -41,9 +41,9 @@ passport.use('login', new LocalStrategy(
     }
     const verifyPassword = await usersRepoInstance.verifyPassword(email, password);
     if (!verifyPassword) {
-      return done(false, { errMsg: 'Passport Unauthorized: Wrong Password.'});
+      return done(false, { errMsg: 'Passport Unauthorized: Wrong Password.' });
     }
-    return done(null, true);
+    return done(null, { email });
   }
 ));
 

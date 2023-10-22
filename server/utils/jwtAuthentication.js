@@ -14,8 +14,7 @@ const cookieOptions = {
 
 const signJwt = (req, res, next) => {
     const payload = {
-        sub: req.user.id,
-        name: req.user.name
+        sub: req.user.email,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, signOptions);
     res.cookie("jwt", token, cookieOptions);
