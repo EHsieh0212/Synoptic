@@ -12,6 +12,13 @@ class UsersRepository extends GenericRepository {
         return await this.insertOne(entity);
     }
 
+    async registerUserFromFb(id, name, email, fbUid, fbAccessToken, createdAt, updatedAt) {
+        const entity = {
+            id, name, email, fbUid, fbAccessToken, createdAt, updatedAt
+        };
+        return await this.insertOne(entity);
+    }
+
     async checkExistence(query) {
         const ifExist = await this.findOne(query);
         const result = ifExist ? 1 : 0;

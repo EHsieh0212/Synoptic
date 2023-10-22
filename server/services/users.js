@@ -3,8 +3,8 @@ const bcrpyt = require('bcrypt');
 const usersRepository = require('../repositories/UsersRepository');
 
 
-// 1. hash password. 2.uuid. 3.insert into user table
-const signUp =  async (name, email, password) => {
+// with uuid, hashed pwd
+const natvieSignUp =  async (name, email, password) => {
     const id = uuidv4();
     const hashedPassword = await bcrpyt.hash(password, 10);
     const date = new Date();
@@ -13,8 +13,19 @@ const signUp =  async (name, email, password) => {
     return newUser;
 };
 
+// with uuid, fb_id, fb_access_token, email from fb. no pwd.
+const fbSignUp = async (fbUid, fbAccessToken, name, email) => {
+    const id = uuidv4();
+    const date = new Date();
+    const usersRepositoryInstance = usersRepository();
+    const newFbUser = await usersRepositoryInstance.registerUserFromFb(id, name, email, fbUid, fbAccessToken, date, date);
+    return newFbUser;
+};
+
+
 module.exports = {
-    signUp,
+    natvieSignUp,
+    fbSignUp,
 }
 
 

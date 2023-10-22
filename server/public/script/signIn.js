@@ -3,6 +3,7 @@ console.log("client side javascript file is loaded.");
 ////////////////////////////////////////////////////////////////////////
 // get elements
 const submitBtn = document.querySelector(".submit-btn");
+const fbBtn = document.querySelector(".fb-btn");
 
 // get form data for backend
 submitBtn.addEventListener("submit", (e) => {
@@ -14,3 +15,8 @@ submitBtn.addEventListener("submit", (e) => {
     let formResult = {};
     formData.forEach((value, key) => formResult[key] = value);
 });
+
+fbBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '/api/v1/users/fbSignIn';
+})

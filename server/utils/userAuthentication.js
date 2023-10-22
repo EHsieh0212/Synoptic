@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const usersRepository = require('../repositories/UsersRepository');
 
 
@@ -8,6 +9,7 @@ const usersRepository = require('../repositories/UsersRepository');
 const registerOptions = {
   usernameField: "name", passwordField: "email", passReqToCallback: true,
 };
+
 passport.use('register', new LocalStrategy(
   registerOptions,
   async function (req, name, email, done) {
@@ -31,6 +33,7 @@ passport.use('register', new LocalStrategy(
 const loginOptions = {
   usernameField: "email", passwordField: "password"
 };
+
 passport.use('login', new LocalStrategy(
   loginOptions,
   async function (email, password, done) {
@@ -48,7 +51,48 @@ passport.use('login', new LocalStrategy(
 ));
 
 
+// facebook login
+// perform fb authentication, then callback router performs fb user registration
+const facebookOptions = {
+  clientID: process.env.FB_CLIENT_ID,
+  clientSecret: process.env.FB_CLIENT_SECRET,
+  callbackURL: process.env.WEBSITE_URL + "/api/v1/users/fbSignIn/callback",
+  profileFields: ['id', 'displayName', 'email']
+};
+passport.use("fb", new FacebookStrategy(facebookOptions,
+  async (accessToken, refreshToken, profile, done) => {
+    const usersRepoInstance = usersRepository();
+    const user = await usersRepoInstance.findOne({ fb_uid: profile._json.id });
+    if (!user) {
+      if (profile._json.email) {
+        const ifEmailExists = usersRepoInstance.checkExistence({ email: profile._json.email });
+        if (ifEmailExists) {
+          const err = new Error(
+            "Email associated to Facebook acount already exists. " +
+            "Account association will be implemented in the future."
+          );
+          done(err, false);
+        }
+      }
+    } else {
+      const fbUser = Object.assign(user, { existed: 1 });
+      done(null, fbUser);
+    }
+    const fbUser = {
+      existed: 0,
+      fbUid: profile._json.id,
+      fbAccessToken: accessToken,
+      name: profile._json.name,
+      email: profile._json.email ? profile._json.email : null,
+    };
+    done(null, fbUser);
+  }
+));
+
 
 module.exports = {
-  authenticator: strategy => passport.authenticate(strategy, { session: false })
+  authenticator: strategy => passport.authenticate(strategy, { session: false }),
+  fbAuthenticator: passport.authenticate('fb', {
+    session: false
+  }),
 };

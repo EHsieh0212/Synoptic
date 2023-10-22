@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { authenticator } = require('../utils/userAuthentication');
+const { authenticator, fbAuthenticator } = require('../utils/userAuthentication');
 const { signJwt, removeJwt } = require('../utils/jwtAuthentication');
 const { asyncHandler } = require('../utils/asyncHandler');
 const users = require('../services/users');
@@ -14,7 +14,7 @@ router.post('/signUp', authenticator('register'), asyncHandler(async (req, res) 
     }
 
     const { name, email, password } = req.user;
-    const signupResult = await users.signUp(name, email, password);
+    const signupResult = await users.natvieSignUp(name, email, password);
     if (signupResult) {
         res.json(signupResult);
     } else {
@@ -35,6 +35,24 @@ router.post('/signIn', authenticator('login'), signJwt, asyncHandler(async (req,
     }
     res.json(req.user);
 }));
+
+
+
+router.get('/fbSignIn', fbAuthenticator);
+
+router.get('/fbSignIn/callback', fbAuthenticator, async (req, res) => {
+    const { existed, fbUid, fbAccessToken, name, email } = req.user;
+    if (!existed) {
+        const signupResult = await users.fbSignUp(fbUid, fbAccessToken, name, email);
+        if (!signupResult) {
+            const errMsg = "Router Level Error: Resource not found (Return Empty)";
+            const err = Object.assign(new Error(errMsg), { status: 404, msg: errMsg, content: result });
+            console.log(signupResult);
+            throw err;
+        }
+    }
+    res.redirect(process.env.WEBSITE_URL);
+});
 
 
 // user profile
