@@ -4,8 +4,8 @@
   "description": "SYNOPTIC: Modern Fashion Laboratory",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "develop": "nodemon app.js"
+    "start": "node index.js",
+    "develop": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
