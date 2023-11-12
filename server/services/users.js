@@ -4,7 +4,7 @@ const usersRepository = require('../repositories/UsersRepository');
 
 
 // with uuid, hashed pwd
-const natvieSignUp =  async (name, email, password) => {
+const natvieRegister =  async (name, email, password) => {
     const id = uuidv4();
     const hashedPassword = await bcrpyt.hash(password, 10);
     const date = new Date();
@@ -14,7 +14,7 @@ const natvieSignUp =  async (name, email, password) => {
 };
 
 // with uuid, fb_id, fb_access_token, email from fb. no pwd.
-const fbSignUp = async (fbUid, fbAccessToken, name, email) => {
+const fbRegister = async (fbUid, fbAccessToken, name, email) => {
     const id = uuidv4();
     const date = new Date();
     const usersRepositoryInstance = usersRepository();
@@ -23,9 +23,16 @@ const fbSignUp = async (fbUid, fbAccessToken, name, email) => {
 };
 
 
+const fbSignIn = async (fbUid, fbAccessToken, loginDate) => {
+    const usersRepositoryInstance = usersRepository();
+    const updatedFbUser = await usersRepositoryInstance.loginUserFromFb(fbUid, fbAccessToken, loginDate);
+    return updatedFbUser;
+}
+
 module.exports = {
-    natvieSignUp,
-    fbSignUp,
+    natvieRegister,
+    fbRegister,
+    fbSignIn
 }
 
 

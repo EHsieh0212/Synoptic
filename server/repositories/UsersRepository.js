@@ -31,8 +31,10 @@ class UsersRepository extends GenericRepository {
         return verify;
     }
 
-
-
+    async loginUserFromFb(fbUid, fbAccessToken, loginDate) {
+        const updateTarget = { fbAccessToken, updatedAt: loginDate};
+        return await this.update( updateTarget, { fbUid } );
+    }
 };
 
 module.exports = once(() => new UsersRepository(Users));

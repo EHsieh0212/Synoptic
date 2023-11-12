@@ -18,5 +18,5 @@ submitBtn.addEventListener("submit", (e) => {
 
 fbBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.href = '/api/v1/users/fbSignIn';
+    window.location.href = '/api/v1/users/fbRegisterSignin';
 })
