@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-require('dotenv').config();
 
 if (!process.env.DB_HOST ||
     !process.env.DB_USER ||

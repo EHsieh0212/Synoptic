@@ -5,6 +5,7 @@ const port = 4000;
 const router = require("./routes");
 const path = require("path");
 const bodyParser = require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({extended : false});
 const cookieParser = require("cookie-parser");
 const https = require('https');
 const fs = require('fs');
@@ -32,9 +33,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compression());
+app.use(urlencodedParser);
 app.use(cors());
 // static files
-app.use('/', express.static(path.join(__dirname, 'server/public')));
+app.use('/', express.static(path.join(__dirname, './public')));
 // app.use('/admin', express.static(path.join(__dirname, 'server/public')));
 // path for react frontend
 // app.use(express.static(path.join(__dirname, 'client', 'build')));
@@ -45,9 +47,13 @@ app.use("/api/v1", router);
 // (3)global-status error catching middleware
 // Global error handler
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({ error: { message: err.message } });
-    console.log(`Send status code ${res.statusCode} w/ message \"${err.message}\"`);
+    if (err){
+        res.status(err.status || 500);
+        res.json({ error: { message: err.message } });
+        console.error(err);
+    } else{
+        next()
+    }
 });
 
 
@@ -55,5 +61,5 @@ app.use((err, req, res, next) => {
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter
 app.listen(port, () => {
-    console.log(`Hello server ${port} port, I am app.js`);
+    console.log(`Hello server ${port} port.`);
 })

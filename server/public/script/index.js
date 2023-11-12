@@ -53,7 +53,7 @@ async function fetchCategoryItems(category){
     } catch(error){
         console.log(error);
         renderProductResults.innerHTML = '';
-        renderProductResults.innerHTML += `Error occurred. 404 not found.`
+        renderProductResults.innerHTML += ``
     }
 };
 
@@ -66,7 +66,7 @@ async function searchProduct(keyword){
     } catch(error){
         console.log(error);
         renderProductResults.innerHTML = '';
-        renderProductResults.innerHTML += `Error occurred. 404 not found.`
+        renderProductResults.innerHTML += ``
     }
 };
 

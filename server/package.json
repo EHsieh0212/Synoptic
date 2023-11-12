@@ -4,8 +4,8 @@
   "description": "SYNOPTIC: Modern Fashion Laboratory",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "develop": "nodemon app.js"
+    "start": "node index.js",
+    "develop": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +13,6 @@
     "axios": "^1.2.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
-    "bootstrap": "^5.2.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -26,6 +25,10 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "node-fetch": "^2.6.7",
+    "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "pm2": "^5.2.0",
     "sequelize": "^6.33.0",
     "uuid": "^9.0.0"

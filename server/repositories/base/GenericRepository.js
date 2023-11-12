@@ -44,8 +44,8 @@ class GenericRepository {
         return fieldValues;
     }
 
-    update(query, updateFields) {
-        return this.model.update(updateFields, { where: query });
+    async update(updateFields, query) {
+        return await this.model.update(updateFields, { where: query });
     }
 
     delete(query) {

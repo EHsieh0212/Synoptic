@@ -10,7 +10,7 @@ CREATE TABLE `users` (
   `fb_uid` varchar(255) DEFAULT NULL,
   `fb_access_token` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password` varchar(72) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
