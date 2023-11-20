@@ -1,4 +1,5 @@
-const { isNil, get } = require('lodash');
+const { get } = require('lodash');
+const { dbClient } = require('../../database/mysql/init');
 
 class GenericRepository {
     constructor(model) {
@@ -29,23 +30,22 @@ class GenericRepository {
         return this.model.findAndCountAll({ attributes, offset, limit, order });
     }
 
-    insertOne(entity) {
-        return this.model.create(entity);
+    async insertOne(entity, transaction) {
+        return this.model.create(entity, {transaction});
     }
 
-    async insertMany(entities, returnField = 'id') {
-        const entitiesResult = [];
-        entities.forEach(entity => {
-            entitiesResult.push({ ...entity });
-        });
+    async insertMany(entities, returnField = 'id', transaction) {
+        try {
+          const result = await this.model.bulkCreate(entities);
+          const fieldValues = result.map(entity => entity.get(returnField));
+          return fieldValues;
+        } catch (error) {
+          throw error
+        }
+      }
 
-        const result = await this.model.bulkCreate(entitiesResult);
-        const fieldValues = result.map(entity => get(entity.get(), returnField));
-        return fieldValues;
-    }
-
-    async update(updateFields, query) {
-        return await this.model.update(updateFields, { where: query });
+    async update(updateFields, query, transaction) {
+        return await this.model.update(updateFields, { where: query});
     }
 
     delete(query) {

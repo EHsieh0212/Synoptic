@@ -6,8 +6,8 @@ const OrderedItems = dbClient.define('ordered_items', {
     orderId: { type: DataTypes.INTEGER, field: 'order_id' },
     variantId: { type: DataTypes.INTEGER, field: 'variant_id' },
     number: { type: DataTypes.INTEGER, field: 'number' },
-},{
-    timestamp: false,
+    createdAt: { type: DataTypes.DATE, field: 'created_at' },
+    updatedAt: { type: DataTypes.DATE, field: 'updated_at' },
 });
 
 module.exports = {

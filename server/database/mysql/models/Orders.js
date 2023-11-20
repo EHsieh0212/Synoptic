@@ -9,7 +9,7 @@ const Orders = dbClient.define('orders', {
     email: { type: DataTypes.STRING, field: 'email' },
     phone: { type: DataTypes.STRING, field: 'phone' },
     address: { type: DataTypes.STRING, field: 'address' },
-    deliveryTime: { type: DataTypes.ENUM('morning','afternoon','not specified'), field: 'delivery_time' },
+    deliveryTime: { type: DataTypes.ENUM('morning', 'afternoon', 'not specified'), field: 'delivery_time' },
     paid: { type: DataTypes.INTEGER, field: 'paid' },
     payment: { type: DataTypes.JSON, field: 'payment' },
     createdAt: { type: DataTypes.DATE, field: 'created_at' },
