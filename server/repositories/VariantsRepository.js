@@ -27,6 +27,18 @@ class VariantsRepository extends GenericRepository {
         }
         return result;
     }
+
+    async findVariantsByConditions(details) {
+        // details: [{'productId': xxx, 'color': xxx, 'size': xxx, 'number': xxx}]
+        if (details === undefined || details === ""){
+            throw new Error("Invalid Variants");
+        }
+        const column = ['id'];
+        const findVariants = details.map(({ productId, color, size }) => ({ productId, color, size }));
+        const query = {[Op.or]: findVariants};
+        const result = await this.findAllWithColumns(column, query);
+        return [result, details.map(item => item.number)];
+    } 
 };
 
 module.exports = once(() => new VariantsRepository(Variants));
