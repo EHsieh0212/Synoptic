@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
 
-// import pictures
 import logo from "../../Assests/newlogo.png";
 import search from "../../Assests/search.png";
 import cart from "../../Assests/cart.png";
 import member from "../../Assests/member.png";
 
-// import css
 import "./Header.css";
 
 //////////////////////////////////////////////////////////////////////////////////////
-// main navbar(header)
 const Header = () => {
   return (
     <header className="nav-link">
@@ -31,29 +28,13 @@ const Header = () => {
 };
 
 //////////////////////////////////////////////////////////////////////////////////////
-// independent navbar components: logo, categories, categories-mobile, search-box, cart&member, divider
-// Router links:
-// Logo: to Home component
-// Categories: to Home component
-// ?categories=param
-// Search: to Home component
+
 const Logo = () => {
   return (
-    <div className="p-0 align-item-center mx-auto">
-      <Link to="/" className="navbar-brand mx-xl- logo">
+    <div className="py-3 offset-3 col-6 offset-sm-4 col-sm-4 py-xl-0 offset-xl-0 col-xl-2">
+      <Link to="/" className="d-block mx-auto w-75">
         <img className="logo" src={logo} alt="logo" />
       </Link>
-      <button
-        className="navbar-toggler border-0 shadow-none search-btn"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#search-toggler"
-        aria-controls="search-toggler"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <img src={search} alt="search" />
-      </button>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import Carousel from "react-bootstrap/Carousel";
-import carousel from "../../Assests/carousel.png";
+import carousel from "../../../Assests/carousel.png";
 
 const CarouselFade = () => {
   return (

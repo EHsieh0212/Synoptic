@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 // import components
-import CarouselFade from "../Components/Carousel/Carousel";
-import ProductList from "../Components/ProductList/ProductList";
+import CarouselFade from "./Carousel/Carousel";
 
 import React from 'react'
 
