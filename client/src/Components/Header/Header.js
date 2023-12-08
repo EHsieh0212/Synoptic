@@ -22,7 +22,7 @@ const Header = () => {
         </div>
         <CartAndMember cart={cart} member={member} />
       </nav>
-      <Divider />
+      {/* <Divider /> */}
     </header>
   );
 };
@@ -134,12 +134,6 @@ const CartAndMember = () => {
         </li>
       </ul>
     </div>
-  );
-};
-
-const Divider = () => {
-  return (
-    <div className="nav-item text bg-dark d-none d-xl-flex"> divider </div>
   );
 };
 

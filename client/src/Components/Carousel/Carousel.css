@@ -1,0 +1,6 @@
+.carousel-img {
+    height: 100;
+    width: 500;
+    padding-top: 56.25%; /* 16:9 比例的圖片 */
+    object-fit: cover;
+  }  
