@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { StyledCategory, NavItem } from './categoryStyle';
 
 const Category = () => {
