@@ -6,16 +6,13 @@ import CarouselFade from "../../Components/Carousel/Carousel";
 import React from 'react'
 
 
-const Home = () => {
-
+const Focal = () => {
   return (
     <>
       <CarouselFade />
-      {/* <Routes>
-        <Route path="/" element={<ProductList />} />
-      </Routes> */}
+      {/* <ProductShowcase /> */}
     </>
   );
 };
 
-export default Home;
+export default Focal;

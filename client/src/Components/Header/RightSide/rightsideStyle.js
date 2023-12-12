@@ -33,6 +33,7 @@ export const Search = styled.button`
     font-size: 13.5px;
 `;
 
+
 export const Member = styled.a`
     text-decoration: none;
     padding-top: 0.5px;

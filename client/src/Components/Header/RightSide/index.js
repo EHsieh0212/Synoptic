@@ -1,6 +1,7 @@
 import { StyledRightSide, Search, Cart, Member, Collection } from './rightsideStyle'
 
-const RightSide = ({ search, cart, collection, signInLink, orderLink, collectionLink }) => {
+const RightSide = ({ search, cart, collection, signInLink, orderLink, collectionLink, handleSearchBox }) => {
+
     return (
         <StyledRightSide>
             <Search>
@@ -14,6 +15,7 @@ const RightSide = ({ search, cart, collection, signInLink, orderLink, collection
                 <img src={collection} alt="collection" />
             </Collection>
         </StyledRightSide>
+
     )
 }
 

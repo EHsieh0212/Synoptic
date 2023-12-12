@@ -5,3 +5,5 @@ export const StyledHeader = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 1fr;
 `;
+
+
