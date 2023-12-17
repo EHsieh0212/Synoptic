@@ -5,12 +5,7 @@ import fb from "../../Assests/facebook.png";
 import cart from "../../Assests/cart-mobile.png";
 import member from "../../Assests/member-mobile.png";
 
-// import css
-import "./Footer.css";
 
-///////////////////////////////////////////////////////////////////
-// main footer
-// navbar
 const Footer = () => {
   return (
     <footer>
@@ -32,8 +27,7 @@ const Footer = () => {
   );
 };
 
-///////////////////////////////////////////////////////////////////
-// independent footer components
+
 const Infos = () => {
   return (
     <div className="row align-items-center justify-content-center">

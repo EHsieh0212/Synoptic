@@ -1,24 +1,27 @@
-// global imports
 import {
-  BrowserRouter,
-  Routes,
   Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
 } from "react-router-dom";
-// components import
-import Header from "./Components/Header/Header";
-import Footer from "./Components/Footer/Footer";
-import Home from "./Pages/Home";
+import Focal from "./Pages/Focal/Focal";
+import MainLayout from "./Pages/MainLayout";
 
-///////////////////////////////////////////////////////////////////////
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<MainLayout />}>
+      <Route index element={<Focal />} />
+      {/* <Route path="product/:productIs" element={<Product />}/> */}
+      {/* <Route path='*' element={<NotFound />}/> */}
+      {/* <Route path='/member' element={<Member />}/>  */}
+    </Route>
+  )
+)
+
 const App = () => {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="*" element={<Home />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <RouterProvider router={router} />
   );
 };
 
