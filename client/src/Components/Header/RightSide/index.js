@@ -4,7 +4,7 @@ const RightSide = ({ search, cart, collection, signInLink, orderLink, collection
 
     return (
         <StyledRightSide>
-            <Search>
+            <Search onClick={handleSearchBox}>
                 <img src={search} alt="search" />SEARCH
             </Search>
             <Member href={signInLink}>SIGN IN</Member>

@@ -1,5 +1,16 @@
 import React from 'react';
-import { StyledLogo, LogoImage } from './logoStyle';
+import styled from 'styled-components';
+
+const StyledLogo = styled.a`
+  padding:0;
+  margin: 0;
+`;
+
+const LogoImage = styled.img`
+  padding: 0;
+  margin: 0;
+  width: 80%;
+`;
 
 const Logo = ({ logo }) => {
   return (

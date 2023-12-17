@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 import logo from "../../Assests/newlogo.png";
 import search from "../../Assests/search.png";
 import cart from "../../Assests/market.png";
@@ -9,21 +7,21 @@ import collection from "../../Assests/heart.png"
 import Logo from './Logo';
 import Category from "./Category";
 import RightSide from "./RightSide";
-import { StyledHeader } from "./headerStyle";
 
+import styled from 'styled-components';
 
-const Header = () => {
-  const [showSearch, setShowSearch] = useState(false);
+const StyledHeader = styled.div`
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 0.6fr 2fr 1fr;
+`;
 
-  const toggleSearch = () => {
-    setShowSearch(!showSearch);
-  };
-
+const Header = ({ handleSearchBox }) => {
   return (
     <StyledHeader>
       <Logo logo={logo} />
       <Category />
-      <RightSide search={search} cart={cart} member={member} collection={collection} handleSearchBox={toggleSearch}/>
+      <RightSide search={search} cart={cart} member={member} collection={collection} handleSearchBox={handleSearchBox}/>
     </StyledHeader>
   );
 };

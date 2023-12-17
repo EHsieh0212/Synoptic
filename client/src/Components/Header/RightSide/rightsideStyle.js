@@ -31,6 +31,7 @@ export const Search = styled.button`
         color:gray;
     }
     font-size: 13.5px;
+
 `;
 
 

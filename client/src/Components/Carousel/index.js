@@ -16,5 +16,3 @@ const CarouselFade = () => {
 };
 
 export default CarouselFade;
-
-// 寫兩種break point處理
