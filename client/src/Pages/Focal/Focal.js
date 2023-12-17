@@ -1,17 +1,19 @@
-import { Routes, Route } from "react-router-dom";
-
-// import components
 import CarouselFade from "../../Components/Carousel";
+import styled from "styled-components";
 
-import React from 'react'
-
+const StyledFocal = styled.div`
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
 
 const Focal = () => {
   return (
-    <>
+    <StyledFocal>
       <CarouselFade />
       {/* <ProductShowcase /> */}
-    </>
+    </StyledFocal>
+
+
   );
 };
 

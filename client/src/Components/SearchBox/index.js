@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import React, { useRef, useEffect } from 'react';
 
-
 const StyledSearchbox = styled.div`
     color: blue;
     border: none;
@@ -19,16 +18,28 @@ const StyledSearchbox = styled.div`
     }
 `;
 
+const MaskOverlay = styled.div`
+  position: fixed; /* noted */
+  z-index: 1000; /* noted */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: ${props => (props.isActive ? 'block' : 'none')};
+`;
+
 const SearchBox = ({ isActive }) => {
     const inputRef = useRef(null);
     useEffect(() => {
         if (isActive && inputRef.current) {
-          inputRef.current.focus(); // not working probably because of context
+          inputRef.current.focus();
+          inputRef.current.value = '';
         }
       }, [isActive]);
+
     return(
         <StyledSearchbox isActive={isActive}>
-            <input className='input' type="text" placeholder="Search..." />
+            <input className='input' type="text" placeholder="Search..." ref={inputRef}/>
+            <MaskOverlay isActive={isActive}/>
         </StyledSearchbox>
     )
 };

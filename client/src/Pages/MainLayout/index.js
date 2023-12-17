@@ -2,13 +2,14 @@ import { Outlet } from "react-router-dom";
 import Header from "../../Components/Header";
 import SearchBox from '../../Components/SearchBox';
 import styled from "styled-components";
-import React, { useState, createContext } from 'react';
-export const AppContext = createContext();
+import React, { useState } from 'react';
 
 
 const StyledMain = styled.div`
-
+    padding-left: 5px;
+    padding-right: 5px;
 `;
+
 
 
 const MainLayout = () => {
@@ -17,15 +18,12 @@ const MainLayout = () => {
         setShowSearch(!showSearch);
     };
     return (
-        <AppContext.Provider value={{ showSearch, toggleSearch }}>
-            <StyledMain>
-                <Header handleSearchBox={toggleSearch} isActive={showSearch} />
-                <SearchBox isActive={showSearch} />
-                <Outlet isActive={showSearch} />
-                {/* <Footer/> */}
-            </StyledMain>
-        </AppContext.Provider>
-
+        <StyledMain>
+            <Header handleSearchBox={toggleSearch} isActive={showSearch} />
+            <SearchBox isActive={showSearch} />
+            <Outlet />
+            {/* <Footer/> */}
+        </StyledMain>
     )
 };
 
