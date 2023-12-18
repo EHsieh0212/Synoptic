@@ -4,9 +4,6 @@ import Product from './Product';
 import Error from '../../Pages/Error/Error';
 import axios from 'axios';
 
-//////////////////////////////////////////////////////////////////////////////////////
-// downstream:  state-effect pass in prop to upstream component
-
 const ProductList = () => {
   ///////////////////////////////////////
   // (A) useState
@@ -106,6 +103,3 @@ const ProductList = () => {
 
 
 export default ProductList;
-
-
-// Question: can we use return cleanup about error status?
