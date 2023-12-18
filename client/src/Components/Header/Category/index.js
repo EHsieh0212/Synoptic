@@ -31,9 +31,6 @@ const Category = () => {
                 Men
             </NavItem>
             <NavItem onClick={() => handleNavigation('/?category=accessories')}>
-                The Gift Guide
-            </NavItem>
-            <NavItem onClick={() => handleNavigation('/?category=accessories')}>
                 Magazine
             </NavItem>
         </StyledCategory>

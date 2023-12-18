@@ -1,17 +1,27 @@
 import Carousel from "react-bootstrap/Carousel";
 import carousel from "../../Assests/carousel3.png";
 import carousel5 from "../../Assests/carousel5.png";
+import styled from 'styled-components';
+
+const StyledCarousel = styled(Carousel)`
+  padding-bottom: 300px;
+  img {
+    width: 100%;
+    height: 750px; 
+    object-fit: cover;
+  }
+`;
 
 const CarouselFade = () => {
   return (
-    <Carousel fade>
+    <StyledCarousel fade>
       <Carousel.Item interval={8000}>
-        <img className="d-block w-100 carousel-img" src={carousel} alt="First slide" />
+        <img  src={carousel} alt="First slide" />
       </Carousel.Item>
       <Carousel.Item interval={8000}>
-        <img className="d-block w-100 carousel-img" src={carousel5} alt="Second slide" />
+        <img  src={carousel5} alt="Second slide" />
       </Carousel.Item>
-    </Carousel>
+    </StyledCarousel>
   );
 };
 
