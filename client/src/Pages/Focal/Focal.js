@@ -6,7 +6,6 @@ const Focal = () => {
   return (
     <div>
       <CarouselFade />
-      {/* <ProductShowcase /> */}
       <FashionText/>
     </div>
   );
