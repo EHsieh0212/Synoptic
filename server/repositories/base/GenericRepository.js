@@ -21,7 +21,7 @@ class GenericRepository {
         return this.model.findAll({ attributes, where: query, limit, order });
     }
 
-    findAndCount(query, attributes, offset, limit, order) {
+    findAndCount(query, attributes, offset=0, limit=2, order) {
         return this.model.findAndCountAll({ where: query, attributes, offset, limit, order });
     }
 

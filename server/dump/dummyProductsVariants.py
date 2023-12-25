@@ -4,8 +4,8 @@ random.seed(42)
 
 # constants
 categories = ["men", "women"]
-num_of_category_products = 5
-base_url = "dummy.com"
+num_of_category_products = 10
+base_url = "dummy3.com"
 description = "Lorem ipsum"
 more = "further descriptions"
 sizes = ('S', 'M', 'L')
@@ -19,8 +19,8 @@ variant_template = "({product_id}, \"{size}\", \"{color}\", {quantity}, \"{creat
 
 # random date generator
 def random_date():
-    start_date = datetime(2023, 1, 1)
-    end_date = datetime(2023, 12, 31)
+    start_date = datetime(2022, 1, 1)
+    end_date = datetime(2022, 12, 31)
     delta = end_date - start_date
     random_days = random.randint(0, delta.days)
     random_seconds = random.randint(0, delta.seconds)
@@ -31,7 +31,7 @@ for category in categories:
     for i in range(num_of_category_products):
         product_query = product_template.format(
             category=category,
-            title=f"{category}-{i+1}",
+            title=f"{category}-{i+18}",
             price=random.randint(100, 1000),
             img_src=f"{base_url}/{random.randint(50, 90)}.jpg",
             description=description,

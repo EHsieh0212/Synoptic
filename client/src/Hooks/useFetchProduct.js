@@ -1,6 +1,24 @@
-// 1. currently not using useCallback: this is for react render performance improvement, not for correctness.
-// 2. useLocation for local query string retrieval (compare to window.location.search+URLSearchParams)
-// 3. main road map: paging as trigger(bc we need to set pages if navigate to certain category) -> url keyword -> get product arrays (paging default=0)
+import { useState, useEffect, useCallback } from 'react';
+import useUrl from './useUrl';
 
-import { useState, useEffect } from 'react';
+const useFetchProduct = (paging) => {
+    const [loading, setLoading] = useState(true); // 2. state
+    const [products, setProducts] = useState([]); // 1. state
+    const url = useUrl(paging);
 
+    const getPds = useCallback(async () => {
+        const res = await fetch(url);
+        const result = await res.json();
+        setProducts(arr => arr.concat(result.data));
+        setLoading(false);
+    }, [url]);
+
+    // url changes -> new getPds() -> getPds changes -> new products
+    useEffect(() => {
+        getPds();
+    }, [getPds])
+
+    return { products, loading };
+};
+
+export default useFetchProduct;

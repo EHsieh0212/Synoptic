@@ -45,7 +45,7 @@ router.get('/fbRegisterSignin/callback', authenticator('fb'), signJwt, asyncHand
             next(err);
         }
     }
-    res.redirect(process.env.WEBSITE_URL);
+    res.redirect(process.env.REACT_APP_WEBSITE_URL);
 }));
 
 

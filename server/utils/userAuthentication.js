@@ -58,7 +58,7 @@ passport.use('login', new LocalStrategy(
 const facebookOptions = {
   clientID: process.env.FB_CLIENT_ID,
   clientSecret: process.env.FB_CLIENT_SECRET,
-  callbackURL: process.env.WEBSITE_URL + "/api/v1/users/fbRegisterSignin/callback",
+  callbackURL: process.env.REACT_APP_WEBSITE_URL + "/api/v1/users/fbRegisterSignin/callback",
   profileFields: ['id', 'displayName', 'email']
 };
 passport.use("fb", new FacebookStrategy(facebookOptions,

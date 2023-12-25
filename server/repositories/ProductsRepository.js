@@ -37,7 +37,7 @@ class ProductsRepository extends GenericRepository {
         if (CATEGORIES.indexOf(category) === -1) {
             throw new Error("Invalid category");
         }
-        const query = category === 'all' ? { category } : {};
+        const query = { category };
         const attributes = ['id'];
         const { count, rows } = await this.findAndCount(query, attributes, offset, limit, order);
         

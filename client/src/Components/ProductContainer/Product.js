@@ -1,7 +1,3 @@
-import './Product.css';
-import PropTypes from 'prop-types'
-
-
 //////////////////////////////////////////////////////////////////////
 // upstream: prop
 // pass-in: img, name, price, [color]
@@ -21,16 +17,6 @@ const Product = ({ img, name, price, colors }) => {
     </div>
   );
 };
-
-
-
-Product.propTypes = {
-  img: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
-  color: PropTypes.object,
-};
-
 
 
 export default Product;

@@ -44,7 +44,7 @@ const getProductsByCategory = async (category, pageNum = 0) => {
     if (count === PAGE_SIZE) {
         returnObject.nextPaging = pageNum + 1;
     }
-
+    console.log()
     return returnObject;
 };
 

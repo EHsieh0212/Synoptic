@@ -21,7 +21,6 @@ const NavItem = styled.div`
 
 const Category = () => {
     const navigate = useNavigate();
-
     const handleNavigation = (category) => {
       navigate(`/category/${category}`);
     };
