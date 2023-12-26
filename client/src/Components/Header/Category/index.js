@@ -23,6 +23,7 @@ const Category = () => {
     const navigate = useNavigate();
     const handleNavigation = (category) => {
       navigate(`/category/${category}`);
+      window.location.reload(); 
     };
 
     return (

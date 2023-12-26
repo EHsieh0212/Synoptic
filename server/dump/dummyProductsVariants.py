@@ -4,8 +4,7 @@ random.seed(42)
 
 # constants
 categories = ["men", "women"]
-num_of_category_products = 10
-base_url = "dummy3.com"
+base_url = "https://synoptic-s3.s3.amazonaws.com"
 description = "Lorem ipsum"
 more = "further descriptions"
 sizes = ('S', 'M', 'L')
@@ -28,15 +27,19 @@ def random_date():
 
 # main
 for category in categories:
+    if category == 'men':
+        num_of_category_products = 17
+    if category == 'women':
+        num_of_category_products = 15
     for i in range(num_of_category_products):
         product_query = product_template.format(
             category=category,
-            title=f"{category}-{i+18}",
+            title=f"{category}-{i+1}",
             price=random.randint(100, 1000),
-            img_src=f"{base_url}/{random.randint(50, 90)}.jpg",
+            img_src=f"{base_url}/{category}/shirt{i+1}.png",
             description=description,
             more=more,
-            created_at=random_date(),
+            created_at=datetime.now(),
             updated_at=datetime.now()
         )
         print(product_prefix, product_query)
@@ -48,7 +51,7 @@ for category in categories:
                     size=size,
                     color=color,
                     quantity=random.randint(1, 20),
-                    created_at=random_date(),
+                    created_at=datetime.now(),
                     updated_at=datetime.now()
                 )
                 print(variant_prefix, variant_query)

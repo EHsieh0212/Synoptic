@@ -16,7 +16,6 @@ const useUrl = (paging) => {
             const keyword = pathSegments[0].split('?keyword=')[1];
             setUrl(`${PRODUCTS_API_URL}/search?keyword=${keyword}`);
         }
-        console.log(url)
     }, [paging, category, url]);
     return url;
 };
