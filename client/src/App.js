@@ -4,7 +4,7 @@ import {
   createRoutesFromElements,
   RouterProvider
 } from "react-router-dom";
-import Focal from "./Pages/Focal/Focal";
+import Focal from "./Pages/Focal";
 import MainLayout from "./Pages/MainLayout";
 import ProductContainer from "./Components/ProductContainer";
 
