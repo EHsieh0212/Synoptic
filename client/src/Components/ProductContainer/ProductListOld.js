@@ -10,8 +10,6 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams('all');
-  const [loading, setLoading] = useState(true);
-  const [hasMore, setHasMore] = useState(false);
   const location = useLocation();
 
   ///////////////////////////////////////

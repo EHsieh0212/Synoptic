@@ -35,6 +35,7 @@ const getProductsByCategory = async (category, pageNum = 0) => {
     const mainProducts = await productsRepositoryInstance.findProductsByIds(ids);
     const mainProductsVariants = await variantsRepositoryInstance.findVariantsByProductIds(ids);
     const result = await _combineProductWithVariant(mainProducts, mainProductsVariants);
+    console.log(result)
 
     const returnObject = {
         data: result,
@@ -44,7 +45,6 @@ const getProductsByCategory = async (category, pageNum = 0) => {
     if (count === PAGE_SIZE) {
         returnObject.nextPaging = pageNum + 1;
     }
-
     return returnObject;
 };
 
@@ -71,9 +71,9 @@ const getProductDetailById = async (id) => {
  */
 const _combineProductWithVariant = (productArray, variantArray) => {
     const productsWithVariants = productArray.map((product) => {
-        const result = variantArray.find((v) => v.productId === product.id);
+        const result = variantArray.filter((v) => v.productId === product.id);
         const variant = result ? result : null;
-        return Object.assign(product, { stock: variant });
+        return Object.assign({}, product, { stock: variant });
     });
     return productsWithVariants;
 };

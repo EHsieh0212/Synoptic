@@ -3,7 +3,7 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import SearchBox from '../../Components/SearchBox';
 import styled from "styled-components";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const StyledMain = styled.div`
     padding-left: 5px;

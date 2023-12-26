@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 
 const StyledCategory = styled.ul`
   display: flex;
@@ -18,19 +20,21 @@ const NavItem = styled.div`
 `;
 
 const Category = () => {
-    const handleNavigation = href => {
-        window.location.href = href;
+    const navigate = useNavigate();
+    const handleNavigation = (category) => {
+      navigate(`/category/${category}`);
+      window.location.reload(); 
     };
 
     return (
         <StyledCategory>
-            <NavItem onClick={() => handleNavigation('/?category=women')}>
+            <NavItem onClick={() => handleNavigation('women')}>
                 Women
             </NavItem>
-            <NavItem onClick={() => handleNavigation('/?category=men')}>
+            <NavItem onClick={() => handleNavigation('men')}>
                 Men
             </NavItem>
-            <NavItem onClick={() => handleNavigation('/?category=accessories')}>
+            <NavItem onClick={() => handleNavigation('magazine')}>
                 Magazine
             </NavItem>
         </StyledCategory>
