@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 const PRODUCTS_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/products`;
 
 const useUrl = (paging) => {
-    const { category } = useParams();
+    const { category, keyword, productId } = useParams();
     const [url, setUrl] = useState(null);
 
     useEffect(() => {
@@ -12,11 +12,12 @@ const useUrl = (paging) => {
 
         if (pathSegments[0] === 'category') {
             setUrl(`${PRODUCTS_API_URL}/${category}?paging=${paging}`);
+        } else if (pathSegments[0] === 'search'){
+            setUrl(`${PRODUCTS_API_URL}/search/${keyword}?paging=${paging}`);
         } else {
-            const keyword = pathSegments[0].split('?keyword=')[1];
-            setUrl(`${PRODUCTS_API_URL}/search?keyword=${keyword}`);
+            setUrl(`${PRODUCTS_API_URL}/details?id=${productId}`);
         }
-    }, [paging, category, url]);
+    }, [paging, category, keyword, productId, url]);
     return url;
 };
 

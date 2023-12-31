@@ -35,7 +35,6 @@ const getProductsByCategory = async (category, pageNum = 0) => {
     const mainProducts = await productsRepositoryInstance.findProductsByIds(ids);
     const mainProductsVariants = await variantsRepositoryInstance.findVariantsByProductIds(ids);
     const result = await _combineProductWithVariant(mainProducts, mainProductsVariants);
-    console.log(result)
 
     const returnObject = {
         data: result,
@@ -57,10 +56,13 @@ const getProductDetailById = async (id) => {
     const productsRepositoryInstance = productsRepository();
     const variantsRepositoryInstance = variantsRepository();
     const mainProduct = await productsRepositoryInstance.findProductById(id);
-    const mainProductVariant = await variantsRepositoryInstance.findVariantByProductId(id);
+    const mainProductVariant = await variantsRepositoryInstance.findVariantsByProductIds([id]);
     const productsWithVariants = Object.assign(mainProduct, { stock: mainProductVariant });
 
-    return productsWithVariants;
+    return {
+        data: [productsWithVariants],
+        dataCount: 1
+    };
 };
 
 /**

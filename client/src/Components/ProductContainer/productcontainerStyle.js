@@ -15,7 +15,6 @@ export const StyledProductContainer = styled.div`
     /* @media (max-width: 1300px) { /* 在螢幕寬度小於768px時，改變容器大小 */
         /* width: 80%; */
      /* */
-
 `;
 export const StyledMore = styled.div`
     display: flex;
@@ -27,7 +26,7 @@ export const More = styled.button`
     padding-left: 15px;
     padding-right: 15px;
     :hover{
-        background-color: ${props => props.canMore < 6 ? 'none' : 'red'};
+        background-color: ${props => props.canMore < 6 ? 'none' : 'gray'};
         cursor: ${props => props.canMore < 6 ? 'default' : 'pointer'};;
     }
     font-weight: 500;

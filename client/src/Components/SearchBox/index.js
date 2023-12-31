@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StyledSearchbox = styled.div`
     border: none;
@@ -31,7 +32,14 @@ const MaskOverlay = styled.div`
 `;
 
 const SearchBox = ({ isActive }) => {
+    const [keyword, setKeyword] = useState("");
     const inputRef = useRef(null);
+    const navigate = useNavigate();
+    const handleNavigation = (keyword) => {
+      navigate(`/search/${keyword}`);
+      window.location.reload(); 
+    };
+
     useEffect(() => {
         if (isActive && inputRef.current) {
           inputRef.current.focus();
@@ -41,7 +49,19 @@ const SearchBox = ({ isActive }) => {
 
     return(
         <StyledSearchbox isActive={isActive}>
-            <input className='input' type="text" placeholder="Search..." ref={inputRef}/>
+            <input 
+              className='input' 
+              type="text" 
+              placeholder="Search..." 
+              ref={inputRef}
+              value={keyword}
+              onChange={e => setKeyword(e.target.value)}
+              onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    handleNavigation(keyword);
+                  }
+                }}
+              />
             <MaskOverlay isActive={isActive}/>
         </StyledSearchbox>
     )

@@ -6,13 +6,13 @@ import {
     StyledTitle, StyledPrice, StyledColorContainer, ColorBlock
 } from "./productcontainerStyle";
 
-const Product = ({ imgSrc, colors, title, price }) => {
+const Product = ({ id, imgSrc, colors, title, price }) => {
     return (
         <StyledProduct>
-            <StyledImage href="/">
+            <StyledImage href={`/product/${id}`}>
                 <Image src={imgSrc} />
             </StyledImage>
-            <StyledTitle href="/">
+            <StyledTitle href={`/product/${id}`}>
                 {title}
             </StyledTitle>
             <StyledPrice>
@@ -44,12 +44,13 @@ const ProductContainer = () => {
 
     return (
         <div>
-            {(!products || products.length === 0) ?
+            {(typeof products === 'undefined' || products.length === 0) ?
                 <div>sorry, product not found</div> :
                 <StyledProductContainer>
                     {products.map(product => (
                         <div>
                             <Product
+                                id={product.id}
                                 key={product.id.toString()}
                                 imgSrc={product.imgSrc}
                                 title={product.title}
