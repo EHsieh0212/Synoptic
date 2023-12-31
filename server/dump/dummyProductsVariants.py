@@ -5,10 +5,10 @@ random.seed(42)
 # constants
 categories = ["men", "women"]
 base_url = "https://synoptic-s3.s3.amazonaws.com"
-description = "Lorem ipsum"
-more = "further descriptions"
+description = "Quality knitwear like this jumper will last years in your wardrobe when properly cared for. Offered in a rich plum hue, it's expertly knitted from 6-ply 100% cashmere, giving it a sumptuous and luxuriously weighty hand feel. It's designed for a cocooning shape and has a high turtleneck, dropped shoulders and wide ribbed trims."
+more = "100% Cashmere / Machine wash cold - gentle cycle / Medium iron / Dry flat / Only non-chlorine bleach when needed / Dry clean"
 sizes = ('S', 'M', 'L')
-colors = ('black','green','white')
+colors = ('#000000','#ACE1AF','#89CFF0')
 
 # query
 product_prefix = "INSERT INTO products(category, title, price, img_src, description, more, created_at, updated_at) VALUES"
