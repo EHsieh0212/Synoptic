@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function tapPayAction(prime){
+const tapPayAction = async (prime) => {
     try{
         const post_data = {
             "prime": prime,
@@ -34,7 +34,7 @@ async function tapPayAction(prime){
     }
 }
 
-function getResponse(response){
+const getResponse = (response) => {
     return new Promise((resolve, reject) => {
         const paymentDetails = response.data;
         const paymentStatus = response.data.status;

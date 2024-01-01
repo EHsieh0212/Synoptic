@@ -1,6 +1,7 @@
 const productsRepository = require('../repositories/ProductsRepository');
 const variantsRepository = require('../repositories/VariantsRepository')
 const { PAGE_SIZE } = require('../repositories/constants/Products.constants');
+const { redisClient } = require('../database/redis/init');
 
 /**
  * Get all product complete information by keyword
@@ -80,8 +81,25 @@ const _combineProductWithVariant = (productArray, variantArray) => {
     return productsWithVariants;
 };
 
+const storeCartInfo = async (customerId, cart) => {
+    const { quantity } = cart;
+    const cartKey = `customer:${customerId}:cart`;
+    await redisClient.connect();
+    await redisClient.hSet(cartKey, 'quantity', quantity, (err, reply) => {
+        if (err) {
+            console.log(err);
+            return { status: "fail"};
+        } else {
+            console.log(`Cart information saved for customer ${customerId}`);
+            return { status: "success"};
+        }
+    })
+};
+
+
 module.exports = {
     getProductsByKeyword,
     getProductsByCategory,
-    getProductDetailById
+    getProductDetailById,
+    storeCartInfo
 };

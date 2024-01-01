@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const products = require('../services/products');
-const { asyncHandler } = require('../utils/asyncHandler')
+const { asyncHandler } = require('../utils/asyncHandler');
 
 router.get("/search/:search",
     asyncHandler(async (req, res) => {
@@ -47,6 +47,5 @@ router.get("/:category",
             throw err;
         }
     }));
-
 
 module.exports = router;

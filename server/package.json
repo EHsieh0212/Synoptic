@@ -1,5 +1,5 @@
 {
-  "name": "SYNOPTIC",
+  "name": "synoptic",
   "version": "1.0.0",
   "description": "SYNOPTIC: Modern Fashion Laboratory",
   "main": "index.js",
@@ -7,18 +7,21 @@
     "start": "node index.js",
     "develop": "nodemon index.js"
   },
-  "author": "",
+  "author": "Elaine Hsieh",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
+    "connect-redis": "^5.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-rate-limit": "^7.1.1",
+    "express-session": "^1.17.3",
+    "http-status-codes": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
@@ -30,6 +33,8 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pm2": "^5.2.0",
+    "redis": "^3.0.2",
+    "redis-rejson": "^1.0.0",
     "sequelize": "^6.33.0",
     "uuid": "^9.0.0"
   },

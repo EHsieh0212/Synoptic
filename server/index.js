@@ -9,9 +9,11 @@ const urlencodedParser = bodyParser.urlencoded({extended : false});
 const cookieParser = require("cookie-parser");
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors')
-const compression = require('compression')
-
+const cors = require('cors');
+const compression = require('compression');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const { redisClient, redisClientService }  = require('./database/redis/init')
 
 //////////////////////////////////////////////////////////////////////////////////
 // SSL certification
@@ -40,8 +42,22 @@ app.use('/', express.static(path.join(__dirname, './public')));
 // app.use('/admin', express.static(path.join(__dirname, 'server/public')));
 // path for react frontend
 // app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.use("/api/v1", router);
 
+app.set('redisClientService', redisClientService);
+app.use(
+    session({
+        store: new RedisStore({ client: redisClient }),
+        secret: 'synoptic-secret',
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie: {
+            maxAge: 3600 * 1000 * 3
+        }
+    })
+);
+
+app.use("/api/v1", router);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // (3)global-status error catching middleware
