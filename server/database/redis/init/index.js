@@ -1,6 +1,7 @@
 const redis = require('redis');
 const rejson = require('redis-rejson');
 const RedisClient = require("../client");
+const { once } = require('lodash');
 rejson(redis);
 
 require('dotenv').config();
@@ -21,7 +22,7 @@ const redisClient = redis.createClient(`redis://${redisEndpointUri}`, {
     password: REDIS_PWD
 });
 
-const redisClientService = new RedisClient(redisClient);
+const redisClientService = once(() => new RedisClient(redisClient));
 
 
 module.exports = {

@@ -1,24 +1,20 @@
 const { Router } = require('express');
 const router = Router();
-const { checkSession } = require('../utils/checkSession');
-const IndexController = require('../controllers/IndexController');
-const UpdateController = require('../controllers/UpdateController');
-const DeleteItemController = require('../controllers/DeleteItemController');
-const EmptyController = require('../controllers/EmptyController');
+const { asyncHandler } = require('../utils/asyncHandler');
+const checkSession = require('../utils/checkSession');
+const CartIndexController = require('../controllers/IndexController');
+const CartUpdateController = require('../controllers/UpdateController');
+const CartDeleteItemController = require('../controllers/DeleteItemController');
+const { redisClientService } = require('../database/redis/init');
+const theRedis = redisClientService();
 
-module.exports = app => {
-    const redisClientService = app.get('redisClientService');
+const indexController = new CartIndexController(theRedis);
+const updateController = new CartUpdateController(theRedis);
+const deleteItemController = new CartDeleteItemController(theRedis);
 
-    const indexController = new IndexController(redisClientService);
-    const updateController = new UpdateController(redisClientService);
-    const deleteItemController = new DeleteItemController(redisClientService);
-    const emptyController = new EmptyController(redisClientService);
+router.get('/', [checkSession], (req, res) => indexController.index(req, res));
+router.put('/:id', [checkSession], (req, res) => updateController.index(req, res));
+router.delete('/:id', [checkSession], (req, res) => deleteItemController.index(req, res));
 
-    router.get('/', [checkSession], (...args) => indexController.index(...args));
-    router.put('/:id', [checkSession], (...args) => updateController.index(...args));
-    router.delete('/:id', [checkSession], (...args) => deleteItemController.index(...args));
-    router.delete('/', [checkSession], (...args) => emptyController.index(...args));
 
-    return router;
-};
-
+module.exports = router;
