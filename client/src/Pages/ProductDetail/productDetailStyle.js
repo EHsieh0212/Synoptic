@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { toast, Toaster, ToastBar } from 'react-hot-toast';
 
 export const BigContainer = styled.div`
     display: flex;
@@ -71,7 +72,7 @@ export const SizeBlock = styled.button`
     }
     font-size: 14px;
     font-weight: 400;
-    background-color: ${props => props.isPicked ? '#E0E0E0': 'initial'};
+    background-color: ${props => props.isPicked ? '#E0E0E0' : 'initial'};
 `;
 
 export const DescriptionText = styled.div`
@@ -100,3 +101,44 @@ export const AddToBag = styled.button`
     text-decoration: none; /* Link will eventually renders into a, so this assignment is working. */
   }
 `;
+
+
+export const StyledToaster = () => {
+    return (
+        <Toaster
+            position={'top-center'}
+            duration={100}
+            toastOptions={{
+                className: '',
+                style: {
+                    minWidth: '350px',
+                    padding: '15px',
+                },
+                ariaProps: {
+                    role: 'status',
+                    'aria-live': 'polite',
+                },
+            }}>
+            {(t) => (
+                <ToastBar
+                    toast={t}
+                    style={{
+                        ...t.style,
+                        animation: t.visible ? 'custom-enter 1s ease' : 'custom-exit 1s ease',
+                    }}
+                >
+                    {({ icon, message }) => (
+                        <>
+                            {icon}
+                            {message}
+                            {t.type !== 'loading' && (
+                                <button style={{ border: 'none', background: 'transparent' }} onClick={() => toast.dismiss(t.id)}>X</button>
+                            )}
+                        </>
+                    )}
+
+                </ToastBar>
+            )}
+        </Toaster>
+    )
+};

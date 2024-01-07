@@ -5,13 +5,15 @@ const port = 4000;
 const router = require("./routes");
 const path = require("path");
 const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({extended : false});
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const cookieParser = require("cookie-parser");
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors')
-const compression = require('compression')
-
+const cors = require('cors');
+const compression = require('compression');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const { redisClient, redisClientService } = require('./database/redis/init')
 
 //////////////////////////////////////////////////////////////////////////////////
 // SSL certification
@@ -34,24 +36,47 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compression());
 app.use(urlencodedParser);
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 // static files
 app.use('/', express.static(path.join(__dirname, './public')));
-// app.use('/admin', express.static(path.join(__dirname, 'server/public')));
-// path for react frontend
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.use("/api/v1", router);
 
+// redis related
+app.set('redisClientService', redisClientService);
+app.use(
+    session({
+        store: new RedisStore({ client: redisClient }),
+        secret: 'synoptic-secret',
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie: {
+            secure: false,
+            maxAge: 3600 * 1000 * 3
+        }
+    })
+);
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+// all routers
+app.use("/api/v1", router);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // (3)global-status error catching middleware
 // Global error handler
 app.use((err, req, res, next) => {
-    if (err){
+    if (err) {
         res.status(err.status || 500);
         res.json({ error: { message: err.message } });
         console.error(err);
-    } else{
+    } else {
         next()
     }
 });

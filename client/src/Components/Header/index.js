@@ -8,6 +8,7 @@ import Logo from './Logo';
 import Category from "./Category";
 import RightSide from "./RightSide";
 
+import { useState, useEffect } from "react";
 import styled from 'styled-components';
 
 const FixedHeader = styled.div`
@@ -33,12 +34,32 @@ const Liner = styled.div`
 `;
 
 const Header = ({ showSearch, handleSearchBox }) => {
+  const [cartNum, setCartNum] = useState(0);
+
+  const getCartNum = () => {
+      const cartLength = localStorage.getItem("cartLength");
+      setCartNum(cartLength);
+  };
+  // 1. init cart number
+  useEffect(() => {
+    const cartLength = localStorage.getItem("cartLength");
+    setCartNum(cartLength);
+  }, []);
+  
+  // 2. monitor on cart number changes
+  useEffect(() => {
+    window.addEventListener('storage', getCartNum)
+    return () => {
+      window.removeEventListener('storage', getCartNum);
+    };
+  }, []);
+
   return (
     <FixedHeader>
     <StyledHeader>
       <Logo logo={logo} />
       <Category />
-      <RightSide search={search} cart={cart} member={member} collection={collection} handleSearchBox={handleSearchBox}/>
+      <RightSide search={search} cart={cart} member={member} collection={collection} handleSearchBox={handleSearchBox} cartNum={cartNum}/>
     </StyledHeader>
     <Liner showSearch={showSearch}/>
     </FixedHeader>
