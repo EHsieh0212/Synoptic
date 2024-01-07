@@ -7,7 +7,7 @@ import {
 import Focal from "./Pages/Focal";
 import MainLayout from "./Pages/MainLayout";
 import ProductContainer from "./Components/ProductContainer";
-import ProductDetails from "./Pages/ProductDetail";
+import ProductDetail from "./Pages/ProductDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
       <Route index element={<Focal />} />
       <Route path="/category/:category" element={<ProductContainer />}/>
       <Route path="/search/:keyword" element={<ProductContainer />}/>
-      <Route path="/product/:productId" element={<ProductDetails />}/>
+      <Route path="/product/:productId" element={<ProductDetail />}/>
       {/* <Route path='*' element={<NotFound />}/> */}
       {/* <Route path='/member' element={<Member />}/>  */}
     </Route>

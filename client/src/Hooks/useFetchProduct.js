@@ -27,6 +27,7 @@ const useFetchProduct = (paging) => {
                         sizes: parseStock(pd.stock),
                         description: pd.description,
                         more: pd.more,
+                        stock: pd.stock
                     }
                 })));
             setDataCount(result.dataCount);
