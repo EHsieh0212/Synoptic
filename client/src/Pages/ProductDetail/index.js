@@ -1,7 +1,6 @@
 import { filter } from "lodash";
 import { useState, useEffect } from "react";
 import toast from 'react-hot-toast';
-import 'react-toastify/dist/ReactToastify.css';
 import useFetchProduct from "../../Hooks/useFetchProduct";
 import {
     BigContainer, StyledImage, Image, StyledRight,
@@ -10,7 +9,7 @@ import {
 } from "./productDetailStyle";
 import SelectMenu from "./SelectMenu";
 import { getColorNameByCode } from "../../Utils/product";
-import { catchErrors } from "../../Utils";
+import { catchErrors, PUT_REQUEST_OPTIONS } from "../../Utils";
 const DEFAULTSIZES = ["XS", "S", "M", "L", "XL"];
 const CART_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/cart`;
 
@@ -91,23 +90,21 @@ const ProductDetail = () => {
         };
 
         // 3. put the cart item into Redis
-        const requestOptions = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify(cartItem)
-        };
-
+        const requestOptions = PUT_REQUEST_OPTIONS(JSON.stringify(cartItem));
         const response = await fetch(CART_API_URL, requestOptions);
         if (!response.ok) {
             const errorResponse = await response.json();
             const errorMessage = errorResponse.message || `Request failed with status ${response.status}`;
             toast.error(errorMessage);
             throw new Error(errorMessage);
+        } else {
+            const cartLength = await response.json();
+            console.log('---------------')
+            console.log(cartLength.cartLength);
+            localStorage.setItem("cartLength", cartLength.cartLength);
+            window.dispatchEvent(new Event("storage"));
+            toast.success('Add item to cart!');
         }
-        toast.success('Add item to cart!');
     });
 
     return (

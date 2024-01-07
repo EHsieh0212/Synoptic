@@ -4,19 +4,11 @@ class CartIndexController {
     }
 
     async index(req, res) {
-        const { cartId } = req.session;
-        let productList = [];
-
-        const cartList = await this.redisClientService.hgetall(`cart:${cartId}`);
-
-        if (!cartList) {
-            return res.send(productList);
-        }
-
-        for (const itemKey of Object.keys(cartList)) {
-            productList.push({ product: itemKey.split(':')[1], quantity: cartList[itemKey] });
-        }
-        return res.send(productList);
+        const existedCartId = await this.redisClientService.scan('cart:*');
+        let cartItems = await this.redisClientService.jsonGet(existedCartId[0]);
+        cartItems = JSON.parse(cartItems).content;
+        let cartLength = 0;
+        return res.send({ cartLength: cartItems.length });
     }
 }
 

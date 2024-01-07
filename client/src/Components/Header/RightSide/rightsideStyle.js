@@ -52,7 +52,7 @@ export const Member = styled.a`
     }
 `;
 
-export const Cart = styled.a`
+export const Cart = styled.div`
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 0;
@@ -61,6 +61,14 @@ export const Cart = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+    .cartLength{
+        font-size: 12px;
+        text-decoration: none;
+        color: black;
+        :hover{
+            color:gray;
+        }
+    }
 `;
 
 export const Collection = styled.a`
