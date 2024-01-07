@@ -111,8 +111,8 @@ export const StyledToaster = () => {
             toastOptions={{
                 className: '',
                 style: {
-                    minWidth: '300px',
-                    padding: '10px',
+                    minWidth: '350px',
+                    padding: '15px',
                 },
                 ariaProps: {
                     role: 'status',

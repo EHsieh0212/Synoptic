@@ -12,9 +12,9 @@ const indexController = new CartIndexController(theRedis);
 const updateController = new CartUpdateController(theRedis);
 const deleteItemController = new CartDeleteItemController(theRedis);
 
-router.get('/', [checkSession], (req, res) => indexController.index(req, res));
-router.put('/:id', [checkSession], (req, res) => updateController.index(req, res));
-router.delete('/:id', [checkSession], (req, res) => deleteItemController.index(req, res));
+router.get('/', [checkSession], asyncHandler((req, res) => indexController.index(req, res)));
+router.put('/', [checkSession], asyncHandler((req, res) => updateController.index(req, res)));
+router.delete('/', [checkSession], asyncHandler((req, res) => deleteItemController.index(req, res)));
 
 
 module.exports = router;

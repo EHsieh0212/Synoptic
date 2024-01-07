@@ -11,16 +11,9 @@ class CartDeleteItemController {
 
         const quantityInCart =
             parseInt(await this.redisClientService.hget(`cart:${cartId}`, `product:${productId}`)) || 0;
-
+        // for now, no need to take care of stock
         if (quantityInCart) {
-            await this.redisClientService.hdel(`cart:${cartId}`, `product:${productId}`);
-
-            // for now, no need to take care of stock
-
-            // let productInStore = await this.redisClientService.jsonGet(`product:${productId}`);
-            // productInStore = JSON.parse(productInStore);
-            // productInStore.stock += quantityInCart;
-            // await this.redisClientService.jsonSet(`product:${productId}`, '.', JSON.stringify(productInStore));
+            await this.redisClientService.hdel(`cart:${cartId}`, `product:${productId}`);  
         }
 
         return res.sendStatus(StatusCodes.NO_CONTENT);

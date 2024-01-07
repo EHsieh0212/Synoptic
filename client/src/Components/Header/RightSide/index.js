@@ -1,4 +1,4 @@
-import { StyledRightSide, Search, Cart, Member, Collection } from './rightsideStyle'
+import { StyledRightSide, Search, Cart, Member, Collection } from './rightsideStyle';
 
 const RightSide = ({ search, cart, collection, signInLink, orderLink, collectionLink, handleSearchBox }) => {
 

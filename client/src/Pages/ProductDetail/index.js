@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 import { useState, useEffect } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import useFetchProduct from "../../Hooks/useFetchProduct";
 import {
@@ -104,15 +104,7 @@ const ProductDetail = () => {
         if (!response.ok) {
             const errorResponse = await response.json();
             const errorMessage = errorResponse.message || `Request failed with status ${response.status}`;
-            toast.error(errorMessage, {
-                style: {
-                    minWidth: '600px',
-                },
-                ariaProps: {
-                    role: 'status',
-                    'aria-live': 'polite',
-                },
-            });
+            toast.error(errorMessage);
             throw new Error(errorMessage);
         }
         toast.success('Add item to cart!');
