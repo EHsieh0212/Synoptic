@@ -6,6 +6,7 @@ const router = require("./routes");
 const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 const cookieParser = require("cookie-parser");
 const https = require('https');
 const fs = require('fs');
@@ -34,12 +35,19 @@ const { redisClient, redisClientService } = require('./database/redis/init')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(compression());
 app.use(urlencodedParser);
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
+
+// cors enable credentials: true for session storage
+app.use(
+    cors({
+        origin(origin, callback) {
+            callback(null, true);
+        },
+        credentials: true
+    })
+);
 // static files
 app.use('/', express.static(path.join(__dirname, './public')));
 
@@ -58,12 +66,6 @@ app.use(
         }
     })
 );
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
 // all routers
 app.use("/api/v1", router);

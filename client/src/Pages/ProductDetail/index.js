@@ -3,15 +3,14 @@ import { useState, useEffect } from "react";
 import toast from 'react-hot-toast';
 import useFetchProduct from "../../Hooks/useFetchProduct";
 import {
-    BigContainer, StyledImage, Image, StyledRight,
+    BigContainer, StyledImage, StyledRight,
     RightUp, StyledTitle, StyledPrice, RightMiddle, MiddleText, SizeBlock, SizeBlockContainer,
     DescriptionText, AddToBag, StyledToaster
 } from "./productDetailStyle";
 import SelectMenu from "./SelectMenu";
-import { getColorNameByCode } from "../../Utils/product";
+import { getColorNameByCode, DEFAULTSIZES, CART_API_URL } from "../../Utils/product";
 import { catchErrors, PUT_REQUEST_OPTIONS } from "../../Utils";
-const DEFAULTSIZES = ["XS", "S", "M", "L", "XL"];
-const CART_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/cart`;
+
 
 const ProductDetail = () => {
     const { products } = useFetchProduct(0);
@@ -99,8 +98,6 @@ const ProductDetail = () => {
             throw new Error(errorMessage);
         } else {
             const cartLength = await response.json();
-            console.log('---------------')
-            console.log(cartLength.cartLength);
             localStorage.setItem("cartLength", cartLength.cartLength);
             window.dispatchEvent(new Event("storage"));
             toast.success('Add item to cart!');
@@ -113,7 +110,7 @@ const ProductDetail = () => {
                 <div>sorry, no product details</div> :
                 <BigContainer>
                     <StyledImage>
-                        <Image src={imgSrc} />
+                        <img src={imgSrc} alt={imgSrc}/>
                     </StyledImage>
                     <StyledRight>
                         <RightUp>
@@ -127,7 +124,7 @@ const ProductDetail = () => {
                         <RightMiddle>
                             <MiddleText>size</MiddleText>
                             <SizeBlockContainer>
-                                {availableSizes ? availableSizes.map(size => (<SizeBlock value={size} onClick={pickSize} isPicked={selectedSize === size}>{size}</SizeBlock>)) : DEFAULTSIZES.map(size => (<SizeBlock>{size}</SizeBlock>))}
+                                {availableSizes ? availableSizes.map(size => (<SizeBlock key={size} value={size} onClick={pickSize} isPicked={selectedSize === size}>{size}</SizeBlock>)) : DEFAULTSIZES.map(size => (<SizeBlock>{size}</SizeBlock>))}
                             </SizeBlockContainer>
                         </RightMiddle>
                         <RightMiddle>

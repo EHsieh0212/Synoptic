@@ -33,6 +33,7 @@ const Liner = styled.div`
   display: ${props => (props.showSearch? 'block' : 'none')};
 `;
 
+
 const Header = ({ showSearch, handleSearchBox }) => {
   const [cartNum, setCartNum] = useState(0);
 

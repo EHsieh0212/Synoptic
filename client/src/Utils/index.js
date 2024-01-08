@@ -13,3 +13,11 @@ export const PUT_REQUEST_OPTIONS = (body) => ({
   credentials: 'include',
   body
 });
+
+export const GET_REQUEST_OPTIONS = {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  credentials: 'include',
+};

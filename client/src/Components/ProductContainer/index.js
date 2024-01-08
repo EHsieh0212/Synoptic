@@ -28,7 +28,7 @@ const Product = ({ id, imgSrc, colors, title, price }) => {
 const ProductContainer = () => {
     const { category } = useParams();
     const [paging, setPaging] = useState(0);
-    const { products, loading, dataCount } = useFetchProduct(paging);
+    const { products, dataCount } = useFetchProduct(paging);
     //***notice:  setPaging is an action, but handleMoreClick is a function. onClick needs a "function" input.
     const handleMoreClick = () => {
         if (dataCount >= 6) {
