@@ -100,5 +100,7 @@ export const PayKind = styled.div`
 
 export const PrivacyInfo = styled.div`
     font-size: 12px;
-
+    span{
+        text-decoration: underline;
+    }
 `;

@@ -178,11 +178,11 @@ const Checkout = () => {
                             <PaymentAcception>
                                 WE ACCEPT
                                 <PayKind>
-                                    <img src={visa}/>
-                                    <img src={mastercard}/>
-                                    <img src={paypal}/>
+                                    <img src={visa} alt={visa}/>
+                                    <img src={mastercard} alt={mastercard}/>
+                                    <img src={paypal} alt={paypal}/>
                                 </PayKind>
-                                <PrivacyInfo>Your personal data will be shared with Klarna for order checkout and payment. For more information about processing and protection of personal data, read our Privacy Notice.</PrivacyInfo>
+                                <PrivacyInfo>Your personal data will be shared with TaiwanBank for order checkout and payment. For more information about processing and protection of personal data, read our <span>Privacy Notice</span>.</PrivacyInfo>
                             </PaymentAcception>
                         </StyledOrderSummary>
 
