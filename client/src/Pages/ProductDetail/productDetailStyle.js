@@ -17,11 +17,10 @@ export const StyledImage = styled.div`
   text-align: center; /** */
   padding:0;
   margin: 0;
-`;
-
-export const Image = styled.img`
-  width: 100%;
-  height: 680px; 
+  img{
+    width: 100%;
+    height: 680px; 
+  }
 `;
 
 export const StyledRight = styled.div`

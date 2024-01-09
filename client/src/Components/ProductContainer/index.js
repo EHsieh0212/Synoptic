@@ -5,6 +5,7 @@ import {
     StyledProductContainer, StyledMore, More, StyledProduct, StyledImage, Image,
     StyledTitle, StyledPrice, StyledColorContainer, ColorBlock
 } from "./productcontainerStyle";
+import Loader from '../Loader';
 
 const Product = ({ id, imgSrc, colors, title, price }) => {
     return (
@@ -28,7 +29,7 @@ const Product = ({ id, imgSrc, colors, title, price }) => {
 const ProductContainer = () => {
     const { category } = useParams();
     const [paging, setPaging] = useState(0);
-    const { products, loading, dataCount } = useFetchProduct(paging);
+    const { products, dataCount } = useFetchProduct(paging);
     //***notice:  setPaging is an action, but handleMoreClick is a function. onClick needs a "function" input.
     const handleMoreClick = () => {
         if (dataCount >= 6) {
@@ -45,25 +46,27 @@ const ProductContainer = () => {
     return (
         <div>
             {(typeof products === 'undefined' || products.length === 0) ?
-                <div>sorry, product not found</div> :
-                <StyledProductContainer>
-                    {products.map(product => (
-                        <div>
-                            <Product
-                                id={product.id}
-                                key={product.id.toString()}
-                                imgSrc={product.imgSrc}
-                                title={product.title}
-                                price={product.price}
-                                colors={product.colors} />
-                        </div>
-                    ))}
-                </StyledProductContainer>
+                (<Loader />) :
+                (<div>
+                    <StyledProductContainer>
+                        {products.map(product => (
+                            <div>
+                                <Product
+                                    id={product.id}
+                                    key={product.id.toString()}
+                                    imgSrc={product.imgSrc}
+                                    title={product.title}
+                                    price={product.price}
+                                    colors={product.colors} />
+                            </div>
+                        ))}
+                    </StyledProductContainer>
+                    <StyledMore>
+                        <More onClick={handleMoreClick} canMore={dataCount}>MORE</More>
+                    </StyledMore>
+                </div>)
             }
-            <StyledMore>
-                <More onClick={handleMoreClick} canMore={dataCount}>MORE</More>
-            </StyledMore>
-        </div>
+        </div >
     )
 };
 

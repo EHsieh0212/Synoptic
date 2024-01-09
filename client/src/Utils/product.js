@@ -22,3 +22,6 @@ export const getColorNameByCode = colorCode => {
   };
   return mappingDict[colorCode];
 };
+
+export const DEFAULTSIZES = ["XS", "S", "M", "L", "XL"];
+export const CART_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/cart`;

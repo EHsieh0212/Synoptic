@@ -3,18 +3,18 @@ import { useState, useEffect } from "react";
 import toast from 'react-hot-toast';
 import useFetchProduct from "../../Hooks/useFetchProduct";
 import {
-    BigContainer, StyledImage, Image, StyledRight,
+    BigContainer, StyledImage, StyledRight,
     RightUp, StyledTitle, StyledPrice, RightMiddle, MiddleText, SizeBlock, SizeBlockContainer,
     DescriptionText, AddToBag, StyledToaster
 } from "./productDetailStyle";
 import SelectMenu from "./SelectMenu";
-import { getColorNameByCode } from "../../Utils/product";
+import { getColorNameByCode, DEFAULTSIZES, CART_API_URL } from "../../Utils/product";
 import { catchErrors, PUT_REQUEST_OPTIONS } from "../../Utils";
-const DEFAULTSIZES = ["XS", "S", "M", "L", "XL"];
-const CART_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/cart`;
+import Loader from "../../Components/Loader";
+
 
 const ProductDetail = () => {
-    const { products } = useFetchProduct(0);
+    const { products, loading } = useFetchProduct(0);
     // parse products (Q: find a way to set loader + directly parse product)
     const [id, setId] = useState('');
     const [imgSrc, setImgSrc] = useState('');
@@ -99,8 +99,6 @@ const ProductDetail = () => {
             throw new Error(errorMessage);
         } else {
             const cartLength = await response.json();
-            console.log('---------------')
-            console.log(cartLength.cartLength);
             localStorage.setItem("cartLength", cartLength.cartLength);
             window.dispatchEvent(new Event("storage"));
             toast.success('Add item to cart!');
@@ -109,46 +107,50 @@ const ProductDetail = () => {
 
     return (
         <div>
-            {(typeof products === 'undefined' || products.length === 0) ?
-                <div>sorry, no product details</div> :
-                <BigContainer>
-                    <StyledImage>
-                        <Image src={imgSrc} />
-                    </StyledImage>
-                    <StyledRight>
-                        <RightUp>
-                            <StyledTitle>{title}</StyledTitle>
-                            <StyledPrice>${price} TWD</StyledPrice>
-                        </RightUp>
-                        <RightMiddle>
-                            <MiddleText>color</MiddleText>
-                            <SelectMenu coloroptions={options} pickColor={pickColor} />
-                        </RightMiddle>
-                        <RightMiddle>
-                            <MiddleText>size</MiddleText>
-                            <SizeBlockContainer>
-                                {availableSizes ? availableSizes.map(size => (<SizeBlock value={size} onClick={pickSize} isPicked={selectedSize === size}>{size}</SizeBlock>)) : DEFAULTSIZES.map(size => (<SizeBlock>{size}</SizeBlock>))}
-                            </SizeBlockContainer>
-                        </RightMiddle>
-                        <RightMiddle>
-                            <MiddleText>description</MiddleText>
-                            <DescriptionText>{products[0].description}</DescriptionText>
-                        </RightMiddle>
-                        <RightMiddle>
-                            <MiddleText>more</MiddleText>
-                            <DescriptionText>{products[0].more}</DescriptionText>
-                        </RightMiddle>
-                        <RightMiddle>
-                            <StyledToaster />
-                            <AddToBag onClick={pressAddToBag}>
-                                {canAdd ? 'Add To Bag' : 'Please Add'}
-                            </AddToBag>
-                        </RightMiddle>
-                    </StyledRight>
-                </BigContainer>
-            }
+            {loading ? (<Loader />) :
+                (
+                    (products && products.length > 0) ?
+                        (<BigContainer>
+                            <StyledImage>
+                                <img src={imgSrc} alt={imgSrc} />
+                            </StyledImage>
+                            <StyledRight>
+                                <RightUp>
+                                    <StyledTitle>{title}</StyledTitle>
+                                    <StyledPrice>${price} TWD</StyledPrice>
+                                </RightUp>
+                                <RightMiddle>
+                                    <MiddleText>color</MiddleText>
+                                    <SelectMenu coloroptions={options} pickColor={pickColor} />
+                                </RightMiddle>
+                                <RightMiddle>
+                                    <MiddleText>size</MiddleText>
+                                    <SizeBlockContainer>
+                                        {availableSizes ? availableSizes.map(size => (<SizeBlock key={size} value={size} onClick={pickSize} isPicked={selectedSize === size}>{size}</SizeBlock>)) : DEFAULTSIZES.map(size => (<SizeBlock>{size}</SizeBlock>))}
+                                    </SizeBlockContainer>
+                                </RightMiddle>
+                                <RightMiddle>
+                                    <MiddleText>description</MiddleText>
+                                    <DescriptionText>{products[0].description}</DescriptionText>
+                                </RightMiddle>
+                                <RightMiddle>
+                                    <MiddleText>more</MiddleText>
+                                    <DescriptionText>{products[0].more}</DescriptionText>
+                                </RightMiddle>
+                                <RightMiddle>
+                                    <StyledToaster />
+                                    <AddToBag onClick={pressAddToBag}>
+                                        {canAdd ? 'Add To Bag' : 'Please Add'}
+                                    </AddToBag>
+                                </RightMiddle>
+                            </StyledRight>
+                        </BigContainer>
+                        ) : (
+                            <div>sorry no product details</div>
+                        )
+                )}
         </div>
-    )
+    );
 };
 
 export default ProductDetail;

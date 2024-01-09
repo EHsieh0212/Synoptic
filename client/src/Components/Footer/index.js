@@ -27,7 +27,7 @@ const StyledLeft = styled.div`
     font-size: 13.5px;
     gap:5px;
     div{
-      flex: 1 1 100%;
+      flex: 1 1 100%; /*noted: not flex-direction column, instead 100% horizontal possession*/
     }
 `;
 

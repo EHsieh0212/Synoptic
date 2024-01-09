@@ -43,6 +43,14 @@ class CartUpdateController {
             return res.json({ cartLength: existedCartItems.length });
         }
     }
+
+    async updateCart(req, res){
+        const cartId = req.session.cartId;
+        const newcartItems = req.body;
+        const newCart = { content: newcartItems };
+        await this.redisClientService.jsonSet(`cart:${cartId}`, '.', JSON.stringify(newCart));
+        return res.sendStatus(StatusCodes.OK);
+    }
 }
 
 module.exports = CartUpdateController;
