@@ -52,7 +52,7 @@ export const Member = styled.a`
     }
 `;
 
-export const Cart = styled.div`
+export const Cart = styled.a`
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 0;

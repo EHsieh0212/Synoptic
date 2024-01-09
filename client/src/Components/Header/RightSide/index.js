@@ -6,7 +6,7 @@ const RightSide = ({ search, cart, collection, signInLink, collectionLink, handl
                 <img src={search} alt="search" />SEARCH
             </Search>
             <Member href={signInLink}>SIGN IN</Member>
-            <Cart >
+            <Cart href={"/checkout"}>
                 <img src={cart} alt="search" />
                 {cartNum > 0? (<a className="cartLength" href="/checkout">({cartNum})</a>) : ('')}
             </Cart>

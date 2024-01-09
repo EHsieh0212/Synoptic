@@ -19,7 +19,7 @@ export const StyledLeftContainer = styled.div`
     margin-left: 0;
 `;
 
-export const StyledImage = styled.div`
+export const StyledImage = styled.a`
     display: block; 
     text-align: left;
     width: 15%;
@@ -50,9 +50,17 @@ export const StyledDetails = styled.div`
         background-color: transparent;
         border: none;
         font-size: 13px;
+    }
+    .minus{
         :hover{
-            cursor: pointer;
-            color: lightgrey;
+            cursor: ${props => (props.isMin ? 'default' : 'pointer')};
+            color: ${props => (props.isMin ? 'default' : 'lightgrey')};
+        }
+    }
+    .plus{
+        :hover{
+            cursor: ${props => (props.isMax ? 'default' : 'pointer')};
+            color: ${props => (props.isMax ? 'default' : 'lightgrey')};
         }
     }
 `;
@@ -66,8 +74,12 @@ export const StyledRight = styled.div`
     width: 25%;
     text-align: right;
     .removeItem{
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        text-align: right;
         :hover{
-            cursor: pointer;
             color: lightgrey;
         }
     }
