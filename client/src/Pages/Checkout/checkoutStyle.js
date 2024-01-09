@@ -88,3 +88,17 @@ export const ProceedToCheckout = styled.button`
   }
 `;
 
+export const PaymentAcception = styled.div`
+    padding-top: 20px;
+    font-size: 14px;
+`;
+
+export const PayKind = styled.div`
+    display:flex;
+    gap: 25px;
+`;
+
+export const PrivacyInfo = styled.div`
+    font-size: 12px;
+
+`;

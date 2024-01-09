@@ -1,6 +1,6 @@
 import {
     BigContainer, StyledShoppingBag, StyledItemContainer, StyledOrderSummary,
-    OrderInfoContainer, OrderInfo, Liner, ProceedToCheckout
+    OrderInfoContainer, OrderInfo, Liner, ProceedToCheckout, PaymentAcception, PayKind, PrivacyInfo
 } from './checkoutStyle';
 import CartItem from './CartItem';
 import YourCartIsEmpty from './YourCartIsEmpty';
@@ -9,6 +9,9 @@ import { catchErrors } from '../../Utils';
 import { CART_API_URL } from '../../Utils/product';
 import { GET_REQUEST_OPTIONS, PUT_REQUEST_OPTIONS } from '../../Utils';
 import Loader from '../../Components/Loader';
+import mastercard from "../../Assests/mastercard.png";
+import visa from "../../Assests/visa.png";
+import paypal from "../../Assests/paypal.png"
 
 const Checkout = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -171,6 +174,16 @@ const Checkout = () => {
                             </OrderInfoContainer>
                             <br />
                             <ProceedToCheckout>Proceed to checkout</ProceedToCheckout>
+                            <br />
+                            <PaymentAcception>
+                                WE ACCEPT
+                                <PayKind>
+                                    <img src={visa}/>
+                                    <img src={mastercard}/>
+                                    <img src={paypal}/>
+                                </PayKind>
+                                <PrivacyInfo>Your personal data will be shared with Klarna for order checkout and payment. For more information about processing and protection of personal data, read our Privacy Notice.</PrivacyInfo>
+                            </PaymentAcception>
                         </StyledOrderSummary>
 
                     </BigContainer>) : (
