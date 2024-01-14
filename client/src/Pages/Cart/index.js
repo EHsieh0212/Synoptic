@@ -1,7 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import {
     BigContainer, StyledShoppingBag, StyledItemContainer, StyledOrderSummary,
     OrderInfoContainer, OrderInfo, Liner, ProceedToCheckout, PaymentAcception, PayKind, PrivacyInfo
-} from './checkoutStyle';
+} from './cartStyle';
 import CartItem from './CartItem';
 import YourCartIsEmpty from './YourCartIsEmpty';
 import { useState, useEffect, useCallback } from 'react';
@@ -13,7 +14,7 @@ import mastercard from "../../Assests/mastercard.png";
 import visa from "../../Assests/visa.png";
 import paypal from "../../Assests/paypal.png"
 
-const Checkout = () => {
+const Cart = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [cartItems, setCartItems] = useState([]);
     const [newCartItems, setNewCartItems] = useState([]);
@@ -27,7 +28,18 @@ const Checkout = () => {
     // (1) get cart item from redis
     useEffect(() => {
         const fetchCartItems = catchErrors(async () => {
+            
             const data = await fetch(CART_API_URL, GET_REQUEST_OPTIONS);
+            // important: keep fetched data checked before storing.
+            if (!data.ok){
+                // session id expires: clean local storage's cartLength
+                localStorage.removeItem('cartLength');
+                const error = await data.json();
+                console.error("Cannot retrieve data error:", error);
+                setCartItems([]);
+                setIsLoading(false);
+                return;
+            }
             const result = await data.json();
             const wholeCart = result.cart
             setCartItems(wholeCart);
@@ -48,7 +60,7 @@ const Checkout = () => {
     }, [cartItems]);
 
     useEffect(() => {
-        if (cartItems.length > 0) {
+        if (cartItems && cartItems.length > 0) {
             updateTotalPriceInfo();
         }
     }, [cartItems, updateTotalPriceInfo]);
@@ -119,6 +131,10 @@ const Checkout = () => {
         }
     }, [newCartItems, updateRenewedTotalPriceInfo]);
 
+    const navigate = useNavigate();
+    const proceedToCheckout = () => {
+        navigate('/checkout');
+    };
 
     return (
         <div>
@@ -173,14 +189,14 @@ const Checkout = () => {
 
                             </OrderInfoContainer>
                             <br />
-                            <ProceedToCheckout>Proceed to checkout</ProceedToCheckout>
+                            <ProceedToCheckout onClick={proceedToCheckout}>Proceed to checkout</ProceedToCheckout>
                             <br />
                             <PaymentAcception>
                                 WE ACCEPT
                                 <PayKind>
-                                    <img src={visa} alt={visa}/>
-                                    <img src={mastercard} alt={mastercard}/>
-                                    <img src={paypal} alt={paypal}/>
+                                    <img src={visa} alt={visa} />
+                                    <img src={mastercard} alt={mastercard} />
+                                    <img src={paypal} alt={paypal} />
                                 </PayKind>
                                 <PrivacyInfo>Your personal data will be shared with TaiwanBank for order checkout and payment. For more information about processing and protection of personal data, read our <span>Privacy Notice</span>.</PrivacyInfo>
                             </PaymentAcception>
@@ -195,4 +211,4 @@ const Checkout = () => {
     )
 };
 
-export default Checkout;
+export default Cart;

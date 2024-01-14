@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast, Toaster } from 'react-hot-toast';
-import { Liner } from "../checkoutStyle";
+import { Liner } from "../cartStyle";
 import { getColorNameByCode } from '../../../Utils/product';
 import {
     StyledBiggerContainer, StyledBigContainer, StyledLeftContainer, StyledImage,
@@ -14,7 +14,7 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
 
     const decrease = () => {
         // cannot lower than 1
-        if (itemQ > 1){
+        if (itemQ > 1) {
             const newQ = itemQ - 1;
             const newStock = stockQ + 1;
             // (1) update CartItem component quantity& individual total price
@@ -22,7 +22,7 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
             setStockQ(newStock);
             // (2) update Checkout component: pass back item's new whole info
             const updatedItem = {
-                title, 
+                title,
                 size,
                 color,
                 incrementBy: newQ,
@@ -34,21 +34,21 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
 
     const increase = () => {
         // cannot surpass maxQuantity
-        if (itemQ < stockMaxQuantity){
+        if (itemQ < stockMaxQuantity) {
             const newQ = itemQ + 1;
             const newStock = stockQ - 1;
             setItemQ(newQ);
             setStockQ(newStock);
             const updatedItem = {
-                title, 
+                title,
                 size,
                 color,
                 incrementBy: newQ,
                 stockMaxQuantity: newStock
             };
             setUpdatedItem([updatedItem]);
-        } else{
-            toast('Cannot add more product.', {id: 'uniqueID', duration: 1500, icon: '💡',}); // given uniqueId to prevent toasts from duplicating.
+        } else {
+            toast('Cannot add more product.', { id: 'uniqueID', duration: 1500, icon: '💡', }); // given uniqueId to prevent toasts from duplicating.
         };
     };
 
@@ -57,8 +57,8 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
         // 2. localStorage - 1
         // 3. triggers re-render Checkout component
         const deletedItem = {
-            title, 
-            size, 
+            title,
+            size,
             color,
         };
         setDeletedItem([deletedItem]);
@@ -69,10 +69,10 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
             <StyledBigContainer>
                 <StyledLeftContainer>
                     <StyledImage href={`/product/${id}`}>
-                        <img src={imgSrc} alt={imgSrc}/>
+                        <img src={imgSrc} alt={imgSrc} />
                     </StyledImage>
                     <StyledDetails isMin={itemQ === 1} isMax={itemQ === stockMaxQuantity}>
-                        <Toaster/>
+                        <Toaster />
                         <div className="title">{title}</div>
                         <div>${price} TWD</div>
                         <br />
