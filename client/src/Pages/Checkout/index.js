@@ -4,8 +4,8 @@ import { BigContainer } from './checkoutStyle'
 const Checkout = () => {
     return (
         <BigContainer>
-            <DeliveryInfo />
-            <div >test</div>
+            <DeliveryInfo className='delivery'/>
+            <div className='test' >Cart Info</div>
         </BigContainer>
     );
 };
