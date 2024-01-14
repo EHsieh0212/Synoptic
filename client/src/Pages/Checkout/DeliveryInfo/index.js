@@ -1,46 +1,44 @@
 import { useState } from 'react';
-import { TextField, Button, Grid, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-
-const StyledTextField = styled('div')({
-    '& .MuiInputLabel-root': {
-        fontSize: '14px', // Set your desired font size for the label
-      },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: 'transparent',
-            borderBottom: '1px solid lightgray',
-        },
-        '&:hover fieldset': {
-            borderColor: 'transparent',
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: 'transparent',
-        },
-    },
-    '& input': {
-        border: 'none',
-        borderBottom: '1px solid lightgray',
-        borderRadius: '0px',
-    },
-});
+import { TextField, Grid, Typography } from '@mui/material';
+import { validateDelivery } from '../../../Utils/validate';
+import toast from 'react-hot-toast';
+import { StyledTextField, StyledButton, StyledToaster } from './deliveryinfoStyle';
 
 
-const StyledButton = styled(Button)({
-    width: '100%', 
-    backgroundColor: 'black', 
-    color: 'white', 
-  });
+const DeliveryInfo = ({ handleShowPayment }) => {
+    const [formData, setFormData] = useState({
+        email: '',
+        postalCode: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        addressDetails: '',
+        phone: '',
+    });
+    const [validateSuccess, setValidateSuccess] = useState(false);
 
+    const handleInputChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-const DeliveryInfo = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
-    };
-    const [preferredDeliveryTime, setPreferredDeliveryTime] = useState('');
-
-    const handlePreferredDeliveryTimeChange = (event) => {
-        setPreferredDeliveryTime(event.target.value);
+        if (!validateDelivery(formData)[0]) {
+            const [finalOk, emailOk, postCodeOk, phoneOk] = validateDelivery(formData);
+            if (!emailOk) {
+                toast('Please enter valid email', { id: 'uniqueID', duration: 1500, icon: '💡', });
+            } else if (!postCodeOk) {
+                toast('Please enter valid postcode', { id: 'uniqueID', duration: 1500, icon: '💡', });
+            } else {
+                toast('Please enter valid phone number', { id: 'uniqueID', duration: 1500, icon: '💡', });
+            }
+            return;
+        }
+        setValidateSuccess(true);
+        handleShowPayment();
     };
 
     return (
@@ -50,6 +48,7 @@ const DeliveryInfo = () => {
                     Delivery Information
                 </Typography>
                 <form onSubmit={handleSubmit} >
+                    <StyledToaster />
                     <Grid container style={{ border: '1px solid #909090', borderRadius: '4px' }}>
                         <Grid item xs={12} style={{ padding: '0px', margin: '0px' }}>
                             <StyledTextField>
@@ -60,9 +59,12 @@ const DeliveryInfo = () => {
                                     required
                                     type="email"
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'email',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -75,9 +77,12 @@ const DeliveryInfo = () => {
                                     fullWidth
                                     required
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'postalCode',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -90,9 +95,12 @@ const DeliveryInfo = () => {
                                     fullWidth
                                     required
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'firstName',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -105,9 +113,12 @@ const DeliveryInfo = () => {
                                     fullWidth
                                     required
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'lastName',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -120,9 +131,12 @@ const DeliveryInfo = () => {
                                     fullWidth
                                     required
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'address',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -134,9 +148,12 @@ const DeliveryInfo = () => {
                                     variant="outlined"
                                     fullWidth
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'addressDetails',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
@@ -144,23 +161,27 @@ const DeliveryInfo = () => {
                         <Grid item xs={12} style={{ padding: '0px', margin: '0px' }}>
                             <StyledTextField>
                                 <TextField
-                                    label="Mobile Phone"
+                                    label="Mobile Phone Format: 09-xxxxxxxx"
                                     variant="outlined"
                                     fullWidth
                                     required
+                                    type='tel'
                                     InputProps={{
+                                        onChange: handleInputChange,
+                                        name: 'phone',
                                         style: {
                                             border: 'none',
-                                            borderRadius: '0px'
+                                            borderRadius: '0px',
+                                            fontSize: '15px'
                                         },
                                     }} />
                             </StyledTextField>
                         </Grid>
 
                     </Grid>
-                    <div style={{ marginTop: '20px', width: '100%', padding:'0px' }}>
+                    <div style={{ marginTop: '20px', width: '100%', padding: '0px' }}>
                         <StyledButton type="submit" variant="contained" fullWidth>
-                            Continue
+                            {validateSuccess? "Validate Success": "Continue" }
                         </StyledButton>
                     </div>
                 </form>
