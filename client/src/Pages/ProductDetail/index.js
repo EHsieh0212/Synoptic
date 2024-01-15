@@ -88,9 +88,6 @@ const ProductDetail = () => {
             incrementBy: 1,
             stockMaxQuantity
         };
-        console.log('-----------------')
-        console.log('put the cart item into Redis')
-        console.log(cartItem)
         // 3. put the cart item into Redis
         const requestOptions = PUT_REQUEST_OPTIONS(JSON.stringify(cartItem));
         const response = await fetch(CART_API_URL, requestOptions);
