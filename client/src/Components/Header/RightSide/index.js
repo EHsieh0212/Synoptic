@@ -6,9 +6,9 @@ const RightSide = ({ search, cart, collection, signInLink, collectionLink, handl
                 <img src={search} alt="search" />SEARCH
             </Search>
             <Member href={signInLink}>SIGN IN</Member>
-            <Cart href={"/checkout"}>
+            <Cart href={"/cart"}>
                 <img src={cart} alt="search" />
-                {cartNum > 0? (<a className="cartLength" href="/checkout">({cartNum})</a>) : ('')}
+                {cartNum > 0? (<a className="cartLength" href="/cart">({cartNum})</a>) : ('')}
             </Cart>
             <Collection href={collectionLink}>
                 <img src={collection} alt="collection" />
