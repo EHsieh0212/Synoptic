@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast, Toaster } from 'react-hot-toast';
-import { Liner } from "../cartStyle";
+import Liner from "../../../Components/Liner";
 import { getColorNameByCode } from '../../../Utils/product';
 import {
     StyledBiggerContainer, StyledBigContainer, StyledLeftContainer, StyledImage,

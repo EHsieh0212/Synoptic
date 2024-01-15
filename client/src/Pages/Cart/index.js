@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import {
     BigContainer, StyledShoppingBag, StyledItemContainer, StyledOrderSummary,
-    OrderInfoContainer, OrderInfo, Liner, ProceedToCheckout, PaymentAcception, PayKind, PrivacyInfo
+    OrderInfoContainer, OrderInfo, ProceedToCheckout, PaymentAcception, PayKind, PrivacyInfo
 } from './cartStyle';
+import Liner from '../../Components/Liner';
 import CartItem from './CartItem';
 import YourCartIsEmpty from './YourCartIsEmpty';
 import { useState, useEffect, useCallback } from 'react';

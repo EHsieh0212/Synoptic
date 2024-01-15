@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Liner from "../../../Components/Liner";
 
 const StyledCartInfo = styled.div`
     width: 50%;
@@ -8,7 +9,11 @@ const StyledCartInfo = styled.div`
 
 const CartInfo = () => {
     return(
-        <StyledCartInfo>Cart Info</StyledCartInfo>
+        <StyledCartInfo>
+            Cart Info
+            <Liner/>
+        
+        </StyledCartInfo>
     )
 };
 

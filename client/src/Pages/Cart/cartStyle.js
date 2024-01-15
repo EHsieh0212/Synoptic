@@ -58,13 +58,6 @@ export const OrderInfo = styled.div`
     }
 `;
 
-export const Liner = styled.div` 
-  background-color: black;
-  border-top: 1.5px solid #BEBEBE;
-  padding: 0;
-  max-width: 100%;
-`;
-
 export const ProceedToCheckout = styled.button`
   text-transform: uppercase;
   margin-top: 10px;
