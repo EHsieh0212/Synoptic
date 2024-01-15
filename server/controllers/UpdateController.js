@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const { find } = require('lodash');
+const { find, isPlainObject } = require('lodash');
 
 class CartUpdateController {
     constructor(redisClientService) {
@@ -22,7 +22,7 @@ class CartUpdateController {
         // 1-1. incrementBy += 1, stockMaxQuantity -= 1
         // 1-2. jsonSet new JSON.stringity()
         const theExistedObj = find(existedCartItems, (obj) => {
-            return obj.color === cartItem.color && obj.size === cartItem.size;
+            return obj.color === cartItem.color && obj.size === cartItem.size && obj.title === cartItem.title;
         });
         if (theExistedObj) {
             if (theExistedObj.stockMaxQuantity - 1 <= 0) {
