@@ -4,9 +4,15 @@ export const BigContainer = styled.div`
     display: flex;
     padding-top: 50px;
     margin-left: 50px;
-    .test{
-        width: 50%;
-    }
-    .delivery{
-    }
+    margin-right: 50px;
+`;
+
+export const LeftContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width:50%;
+    margin-left: 150px;
+    margin-right: 150px;
+    padding-bottom: 100px;
 `;

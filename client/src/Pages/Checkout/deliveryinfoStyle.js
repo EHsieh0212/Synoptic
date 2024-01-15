@@ -23,13 +23,29 @@ export const StyledTextField = styled('div')({
         borderBottom: '1px solid lightgray',
         borderRadius: '0px',
     },
+    '& .customDatePickerWidth': {
+        width: '100%',
+        '& > div.react-datepicker-wrapper': {
+            width: '100%',
+            '& > div > div.react-datepicker__input-container': {
+                width: '100%',
+                '& input': {
+                    width: '100%',
+                },
+            },
+        },
+    },
 });
 
-export const StyledButton = styled(Button)({
+export const StyledButton = styled(Button)(({ colorLock }) => ({
     width: '100%',
     backgroundColor: 'black',
     color: 'white',
-});
+    '&:hover': {
+      backgroundColor: colorLock ? 'black' : 'gray',
+      cursor: colorLock ? 'default' : 'pointer',
+    },
+  }));
 
 export const StyledToaster = () => {
     return (
