@@ -11,7 +11,7 @@ export const LeftContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    width:50%;
+    width: 40%;
     margin-left: 150px;
     margin-right: 150px;
     padding-bottom: 100px;

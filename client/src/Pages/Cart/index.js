@@ -5,11 +5,10 @@ import {
 } from './cartStyle';
 import Liner from '../../Components/Liner';
 import CartItem from './CartItem';
-import YourCartIsEmpty from './YourCartIsEmpty';
+import YourCartIsEmpty from '../../Components/YourCartIsEmpty';
 import { useState, useEffect, useCallback } from 'react';
-import { catchErrors } from '../../Utils';
 import { CART_API_URL } from '../../Utils/product';
-import { GET_REQUEST_OPTIONS, PUT_REQUEST_OPTIONS } from '../../Utils';
+import { catchErrors, GET_REQUEST_OPTIONS, PUT_REQUEST_OPTIONS } from '../../Utils';
 import Loader from '../../Components/Loader';
 import mastercard from "../../Assests/mastercard.png";
 import visa from "../../Assests/visa.png";
@@ -25,14 +24,16 @@ const Cart = () => {
     const [renewed, setRenewed] = useState(false);
     const [deletedItem, setDeletedItem] = useState([]);
 
+
+
     // (A) for starters
     // (1) get cart item from redis
     useEffect(() => {
         const fetchCartItems = catchErrors(async () => {
-            
+
             const data = await fetch(CART_API_URL, GET_REQUEST_OPTIONS);
             // important: keep fetched data checked before storing.
-            if (!data.ok){
+            if (!data.ok) {
                 // session id expires: clean local storage's cartLength
                 localStorage.removeItem('cartLength');
                 const error = await data.json();
@@ -141,69 +142,71 @@ const Cart = () => {
         <div>
             {isLoading ? (<Loader />) :
                 (cartItems && cartItems.length > 0 ?
-                    (<BigContainer>
-                        <StyledShoppingBag>
-                            <div className='title'>shopping bag info</div>
-                            <Liner />
-                            <StyledItemContainer>
-                                {
-                                    cartItems.map(item => (
-                                        <div>
-                                            <CartItem
-                                                id={item.productId}
-                                                key={`${item.productId}_${item.color}_${item.size}`}
-                                                imgSrc={item.imgSrc}
-                                                title={item.title}
-                                                price={item.price}
-                                                size={item.size}
-                                                color={item.color}
-                                                quantity={item.incrementBy}
-                                                stockMaxQuantity={item.stockMaxQuantity}
-                                                setUpdatedItem={setUpdatedItem}
-                                                setDeletedItem={setDeletedItem}
-                                            />
-                                        </div>
-                                    ))
-                                }
-                            </StyledItemContainer>
-                        </StyledShoppingBag>
+                    (
 
-                        <StyledOrderSummary>
-                            <div className='title'>order summary</div>
-                            <Liner />
-                            <br />
-                            <OrderInfoContainer>
-                                <OrderInfo>
-                                    <div>Order Value </div>
-                                    <div>${!renewed ? totalPrice : newTotalPrice} TWD</div>
-                                </OrderInfo>
-                                <OrderInfo>
-                                    <div>Delivery</div>
-                                    <div className='delivery'>Free</div>
-                                </OrderInfo>
+                        <BigContainer>
+                            <StyledShoppingBag>
+                                <div className='title'>shopping bag info</div>
+                                <Liner />
+                                <StyledItemContainer>
+                                    {
+                                        cartItems.map(item => (
+                                            <div>
+                                                <CartItem
+                                                    id={item.productId}
+                                                    key={`${item.productId}_${item.color}_${item.size}`}
+                                                    imgSrc={item.imgSrc}
+                                                    title={item.title}
+                                                    price={item.price}
+                                                    size={item.size}
+                                                    color={item.color}
+                                                    quantity={item.incrementBy}
+                                                    stockMaxQuantity={item.stockMaxQuantity}
+                                                    setUpdatedItem={setUpdatedItem}
+                                                    setDeletedItem={setDeletedItem}
+                                                />
+                                            </div>
+                                        ))
+                                    }
+                                </StyledItemContainer>
+                            </StyledShoppingBag>
+
+                            <StyledOrderSummary>
+                                <div className='title'>order summary</div>
                                 <Liner />
                                 <br />
-                                <OrderInfo>
-                                    <div>Total</div>
-                                    <div>${!renewed ? totalPrice : newTotalPrice} TWD</div>
-                                </OrderInfo>
+                                <OrderInfoContainer>
+                                    <OrderInfo>
+                                        <div>Order Value </div>
+                                        <div>${!renewed ? totalPrice : newTotalPrice} TWD</div>
+                                    </OrderInfo>
+                                    <OrderInfo>
+                                        <div>Delivery</div>
+                                        <div className='delivery'>Free</div>
+                                    </OrderInfo>
+                                    <Liner />
+                                    <br />
+                                    <OrderInfo>
+                                        <div>Total</div>
+                                        <div>${!renewed ? totalPrice : newTotalPrice} TWD</div>
+                                    </OrderInfo>
 
-                            </OrderInfoContainer>
-                            <br />
-                            <ProceedToCheckout onClick={proceedToCheckout}>Proceed to checkout</ProceedToCheckout>
-                            <br />
-                            <PaymentAcception>
-                                WE ACCEPT
-                                <PayKind>
-                                    <img src={visa} alt={visa} />
-                                    <img src={mastercard} alt={mastercard} />
-                                    <img src={paypal} alt={paypal} />
-                                </PayKind>
-                                <PrivacyInfo>Your personal data will be shared with TaiwanBank for order checkout and payment. For more information about processing and protection of personal data, read our <span>Privacy Notice</span>.</PrivacyInfo>
-                            </PaymentAcception>
-                        </StyledOrderSummary>
-
-                    </BigContainer>) : (
+                                </OrderInfoContainer>
+                                <br />
+                                <ProceedToCheckout onClick={proceedToCheckout}>Proceed to checkout</ProceedToCheckout>
+                                <br />
+                                <PaymentAcception>
+                                    WE ACCEPT
+                                    <PayKind>
+                                        <img src={visa} alt={visa} />
+                                        <img src={mastercard} alt={mastercard} />
+                                        <img src={paypal} alt={paypal} />
+                                    </PayKind>
+                                    <PrivacyInfo>Your personal data will be shared with TaiwanBank for order checkout and payment. For more information about processing and protection of personal data, read our <span>Privacy Notice</span>.</PrivacyInfo>
+                                </PaymentAcception>
+                            </StyledOrderSummary>
+                        </BigContainer>
+                    ) : (
                         <YourCartIsEmpty />
                     )
                 )}
