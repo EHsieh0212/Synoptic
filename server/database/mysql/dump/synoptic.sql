@@ -72,6 +72,7 @@ CREATE TABLE `orders` (
   `recipient_last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone` varchar(16) NOT NULL,
+  `postal_code` int NOT NULL,
   `address` varchar(255) NOT NULL,
   `address_additional` varchar(255) NULL,
   `paid` tinyint NOT NULL DEFAULT '0',
