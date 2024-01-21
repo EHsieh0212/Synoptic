@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { StyledTextField, StyledButton, StyledToaster } from '../deliveryinfoStyle';
 
 
-const DeliveryInfo = ({ handleShowPayment }) => {
+const DeliveryInfo = ({ getVerifiedDeliveryInfo }) => {
     const [formData, setFormData] = useState({
         email: '',
         postalCode: '',
@@ -36,10 +36,9 @@ const DeliveryInfo = ({ handleShowPayment }) => {
             toast('Please enter valid phone number', { id: 'uniqueID', duration: 1500, icon: '💡', });
         } else {
             setValidateSuccess(true);
-            handleShowPayment();
             setFormSubmitted(true);
+            getVerifiedDeliveryInfo(formData);
         }
-
     };
 
     return (
