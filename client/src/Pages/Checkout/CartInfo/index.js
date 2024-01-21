@@ -23,7 +23,7 @@ const CartInfo = ({ cartItems, totalPrice }) => {
                     <div>
                         <CartInfoItem
                             id={item.productId}
-                            key={`${item.productId}_${item.color}_${item.size}`}
+                            key={`${item.title}_${item.productId}_${item.color}_${item.size}`}
                             imgSrc={item.imgSrc}
                             title={item.title}
                             price={item.price}

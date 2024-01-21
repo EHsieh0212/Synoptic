@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField, Grid, Typography } from '@mui/material';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,39 +9,98 @@ import mastercard from "../../../Assests/mastercard.png";
 import visa from "../../../Assests/visa.png";
 import paypal from "../../../Assests/paypal.png"
 import { validatePayment } from '../../../Utils/validate';
+import { catchErrors } from "../../../Utils";
+import { useTapPay } from 'react-native-tappay';
+import { useNavigate } from 'react-router-dom';
 
 
 registerLocale('zhTW', zhTW);
-
-const Payment = () => {
-    const [formData, setFormData] = useState({
+const Payment = ({ verifiedDeliveryInfo }) => {
+    const [cardType, setCardType] = useState('');
+    const [isPrime, setIsPrime] = useState(false);
+    const [hasNumberError, setHasNumberError] = useState(false);
+    const [prime, setPrime] = useState(0);
+    const navigate = useNavigate();
+    const appId = process.env.REACT_APP_TP_APPID;
+    const appKey = process.env.REACT_APP_TP_APPKEY;
+    const env = 'sandbox';
+    const [isLoadedSuccess, TapPay] = useTapPay({ appId, appKey, env })
+    const [paymentData, setPaymentData] = useState({
         creditCard: '',
         dueDate: '',
         cvv: '',
     });
 
+
     const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
+        setPaymentData({
+            ...paymentData,
             [e.target.name]: e.target.value,
         });
     };
 
     const handleDateChange = (date) => {
-        setFormData({ ...formData, dueDate: date });
+        setPaymentData({ ...paymentData, dueDate: date });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const [creditCardOk, cvvOk] = validatePayment(formData);
-        if (!creditCardOk){
-            toast('Please enter valid credit card number', { id: 'uniqueID', duration: 1500, icon: '💡', });
-        } else if (!cvvOk){
-            toast('Please enter valid CVV number', { id: 'uniqueID', duration: 1500, icon: '💡', });
-        } else{
-            toast('success', { id: 'uniqueID', duration: 1500, icon: '💡', });
+    useEffect(() => {
+        if (isLoadedSuccess) {
+            TapPay.cardSetup({
+                fields: {
+                    number: {
+                        element: '.card-number',
+                        placeholder: ''
+                    },
+                    expirationDate: {
+                        element: '.card-expiration-date',
+                        placeholder: ''
+                    },
+                    ccv: {
+                        element: '.card-ccv',
+                        placeholder: ''
+                    },
+                },
+            });
+            TapPay.onCardUpdate(update => {
+                const { canGetPrime, status } = update;
+                setHasNumberError(status.number === 2);
+                setIsPrime(canGetPrime);
+            });
         }
-    };
+    }, [isLoadedSuccess, TapPay]);
+
+    // tappay
+    const handleSubmit = catchErrors(async (event) => {
+        event.preventDefault();
+        const [creditCardOk, cvvOk] = validatePayment(paymentData);
+        if (!creditCardOk) {
+            toast('Please enter valid credit card number', { id: 'uniqueID', duration: 1500, icon: '💡', });
+        } else if (!cvvOk) {
+            toast('Please enter valid CVV number', { id: 'uniqueID', duration: 1500, icon: '💡', });
+        } else {
+            if (TapPay) {
+                TapPay.validateCard('4242424242424242', '01', '23', '123')
+                    .then(result => {
+                        TapPay.setCard('4111111145551142', '03', '30', '757');
+                        TapPay.onCardUpdate(update => {
+                            const { canGetPrime, status } = update;
+                            setHasNumberError(status);
+                            setIsPrime(canGetPrime);
+                        });
+                        if (isPrime) {
+                            TapPay.getDirectPayPrime();
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+            // db transaction
+
+            navigate('/thanks');
+        }
+    });
+
 
     return (
         <Grid container justifyContent="center" alignItems="left" style={{ minHeight: '10vh', marginTop: '80px', paddingBottom: '0px' }}>
@@ -52,60 +111,81 @@ const Payment = () => {
                 <form onSubmit={handleSubmit}>
                     <StyledToaster />
                     <Grid container style={{ border: '1px solid #909090', borderRadius: '4px' }}>
-                        <Grid item xs={12} style={{ padding: '0px', margin: '0px' }}>
+                        <Grid className='tpfields' item xs={12} style={{ width: '100%', padding: '0px', margin: '0px' }}>
                             <StyledTextField>
-                                <TextField
-                                    label="Credit Cart Number"
+                                {/* <TextField
+                                    label="card-number"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     InputProps={{
+                                        className: 'card-number',
                                         onChange: handleInputChange,
                                         name: 'creditCard',
                                         style: {
                                             border: 'none',
                                             borderRadius: '0px',
-                                            fontSize: '15px'
+                                            fontSize: '15px',
+                                            width: '100%'
                                         },
-                                    }} />
+                                    }} /> */}
+                                <input
+                                    name='creditCard'
+                                    className='card-number'
+                                    label='cart-number'
+                                    placeholder='credit card number'
+                                    style={{ width: '100%', height: '40px', fontSize: '13px', maxlength: "16" }}
+                                    onChange={handleInputChange}
+                                ></input>
+
                             </StyledTextField>
                         </Grid>
-                        <Grid item xs={12} style={{ width: '100%', padding: '0px', margin: '0px' }}>
+                        <Grid className='tpfields' item xs={12} style={{ width: '100%', padding: '0px', margin: '0px' }}>
                             <StyledTextField >
                                 <div className='customDatePickerWidth'>
                                     <DatePicker
                                         locale="zhTW"
-                                        selected={formData.dueDate}
+                                        selected={paymentData.dueDate}
                                         onChange={handleDateChange}
                                         dateFormat="MM/yyyy"
                                         showMonthYearPicker
+                                        label="card-expiration-date"
                                         customInput={
-                                            <TextField
-                                                label="Due Date"
-                                                variant="outlined"
-                                                fullWidth
-                                                required
-                                                InputProps={{
-                                                    style: {
-                                                        border: 'none',
-                                                        borderRadius: '0px',
-                                                        fontSize: '15px',
-                                                    },
-                                                }}
+                                            // <TextField
+                                            //     className="card-expiration-date"
+                                            //     id='card-expiration-date'
+                                            //     label="card-expiration-date"
+                                            //     variant="outlined"
+                                            //     fullWidth
+                                            //     required
+                                            //     InputProps={{
+                                            //         style: {
+                                            //             className: "card-expiration-date",
+                                            //             border: 'none',
+                                            //             borderRadius: '0px',
+                                            //             fontSize: '15px',
+                                            //         },
+                                            //     }}
+                                            // />
+                                            <input
+                                                className='card-expiration-date'
+                                                style={{ width: '100%', height: '40px', fontSize: '13px' }}
+                                                placeholder='credit card number'
                                             />
                                         }
                                     />
                                 </div>
                             </StyledTextField>
                         </Grid>
-                        <Grid item xs={12} style={{ padding: '0px', margin: '0px' }}>
+                        <Grid className='tpfields' item xs={12} style={{ padding: '0px', margin: '0px' }}>
                             <StyledTextField >
-                                <TextField
-                                    label="CV code"
+                                {/* <TextField
+                                    label="card-ccv"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     InputProps={{
+                                        className: 'card-ccv',
                                         onChange: handleInputChange,
                                         name: 'cvv',
                                         style: {
@@ -113,7 +193,13 @@ const Payment = () => {
                                             borderRadius: '0px',
                                             fontSize: '15px'
                                         },
-                                    }} />
+                                    }} /> */}
+                                <input
+                                    name='cvv'
+                                    className='ccv'
+                                    style={{ width: '100%', height: '40px', fontSize: '13px' }}
+                                    onChange={handleInputChange}
+                                    placeholder='cvv'></input>
                             </StyledTextField>
                         </Grid>
 

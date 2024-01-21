@@ -9,14 +9,10 @@ import { catchErrors, GET_REQUEST_OPTIONS } from '../../Utils';
 import { CART_API_URL } from '../../Utils/product';
 
 const Checkout = () => {
-    const [showPayment, setShowPayment] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-
-    const handleShowPayment = () => {
-        setShowPayment(true);
-    };
+    const [verifiedDeliveryInfo, setVerifiedDeliveryInfo] = useState(0);
 
 
     useEffect(() => {
@@ -58,8 +54,8 @@ const Checkout = () => {
                 cartItems && cartItems.length > 0 ? (
                     <BigContainer>
                         <LeftContainer className="leftContainer">
-                            <DeliveryInfo className='delivery' handleShowPayment={handleShowPayment} />
-                            {showPayment ? (<Payment />) : (<div></div>)}
+                            <DeliveryInfo className='delivery' getVerifiedDeliveryInfo={setVerifiedDeliveryInfo}/>
+                            {verifiedDeliveryInfo ? (<Payment verifiedDeliveryInfo={verifiedDeliveryInfo}/>) : (<div></div>)}
                         </LeftContainer>
                         <CartInfo className="rightCartInfo" cartItems={cartItems} totalPrice={totalPrice}/>
                     </BigContainer>
