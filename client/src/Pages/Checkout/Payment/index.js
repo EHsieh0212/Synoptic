@@ -16,10 +16,8 @@ import { useNavigate } from 'react-router-dom';
 
 registerLocale('zhTW', zhTW);
 const Payment = ({ verifiedDeliveryInfo }) => {
-    const [cardType, setCardType] = useState('');
     const [isPrime, setIsPrime] = useState(false);
     const [hasNumberError, setHasNumberError] = useState(false);
-    const [prime, setPrime] = useState(0);
     const navigate = useNavigate();
     const appId = process.env.REACT_APP_TP_APPID;
     const appKey = process.env.REACT_APP_TP_APPKEY;
@@ -27,20 +25,27 @@ const Payment = ({ verifiedDeliveryInfo }) => {
     const [isLoadedSuccess, TapPay] = useTapPay({ appId, appKey, env })
     const [paymentData, setPaymentData] = useState({
         creditCard: '',
-        dueDate: '',
+        dueDate:'',
+        dueMonth: '',
+        dueYear:'',
         cvv: '',
     });
 
 
     const handleInputChange = (e) => {
+        const trimmedValue = e.target.value.trim();
         setPaymentData({
             ...paymentData,
-            [e.target.name]: e.target.value,
+            [e.target.name]: trimmedValue,
         });
     };
 
     const handleDateChange = (date) => {
-        setPaymentData({ ...paymentData, dueDate: date });
+        const newDate = new Date(date);
+        let year = newDate.getFullYear();
+        year = year.toString().slice(-2)
+        const month = (newDate.getMonth() + 1).toString();
+        setPaymentData({ ...paymentData, dueDate: date, dueMonth: month, dueYear: year });
     };
 
     useEffect(() => {
@@ -78,10 +83,10 @@ const Payment = ({ verifiedDeliveryInfo }) => {
         } else if (!cvvOk) {
             toast('Please enter valid CVV number', { id: 'uniqueID', duration: 1500, icon: '💡', });
         } else {
-            if (TapPay) {
-                TapPay.validateCard('4242424242424242', '01', '23', '123')
+            if (TapPay && paymentData) {
+                TapPay.validateCard(paymentData.creditCard, paymentData.dueMonth, paymentData.dueYear, paymentData.cvv)
                     .then(result => {
-                        TapPay.setCard('4111111145551142', '03', '30', '757');
+                        TapPay.setCard(paymentData.creditCard, paymentData.dueMonth, paymentData.dueYear, paymentData.cvv);
                         TapPay.onCardUpdate(update => {
                             const { canGetPrime, status } = update;
                             setHasNumberError(status);
