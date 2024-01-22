@@ -37,14 +37,18 @@ export const StyledTextField = styled('div')({
     },
 });
 
-export const StyledButton = styled(Button)(({ colorLock }) => ({
+export const StyledButton = styled(Button)(({ isShow }) => ({
     width: '100%',
     backgroundColor: 'black',
     color: 'white',
     '&:hover': {
-      backgroundColor: colorLock ? 'black' : 'gray',
-      cursor: colorLock ? 'default' : 'pointer',
+      backgroundColor: isShow ? 'black' : 'gray',
+      cursor: isShow ? 'default' : 'pointer',
     },
+    '&:disabled': {
+        backgroundColor: 'gray',
+        color: 'white',
+      },
   }));
 
 export const StyledToaster = () => {
