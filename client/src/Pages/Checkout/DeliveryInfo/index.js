@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { TextField, Grid, Typography } from '@mui/material';
 import { validateDelivery } from '../../../Utils/validate';
 import toast from 'react-hot-toast';
-import { StyledTextField, StyledButton, StyledToaster } from '../deliveryinfoStyle';
+import { StyledTextField, StyledButton, StyledToaster, StyledEditDelivery } from '../deliveryinfoStyle';
 
-
-const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
+const DeliveryInfo = ({ setVerifiedDeliveryInfo, cartItems, totalPrice }) => {
     const [formData, setFormData] = useState({
         email: '',
         postalCode: '',
@@ -19,6 +18,12 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
     });
     const [validateSuccess, setValidateSuccess] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
+
+    const editDelivery = () => {
+        setFormSubmitted(false);
+        setValidateSuccess(false);
+        setVerifiedDeliveryInfo(0);
+    }
 
     const handleInputChange = (e) => {
         setFormData({
@@ -39,15 +44,18 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
         } else {
             setValidateSuccess(true);
             setFormSubmitted(true);
-            getVerifiedDeliveryInfo(formData);
-            formData.amount = totalPrice;
-            formData.cartDetails=cartItems.map(item => ({
-                productId: item.productId,
-                size: item.size,
-                color: item.color,
-                quantity: item.incrementBy                ,
-                variantId: item.variantId
-              }));
+            setFormData({
+                ...formData,
+                amount: totalPrice,
+                cartDetails: cartItems.map(item => ({
+                    productId: item.productId,
+                    size: item.size,
+                    color: item.color,
+                    quantity: item.incrementBy,
+                    variantId: item.variantId
+                }))
+            });
+            setVerifiedDeliveryInfo(formData);
         }
     };
 
@@ -205,6 +213,7 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
                             {validateSuccess ? "Validate Success" : "Continue"}
                         </StyledButton>
                     </div>
+                    {validateSuccess ? (<StyledEditDelivery onClick={editDelivery}> edit delivery </StyledEditDelivery>) : (<div></div>)}
                 </form>
             </Grid>
         </Grid >
