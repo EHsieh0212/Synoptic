@@ -35,3 +35,11 @@ export const POST_REQUEST_OPTIONS = (body) => ({
   credentials: 'include',
   body
 });
+
+export const DELETE_REQUEST_OPTIONS = {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  credentials: 'include',
+};

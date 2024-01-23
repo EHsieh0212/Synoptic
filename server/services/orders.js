@@ -1,10 +1,9 @@
-// const ordersRepository = require('../repositories/OrdersRepository');
-const ordersRepository = require('../repositories/fix');
+const ordersRepository = require('../repositories/OrdersRepository');
 const userRepository = require('../repositories/UsersRepository');
 const { v4: uuidv4 } = require('uuid');
 
 // service does: 
-// (1) if user==guest: create random userId -> create a user row!
+// (1) if user==guest: create random userId -> create a user row
 // (2) passes deliveryInfo + orderInfo to repository
 
 // db updates data
@@ -30,8 +29,6 @@ const checkout = async ({ email, postalCode, firstName, lastName, address, addre
     const ordersReposityInstance = ordersRepository();
     const allInfo = { guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, thePrime };
     const checkoutResult = await ordersReposityInstance.checkoutWithTransaction(allInfo);
-    console.log('------------order router------------')
-    console.log(checkoutResult)
     return checkoutResult;
 };
 
