@@ -44,18 +44,15 @@ const DeliveryInfo = ({ setVerifiedDeliveryInfo, cartItems, totalPrice }) => {
         } else {
             setValidateSuccess(true);
             setFormSubmitted(true);
-            setFormData({
-                ...formData,
-                amount: totalPrice,
-                cartDetails: cartItems.map(item => ({
-                    productId: item.productId,
-                    size: item.size,
-                    color: item.color,
-                    quantity: item.incrementBy,
-                    variantId: item.variantId
-                }))
-            });
             setVerifiedDeliveryInfo(formData);
+            formData.amount = totalPrice;
+            formData.cartDetails=cartItems.map(item => ({
+                productId: item.productId,
+                size: item.size,
+                color: item.color,
+                quantity: item.incrementBy                ,
+                variantId: item.variantId
+              }));
         }
     };
 
