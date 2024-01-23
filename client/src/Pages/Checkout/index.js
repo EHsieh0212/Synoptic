@@ -54,7 +54,7 @@ const Checkout = () => {
                 cartItems && cartItems.length > 0 ? (
                     <BigContainer>
                         <LeftContainer className="leftContainer">
-                            <DeliveryInfo className='delivery' getVerifiedDeliveryInfo={setVerifiedDeliveryInfo}/>
+                            <DeliveryInfo className='delivery' getVerifiedDeliveryInfo={setVerifiedDeliveryInfo} cartItems={cartItems} totalPrice={totalPrice}/>
                             {verifiedDeliveryInfo ? (<Payment verifiedDeliveryInfo={verifiedDeliveryInfo}/>) : (<div></div>)}
                         </LeftContainer>
                         <CartInfo className="rightCartInfo" cartItems={cartItems} totalPrice={totalPrice}/>

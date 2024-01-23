@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import { getTPDirect } from '../../../Utils/tappay';
-import { catchErrors } from "../../../Utils";
+import { POST_REQUEST_OPTIONS } from "../../../Utils";
 import mastercard from "../../../Assests/mastercard.png";
 import visa from "../../../Assests/visa.png";
 import paypal from "../../../Assests/paypal.png"
@@ -25,11 +25,7 @@ const StyledInputs2 = styled.div`
     height: '40px';
 `;
 
-const StyledTP = styled.div`
-    display: inline-block;
-`
-
-const Payment = () => {
+const Payment = ({ verifiedDeliveryInfo }) => {
     const APP_ID = process.env.REACT_APP_TP_APPID;
     const APP_KEY = process.env.REACT_APP_TP_APPKEY;
     const [submitDisable, setSubmitDisable] = useState(true);
@@ -86,23 +82,43 @@ const Payment = () => {
         })
     }, [APP_ID, APP_KEY]);
 
-    const onSubmit = catchErrors((event) => {
+
+    const onSubmit = (event) => {
         event.preventDefault();
         getTPDirect().then((TPDirect) => {
             const tappayStatus = TPDirect.card.getTappayFieldsStatus();
             if (tappayStatus.canGetPrime === false) {
                 return alert('can not get prime');
             }
-            TPDirect.card.getPrime((result) => {
-                console.log(TPDirect.card)
-                console.log(creditCardRef)
-                console.log(dueDateCardRef)
-                console.log(result)
-                toast('success');
+            TPDirect.card.getPrime(async (result) => {
+                const options = POST_REQUEST_OPTIONS(JSON.stringify({
+                    "email": verifiedDeliveryInfo.email,
+                    "postalCode": verifiedDeliveryInfo.postalCode,
+                    "firstName": verifiedDeliveryInfo.firstName,
+                    "lastName": verifiedDeliveryInfo.lastName,
+                    "address": verifiedDeliveryInfo.address,
+                    "addressDetails": verifiedDeliveryInfo.addressDetails,
+                    "phone": verifiedDeliveryInfo.phone,
+                    "amount": verifiedDeliveryInfo.amount,
+                    "cartDetails": verifiedDeliveryInfo.cartDetails,
+                    "prime": result.card.prime,
+                    "paymentDetails": { bincode: result.card.bincode, country: result.card.country, issuer: result.card.issuer },
+                }));
+                const resultz = await fetch(`${process.env.REACT_APP_WEBSITE_URL}/api/v1/orders/checkout`, options);
+                if (resultz) {
+                    const res = await resultz.json();
+                    if (res.error) {
+                        navigate('/error');
+
+                    } else {
+                        navigate('/thanks');
+                        toast('success');
+                    }
+                }
+
             })
         })
-
-    })
+    };
 
     return (
         <Grid container justifyContent="center" alignItems="left" style={{ minHeight: '10vh', marginTop: '80px', paddingBottom: '0px' }} >
@@ -110,7 +126,6 @@ const Payment = () => {
                 <Typography variant="h5" align="left" gutterBottom style={{ marginBottom: '20px', paddingBottom: '0px', fontSize: '21px', fontWeight: 'bold' }}>
                     Payment Information
                 </Typography>
-
                 <div id="cardview-container" className="cardview-container">
                     <StyledToaster />
                     <Grid container style={{ border: '1px solid #909090', borderRadius: '4px' }}>
@@ -119,14 +134,14 @@ const Payment = () => {
                                 <div className="tpfield" name='creditCard' ref={el => (creditCardRef = el)} style={{ border: '1px solid #909090', width: '100%', height: '40px', fontSize: '13px', maxlength: "16" }} />
                             </StyledInputs>
                         </Grid>
-                        <Grid item xs={12} style={{ width: '100%', padding: '0px', margin: '0px', position: 'relative', zIndex: 1 }}>
+                        <Grid item xs={12} style={{ width: '100%', padding: '0px', margin: '0px', position: 'relative' }}>
                             <StyledInputs2 >
-                                <StyledTP className="tpfield" name='dueDate' ref={el => (dueDateCardRef = el)} style={{ border: '1px solid #909090', width: '100%', height: '40px', fontSize: '13px', zIndex: 1 }}></StyledTP>
+                                <div className="tpfield" name='dueDate' ref={el => (dueDateCardRef = el)} style={{ border: '1px solid #909090', width: '100%', height: '40px', fontSize: '13px' }}></div>
                             </StyledInputs2>
                         </Grid>
-                        <Grid item xs={12} style={{ padding: '0px', margin: '0px', position: 'relative', zIndex: 2 }}>
+                        <Grid item xs={12} style={{ padding: '0px', margin: '0px', position: 'relative' }}>
                             <StyledInputs >
-                                <div className="tpfield" name='cvv' ref={el => (ccvCardRef = el)} style={{ border: '1px solid #909090', width: '100%', height: '40px', fontSize: '13px', maxlength: "16", zIndex: 2 }}></div>
+                                <div className="tpfield" name='cvv' ref={el => (ccvCardRef = el)} style={{ border: '1px solid #909090', width: '100%', height: '40px', fontSize: '13px', maxlength: "16" }}></div>
                             </StyledInputs>
                         </Grid>
 

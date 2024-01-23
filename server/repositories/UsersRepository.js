@@ -12,6 +12,15 @@ class UsersRepository extends GenericRepository {
         return await this.insertOne(entity);
     }
 
+    async registerGuestUser(id, email, phone, address) {
+        return await this.insertOne({ id, name: 'guest_user', email, phone, address });
+    }
+
+    async findGuestUserIdByEmail(email) {
+        const attribute = ['id'];
+        return await this.findAllWithColumns(attribute, { email });
+    }
+
     async registerUserFromFb(id, name, email, fbUid, fbAccessToken, createdAt, updatedAt) {
         const entity = {
             id, name, email, fbUid, fbAccessToken, createdAt, updatedAt
@@ -32,8 +41,8 @@ class UsersRepository extends GenericRepository {
     }
 
     async loginUserFromFb(fbUid, fbAccessToken, loginDate) {
-        const updateTarget = { fbAccessToken, updatedAt: loginDate};
-        return await this.update( updateTarget, { fbUid } );
+        const updateTarget = { fbAccessToken, updatedAt: loginDate };
+        return await this.update(updateTarget, { fbUid });
     }
 };
 
