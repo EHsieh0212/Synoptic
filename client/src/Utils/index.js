@@ -1,10 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 export const catchErrors = fn =>
   function (...args) {
     return fn(...args).catch(err => {
-      const nav = useNavigate();
       console.error(err);
-      nav('/error');
     });
   };
 
