@@ -1,4 +1,4 @@
-import { filter } from "lodash";
+import { filter } from 'lodash';
 import { useState, useEffect } from "react";
 import toast from 'react-hot-toast';
 import useFetchProduct from "../../Hooks/useFetchProduct";
@@ -27,6 +27,7 @@ const ProductDetail = () => {
     const [availableSizes, setAvailableSizes] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
     const [stockMaxQuantity, setStockMaxQuantity] = useState(0);
+    const [variantId, setVariantId] = useState('');
     const [canAdd, setCanAdd] = useState(1);
 
     useEffect(() => {
@@ -53,11 +54,15 @@ const ProductDetail = () => {
         // 1. set size
         setSelectedSize(value);
 
-        // 2. set stock max quantity
+        // 2. set stock max quantity (should use filter not find)
         const theStockObj = filter(stock, (obj) => {
             return obj.color === selectedColor && obj.size === value; // this returns a arr with 1 obj
         })
         setStockMaxQuantity(theStockObj[0].quantity - 1);
+
+        // 3. set variant id!
+        setVariantId(theStockObj[0].id);
+
     };
 
     useEffect(() => {
@@ -86,7 +91,8 @@ const ProductDetail = () => {
             color: selectedColor,
             size: selectedSize,
             incrementBy: 1,
-            stockMaxQuantity
+            stockMaxQuantity,
+            variantId
         };
         // 3. put the cart item into Redis
         const requestOptions = PUT_REQUEST_OPTIONS(JSON.stringify(cartItem));

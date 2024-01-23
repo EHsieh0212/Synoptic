@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { StyledTextField, StyledButton, StyledToaster } from '../deliveryinfoStyle';
 
 
-const DeliveryInfo = ({ getVerifiedDeliveryInfo }) => {
+const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
     const [formData, setFormData] = useState({
         email: '',
         postalCode: '',
@@ -14,6 +14,8 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo }) => {
         address: '',
         addressDetails: '',
         phone: '',
+        amount: 0,
+        cartDetails: []
     });
     const [validateSuccess, setValidateSuccess] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -38,6 +40,14 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo }) => {
             setValidateSuccess(true);
             setFormSubmitted(true);
             getVerifiedDeliveryInfo(formData);
+            formData.amount = totalPrice;
+            formData.cartDetails=cartItems.map(item => ({
+                productId: item.productId,
+                size: item.size,
+                color: item.color,
+                quantity: item.incrementBy                ,
+                variantId: item.variantId
+              }));
         }
     };
 

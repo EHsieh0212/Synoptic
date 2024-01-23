@@ -32,8 +32,8 @@ class OrdersRepository extends GenericRepository {
             // const orderedItemIds = await orderedItemsRepositoryInstance.createOrderItems(createdOrderId.toJSON().id, variantIds, numbers, transaction);
 
             // 4. 
-            const { amount, recipient, email, phone } = orderInfo; 
-            const payment = await tapPayAction(prime, amount, recipient, email, phone, createdOrderId, details);
+            // const { amount, recipient, email, phone } = orderInfo; 
+            // const payment = await tapPayAction(prime, amount, recipient, email, phone, createdOrderId, details);
 
             // 5. 
             // const updateTargets = { paid: 1, payment: payment.toJSON() };

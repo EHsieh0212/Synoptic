@@ -1,5 +1,5 @@
 const { once } = require('lodash');
-const { Op } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { GenericRepository } = require('./base/GenericRepository');
 const { Variants } = require('../database/mysql/models/Variants');
 
@@ -10,7 +10,7 @@ class VariantsRepository extends GenericRepository {
         }
         const query = { productId: id };
         const result = await this.findOne(query);
-        if (result === undefined || result === ""){
+        if (result === undefined || result === "") {
             throw new Error("Null Result in Variant Repository")
         }
         return result;
@@ -22,7 +22,7 @@ class VariantsRepository extends GenericRepository {
         }
         const query = { productId: { [Op.in]: ids } };
         const result = await this.findAll(query);
-        if (result === undefined || result === ""){
+        if (result === undefined || result === "") {
             throw new Error("Null Result in Variant Repository")
         }
         return result;
@@ -30,15 +30,24 @@ class VariantsRepository extends GenericRepository {
 
     async findVariantsByConditions(details) {
         // details: [{'productId': xxx, 'color': xxx, 'size': xxx, 'number': xxx}]
-        if (details === undefined || details === ""){
+        if (details === undefined || details === "") {
             throw new Error("Invalid Variants");
         }
         const column = ['id'];
         const findVariants = details.map(({ productId, color, size }) => ({ productId, color, size }));
-        const query = {[Op.or]: findVariants};
+        const query = { [Op.or]: findVariants };
         const result = await this.findAllWithColumns(column, query);
         return [result, details.map(item => item.number)];
-    } 
+    }
+
+    async updateMultipleVariantStocks(cartDetails) {
+        for (const key in cartDetails) {
+            if (cartDetails.hasOwnProperty(key)) {
+                const { variantId, quantity:boughtQuantity } = cartDetails[key];
+                await this.update({ quantity: Sequelize.literal(`quantity - ${boughtQuantity}`) }, { id: variantId } );
+            }
+        }
+    }
 };
 
 module.exports = once(() => new VariantsRepository(Variants));

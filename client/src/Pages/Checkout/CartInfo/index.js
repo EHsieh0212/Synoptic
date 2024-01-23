@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from "react";
 import Liner from "../../../Components/Liner";
 import { CartInfoContainer, TitlePart, StyledItemContainer, StyledOrderValue, StyledBottom, ShoppingInfos } from "../cartinfoStyle";
 import { useNavigate } from 'react-router-dom';

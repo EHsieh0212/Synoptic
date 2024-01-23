@@ -95,6 +95,8 @@ CREATE TABLE `ordered_items` (
   `order_id` bigint unsigned NOT NULL,
   `variant_id` bigint unsigned NOT NULL,
   `number` int unsigned NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idordered_items_UNIQUE` (`id`),
   KEY `fk_ordered_items_orders1_idx` (`order_id`),

@@ -40,6 +40,15 @@ app.use(compression());
 app.use(urlencodedParser);
 
 // cors enable credentials: true for session storage
+const corsOptions = {
+    origin: [
+      'http://localhost:3000',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+  };
+  
 app.use(
     cors({
         origin(origin, callback) {
@@ -48,6 +57,7 @@ app.use(
         credentials: true
     })
 );
+
 // static files
 app.use('/', express.static(path.join(__dirname, './public')));
 
