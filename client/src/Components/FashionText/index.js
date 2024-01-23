@@ -1,15 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import model from '../../Assests/model.png';
-import React, { useState, useEffect, useRef } from 'react';
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
+import { useState, useEffect, useRef } from 'react';
 
 const StyledCompartment = styled.div`
     display: flex;
@@ -29,51 +20,56 @@ const StyledText = styled.p`
   font-weight: 500;
   padding-top: 250px;
   padding-bottom: 150px;
-  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
 const StyledModel = styled.div`
 `;
 
+const FashionTextWrapper = styled.div`
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
+`;
+
 const FashionText = () => {
-    const ref = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
-    // this fade in is not working currently. fix later
+    const fashionTextRef = useRef(null);
+
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.5,
-        });
-
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
-
-        return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
-            }
+        const handleScroll = () => {
+          const scrollPosition = window.scrollY + window.innerHeight;
+          const elementPosition = fashionTextRef.current.offsetTop;
+    
+          if (scrollPosition < elementPosition) {
+            setIsVisible(false);
+          }
+          
+          if (scrollPosition > elementPosition && !isVisible) {
+            setIsVisible(true);
+          }
         };
-    }, []);
+        //** when scrolls, uses handleScroll
+        window.addEventListener('scroll', handleScroll);
+    
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, [isVisible]);
+
 
     return (
-        <StyledCompartment ref={ref}>
-            <StyledText  isVisible={isVisible}>
-                Curators of eclectic fashion and Taiwan designed. <br />
-                Synoptic is a destination concept store and online haven for style-seekers. <br />
-                A fashion selection lovingly handpicked for you, sealed with personal touch. <br />
-                Open seven days.
-            </StyledText>
-            <StyledModel>
-                <img src={model} alt="model" />
-            </StyledModel>
-        </StyledCompartment>
+        <FashionTextWrapper ref={fashionTextRef} isVisible={isVisible}>
+            <StyledCompartment>
+                <StyledText isVisible={isVisible}>
+                    Curators of eclectic fashion and Taiwan designed. <br />
+                    Synoptic is a destination concept store and online haven for style-seekers. <br />
+                    A fashion selection lovingly handpicked for you, sealed with personal touch. <br />
+                    Open seven days.
+                </StyledText>
+                <StyledModel>
+                    <img src={model} alt="model" />
+                </StyledModel>
+            </StyledCompartment>
+        </FashionTextWrapper>
     );
 };
 

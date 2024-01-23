@@ -15,10 +15,10 @@ const StyledCarousel = styled(Carousel)`
 const CarouselFade = () => {
   return (
     <StyledCarousel fade>
-      <Carousel.Item interval={8000}>
+      <Carousel.Item interval={2000}>
         <img  src={carousel} alt="First slide" />
       </Carousel.Item>
-      <Carousel.Item interval={8000}>
+      <Carousel.Item interval={2000}>
         <img  src={carousel5} alt="Second slide" />
       </Carousel.Item>
     </StyledCarousel>
