@@ -42,10 +42,10 @@ const DeliveryInfo = ({ getVerifiedDeliveryInfo, cartItems, totalPrice }) => {
             getVerifiedDeliveryInfo(formData);
             formData.amount = totalPrice;
             formData.cartDetails=cartItems.map(item => ({
-                productId: item.id,
+                productId: item.productId,
                 size: item.size,
                 color: item.color,
-                quantity: item.quantity,
+                quantity: item.incrementBy                ,
                 variantId: item.variantId
               }));
         }

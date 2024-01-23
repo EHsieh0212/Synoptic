@@ -5,7 +5,7 @@ const { once, get } = require('lodash');
 
 class OrderedItemsRepository extends GenericRepository {
     async createOrderItems(orderId, cartDetails) {
-        const query = cartDetails.map((item, i) => ({ orderId, variantId: item.variantId, number: item.quantity }));
+        const query = cartDetails.map((item) => ({ orderId, variantId: item.variantId, number: item.quantity }));
         return await this.insertMany(query);
     }
 
