@@ -1,17 +1,17 @@
 const axios = require('axios');
 
-const tapPayAction = async (prime, amount, recipient, email, phone, orderId, details) => {
+const tapPayAction = async (thePrime, amount, firstName, lastName, email, phone, orderId, cartDetails) => {
     const body = {
-        "prime": prime,
+        "prime": thePrime,
         "partner_key": process.env.TP_PARTNER_KEY,
         "merchant_id": process.env.TP_MERCHANT_ID,
         "amount": amount,
         "order_number": orderId.toString(),
         "currency": "TWD",
-        "details": details.map(v => `${v.product_id}*${v.number}`).join(","),
+        "details": cartDetails.map(v => `${v.variantId}*${v.number}`).join(","),
         "cardholder": {
             "phone_number": phone,
-            "name": recipient,
+            "name": `${firstName}_${lastName}`,
             "email": email
         },
     }

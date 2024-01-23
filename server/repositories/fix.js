@@ -12,7 +12,7 @@ class OrdersRepository extends GenericRepository {
         return this.insertWithTransaction(orderInfo);
     }
 
-    async checkoutWithTransaction({ guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, prime, paymentDetails }) {
+    async checkoutWithTransaction({ guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, thePrime }) {
         try {
             await dbClient.transaction(async (t) => {
                 // 1. create 1 order row
@@ -29,22 +29,19 @@ class OrdersRepository extends GenericRepository {
                 };
                 const createdOrder = await this.insertOne(orderQuery);
                 // 2. create multiple orderd_item rows
-                console.log('-------------')
-                console.log(createdOrder)
                 const orderId = createdOrder.dataValues.id;
                 const itemCount = cartDetails.length;
-                console.log(`----------This order has ${itemCount} items----------`)
                 const orderedItemsRepositoryInstance = orderedItemsRepository();
-                const orderedItemIds = await orderedItemsRepositoryInstance.createOrderItems(orderId, cartDetails);
-                //     // 4. 
-                //     const { amount, recipient, email, phone } = orderInfo;
-                //     const payment = await tapPayAction(prime, amount, recipient, email, phone, createdOrderId, details);
-                //     // 5. 
-                //     const updateTargets = { paid: 1, payment: payment.toJSON() };
-                //     await this.update(updateTargets, { id: createdOrderId }, transaction);
+                await orderedItemsRepositoryInstance.createOrderItems(orderId, cartDetails);
+                // 3. tappay payment 
+                const paymentDetails = await tapPayAction(thePrime, amount, firstName, lastName, email, phone, orderId, cartDetails);
+                // 4. update1: paid&payment to Order table / update2: according to cartItems deduct product stock
+                if (paymentDetails.status !== 0){
+                    return new Error("tappay failed");
+                }
+                const updateTargets = { paid: 1, payment: payment.toJSON() };
+                await this.update(updateTargets, { id: createdOrderId }, transaction);
                 console.log('------success-------')
-                console.log(typeof orderedItemIds)
-                console.log(orderedItemIds)
             })
             return { status: 1 };
         } catch (error) {

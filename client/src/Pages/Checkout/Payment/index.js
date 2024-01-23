@@ -102,7 +102,6 @@ const Payment = ({ verifiedDeliveryInfo }) => {
                     "amount": verifiedDeliveryInfo.amount,
                     "cartDetails": verifiedDeliveryInfo.cartDetails,
                     "prime": result.card.prime,
-                    "paymentDetails": { bincode: result.card.bincode, country: result.card.country, issuer: result.card.issuer },
                 }));
                 const resultz = await fetch(`${process.env.REACT_APP_WEBSITE_URL}/api/v1/orders/checkout`, options);
                 if (resultz) {
@@ -112,7 +111,6 @@ const Payment = ({ verifiedDeliveryInfo }) => {
 
                     } else {
                         navigate('/thanks');
-                        toast('success');
                     }
                 }
 

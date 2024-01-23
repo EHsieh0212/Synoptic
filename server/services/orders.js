@@ -12,7 +12,7 @@ const { v4: uuidv4 } = require('uuid');
 // (1) Order Table
 // (2) Orderd Item Table
 // (3) Product Table stock info
-const checkout = async ({ email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, prime, paymentDetails }) => {
+const checkout = async ({ email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, prime }) => {
     const userRepositoryInstance = userRepository();
     // check user existence
     let guestUserId;
@@ -25,8 +25,10 @@ const checkout = async ({ email, postalCode, firstName, lastName, address, addre
         guestUserId = result[0].id;
     }
     // db transaction
+    let thePrime;
+    thePrime = process.env.APP_ENV === 'test' ? process.env.TP_TEST_PRIME : prime;
     const ordersReposityInstance = ordersRepository();
-    const allInfo = { guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, prime, paymentDetails };
+    const allInfo = { guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, thePrime };
     const checkoutResult = await ordersReposityInstance.checkoutWithTransaction(allInfo);
     console.log('------------order router------------')
     console.log(checkoutResult)
