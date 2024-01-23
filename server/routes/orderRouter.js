@@ -7,7 +7,6 @@ const orders = require('../services/orders');
 router.post('/checkout', asyncHandler(async (req, res) => {
     // const userId = req.user.id;
     const inputString = Object.assign(req.body);
-    console.log(inputString)
     const result = await orders.checkout(inputString);
     
     if (result){

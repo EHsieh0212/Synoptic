@@ -51,6 +51,13 @@ class CartUpdateController {
         await this.redisClientService.jsonSet(`cart:${cartId}`, '.', JSON.stringify(newCart));
         return res.sendStatus(StatusCodes.OK);
     }
+
+    async clearCart(req, res){
+        const cartId = req.session.cartId;
+        await this.redisClientService.del(`cart:${cartId}`);
+        return res.sendStatus(StatusCodes.OK);
+    }
+
 }
 
 module.exports = CartUpdateController;

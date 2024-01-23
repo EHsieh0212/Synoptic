@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import { getTPDirect } from '../../../Utils/tappay';
-import { POST_REQUEST_OPTIONS } from "../../../Utils";
+import { POST_REQUEST_OPTIONS, DELETE_REQUEST_OPTIONS } from "../../../Utils";
+import { CART_API_URL } from '../../../Utils/product';
 import mastercard from "../../../Assests/mastercard.png";
 import visa from "../../../Assests/visa.png";
 import paypal from "../../../Assests/paypal.png"
@@ -110,10 +111,13 @@ const Payment = ({ verifiedDeliveryInfo }) => {
                         navigate('/error');
 
                     } else {
-                        navigate('/thanks');
+                        const res = await fetch(`${CART_API_URL}/clearCart`, DELETE_REQUEST_OPTIONS);
+                        if (res.ok){
+                            localStorage.removeItem('cartLength');
+                            navigate('/thanks');
+                        }
                     }
                 }
-
             })
         })
     };
