@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const { find, isPlainObject } = require('lodash');
+const { find } = require('lodash');
 
 class CartUpdateController {
     constructor(redisClientService) {

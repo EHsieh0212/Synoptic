@@ -1,8 +1,9 @@
-import { styled } from '@mui/system';
+import { styled as muiStyled } from '@mui/system';
 import { Toaster, ToastBar } from 'react-hot-toast';
 import { Button } from '@mui/material';
+import styled from 'styled-components';
 
-export const StyledTextField = styled('div')({
+export const StyledTextField = muiStyled('div')({
     '& .MuiInputLabel-root': {
         fontSize: '14px',
     },
@@ -37,7 +38,7 @@ export const StyledTextField = styled('div')({
     },
 });
 
-export const StyledButton = styled(Button)(({ isShow }) => ({
+export const StyledButton = muiStyled(Button)(({ isShow }) => ({
     width: '100%',
     backgroundColor: 'black',
     color: 'white',
@@ -88,3 +89,16 @@ export const StyledToaster = () => {
         </Toaster>
     )
 };
+
+export const StyledEditDelivery = styled.div`
+    display: inline-block;  // limit div width
+    padding-top: 10px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-size: 17px;
+    color: #787878;
+    :hover{
+        cursor: pointer;
+        color: #DCDCDC;
+    }
+`
