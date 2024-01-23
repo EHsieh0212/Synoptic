@@ -34,7 +34,7 @@ class GenericRepository {
         return this.model.create(entity, {transaction});
     }
 
-    async insertMany(entities, returnField = 'id', transaction) {
+    async insertMany(entities, returnField = 'id') {
         try {
           const result = await this.model.bulkCreate(entities);
           const fieldValues = result.map(entity => entity.get(returnField));
@@ -44,7 +44,7 @@ class GenericRepository {
         }
       }
 
-    async update(updateFields, query, transaction) {
+    async update(updateFields, query) {
         return await this.model.update(updateFields, { where: query});
     }
 

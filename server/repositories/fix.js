@@ -4,12 +4,16 @@ const { dbClient } = require('../database/mysql/init');
 const { GenericRepository } = require('./base/GenericRepository');
 const { Orders } = require('../database/mysql/models/Orders');
 const { tapPayAction } = require('../utils/payment');
-const variantsRepository = require('./VariantsRepository');
 const orderedItemsRepository = require('./OrderedItemsRepository');
+const variantsRepository = require('./VariantsRepository');
 
 class OrdersRepository extends GenericRepository {
     async createOrder(orderInfo) {
         return this.insertWithTransaction(orderInfo);
+    }
+
+    async updateSuccessPayment(orderId, successPaymentDetail){
+        return await this.update(successPaymentDetail, {id: orderId});
     }
 
     async checkoutWithTransaction({ guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, thePrime }) {
@@ -39,8 +43,10 @@ class OrdersRepository extends GenericRepository {
                 if (paymentDetails.status !== 0){
                     return new Error("tappay failed");
                 }
-                const updateTargets = { paid: 1, payment: payment.toJSON() };
-                await this.update(updateTargets, { id: createdOrderId }, transaction);
+                const successPaymentDetail = { paid: 1, payment: paymentDetails };
+                await this.updateSuccessPayment(orderId, successPaymentDetail);
+                const variantsRepositoryInstance = variantsRepository();
+                await variantsRepositoryInstance.updateMultipleVariantStocks(cartDetails);
                 console.log('------success-------')
             })
             return { status: 1 };
