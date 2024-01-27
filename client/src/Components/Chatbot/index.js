@@ -14,8 +14,8 @@ const Chatbot = () => {
                 title='Synoptic Chatbot'
                 subtitle=''
                 showCloseButton={true}
-                emojis={false}
                 profileAvatar={logo}
+                emoji={false}
                 handleNewUserMessage={handleNewUserMessage} />
         </div>
     );

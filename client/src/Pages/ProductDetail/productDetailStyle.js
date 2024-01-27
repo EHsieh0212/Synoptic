@@ -6,7 +6,8 @@ export const BigContainer = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     margin-top: 30px;
-    margin-left: 300px;
+    margin-left: 200px;
+    margin-right: 200px;
     padding-right: 0px;
     padding-bottom: 120px;
     max-width: 100%;
