@@ -3,10 +3,8 @@ const OpenAI = require('openai');
 
 require('dotenv').config();
 const openai = new OpenAI({ apiKey: process.env.CHAT_GPT_TOKEN });
-// create a general response for fashion opinion
-const consulAboutFashion = async (fashionPrompt) => {
-    fashionPrompt = "Please recommend me something good to wear";
-    const f = 'female'
+
+const recommendationAboutSynoptic = async (fashionPrompt) => {
     const runner = openai.beta.chat.completions
         .runTools({
             model: 'gpt-3.5-turbo',
@@ -44,5 +42,5 @@ async function getTargetGarmet(args) {
 consulAboutFashion();
 
 module.exports = {
-    consulAboutFashion,
+    recommendationAboutSynoptic,
 }
