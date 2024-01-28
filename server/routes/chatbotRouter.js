@@ -5,9 +5,8 @@ const recommendationByChatbot = require('../services/chatbot')
 
 router.post('/chatroomRecommend', asyncHandler(async (req, res) => {
     const customerReq = req.body.customerReq;
-    console.log(customerReq)
-    const recommendationFromChatbot = await recommendationByChatbot(customerReq); // await!!
-    res.json({ response: recommendationFromChatbot });
+    const { recommendationFromChatbot, titleOfTheProduct, idOfTheProduct } = await recommendationByChatbot(customerReq); // await!!
+    res.json({ response: recommendationFromChatbot, title: titleOfTheProduct, id:idOfTheProduct });
 }));
 
 module.exports = router;

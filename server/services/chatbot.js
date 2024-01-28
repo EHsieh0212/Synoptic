@@ -58,11 +58,10 @@ async function recommendationByChatbot(userQuestion) {
             ],
             functions,
         });
-
     const result = await runner.finalContent();
-    console.log('=============')
-    console.log(result)
-    return result;
+    const theresult = db.filter((item) => result.toLowerCase().includes(item.title.toLowerCase()) && !userQuestion.toLowerCase().includes(item.title.toLowerCase())).map((item) => ({ title: item.title, id: item.id }));
+    const { title, id } = theresult[0]? theresult[0] : {title: 0, id: 0};
+    return { recommendationFromChatbot: result, titleOfTheProduct: title, idOfTheProduct: id };
 }
 
 

@@ -40,3 +40,4 @@ export const DELETE_REQUEST_OPTIONS = {
 };
 
 export const CHATBOT_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/chatbot`;
+export const SYNOPTIC_URL = process.env.REACT_APP_SYNOPTIC_URL;
