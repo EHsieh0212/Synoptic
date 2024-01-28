@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Widget, addResponseMessage, toggleMsgLoader, setQuickButtons, addLinkSnippet } from 'react-chat-widget-react-18';
+import { Widget, addResponseMessage, toggleMsgLoader, setQuickButtons, addLinkSnippet, addUserMessage } from 'react-chat-widget-react-18';
 import logo from '../../Assests/icon.png';
 import 'react-chat-widget-react-18/lib/styles.css';
 import './index.css'
-import { catchErrors, CHATBOT_API_URL, SYNOPTIC_URL, POST_REQUEST_OPTIONS } from '../../Utils';
+import { catchErrors, CHATBOT_API_URL, POST_REQUEST_OPTIONS } from '../../Utils';
 
 const Chatbot = () => {
     const [resp, setResp] = useState(0);
@@ -43,8 +43,9 @@ const Chatbot = () => {
     const handleQuickButtonClicked = (e) => {
         toggleMsgLoader();
         setTimeout(() => {
-            toggleMsgLoader(); // needs to be in settimeout
+            addUserMessage(e)
             setResp(e);
+            toggleMsgLoader(); // needs to be in settimeout
             console.log(`New message incoming! ${e}`);
         }, 10000)
     };
