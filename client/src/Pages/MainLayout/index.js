@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import SearchBox from '../../Components/SearchBox';
+import Chatbot from "../../Components/Chatbot";
 import styled from "styled-components";
 import React, { useState } from 'react';
 
@@ -25,6 +26,7 @@ const MainLayout = () => {
             <SearchBox isActive={showSearch} />
             <Outlet />
             <Footer/>
+            <Chatbot/>
         </StyledMain>
     )
 };

@@ -1,0 +1,76 @@
+.rcw-launcher {
+  background-color: lightgrey !important;
+}
+
+.rcw-conversation-container {
+  width: 350px; /*do not let quickResp alter chatbot width*/
+}
+
+.rcw-conversation-container>.rcw-header {
+  background-color: rgb(176, 175, 175);
+  height: 90px;
+  padding: 8px 0 25px;
+}
+
+.rcw-title {
+  font-size: 20px !important;
+}
+
+.rcw-messages-container {
+  height: 50vh;
+}
+
+.rcw-new-message {
+  width: calc(100%);
+  padding: 10px 5px;
+  background-color: #f4f7f9 !important
+}
+
+.rcw-input {
+  display: block;
+  line-height: 18px;
+  font-size: 15px;
+
+}
+
+
+.rcw-send-icon {
+  height: 20px;
+  align-items: end;
+}
+
+.rcw-picker-btn {
+  display: none !important;
+}
+
+.rcw-send-icon {
+  height: 22px !important;
+}
+
+.rcw-message-text {
+  background-color: lightgrey !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+  border-radius: 5px !important;
+}
+
+.rcw-message {
+  font-size: 13.5px !important;
+  margin: 8px;
+
+}
+
+.quick-buttons-container {
+  display: flex !important;
+  /* width: 70%; */
+  overflow-x: hidden !important;
+  white-space: wrap !important;
+  /* background: green; */
+}
+
+.quick-buttons {
+  font-size: 11px;
+  overflow-x: hidden !important;
+}
