@@ -7,10 +7,12 @@ const StyledCompartment = styled.div`
     display: flex;
     padding-top: 180px;
     padding-bottom: 150px;
+    padding-right:0px;
+    padding-left:0px;
     justify-content: center;
     padding-top: 0px;
-    width: 80%;
-    margin: auto; /** so video can be placed center */
+    width: 100%;
+    /* margin: auto; * so video can be placed center */
     div{
         z-index: 50;
         position: absolute;

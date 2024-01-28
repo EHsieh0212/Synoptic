@@ -1,46 +1,81 @@
 const OpenAI = require('openai');
-
-
-require('dotenv').config();
 const openai = new OpenAI({ apiKey: process.env.CHAT_GPT_TOKEN });
+const db = require('./db')
 
-const recommendationAboutSynoptic = async (fashionPrompt) => {
-    const runner = openai.beta.chat.completions
-        .runTools({
+const functions = [
+    {
+        name: 'list',
+        description: 'list queries products by category, and returns a list of title of products',
+        parameters: {
+            type: 'object',
+            properties: {
+                category: { type: 'string', enum: ['women', 'men'] },
+            },
+        },
+        function: list,
+        parse: JSON.parse,
+    },
+    {
+        name: 'search',
+        description: 'search queries products by their title and returns a list of product titles and their ids',
+        parameters: {
+            type: 'object',
+            properties: {
+                title: { type: 'string' },
+            },
+        },
+        function: search,
+        parse: JSON.parse,
+    },
+    {
+        name: 'get',
+        description:
+            "get returns a product's detailed information based on the id of the product. Note that this does not accept titles, and only IDs, which you can get by using search.",
+        parameters: {
+            type: 'object',
+            properties: {
+                id: { type: 'integer' },
+            },
+        },
+        function: get,
+        parse: JSON.parse,
+    },
+];
+
+async function recommendationByChatbot(userQuestion) {
+    const runner = await openai.beta.chat.completions
+        .runFunctions({
             model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: fashionPrompt }],
-            tools: [
+            messages: [
                 {
-                    type: 'function',
-                    function: {
-                        function: getOccasion,
-                        parse: JSON.parse,
-                        parameters: {
-                            type: 'object',
-                            properties: {
-                                location: { type: 'string' },
-                            },
-                        },
-                    },
+                    role: 'system',
+                    content: 'Please use our Synoptic product database, which you can access using functions to answer the following questions.',
+                },
+                {
+                    role: 'user',
+                    content: userQuestion,
                 },
             ],
-        })
-        .on('message', (message) => console.log(message));
-    const finalContent = await runner.finalContent();
-    console.log();
-    console.log('Final content:', finalContent);
-};
+            functions,
+        });
 
-async function getTargetGarmet(args) {
-    const { location } = args;
-    const gender = 'a man';
-    const targetClothesToBuy = "want to buy a skirt"
-    return { gender, targetClothesToBuy };
+    const result = await runner.finalContent();
+    console.log('=============')
+    console.log(result)
+    return result;
 }
 
 
-consulAboutFashion();
-
-module.exports = {
-    recommendationAboutSynoptic,
+async function list({ category }) {
+    return db.filter((item) => item.category === category).map((item) => ({ title: item.title, id: item.id }));
 }
+
+async function search({ title }) {
+    return db.filter((item) => item.title.toLowerCase().includes(title.toLowerCase())).map((item) => ({ title: item.title, id: item.id }));
+}
+
+async function get({ id }) {
+    return db.find((item) => item.id === id);
+}
+
+module.exports = recommendationByChatbot;

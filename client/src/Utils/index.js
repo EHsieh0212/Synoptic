@@ -5,8 +5,6 @@ export const catchErrors = fn =>
     });
   };
 
-
-
 export const PUT_REQUEST_OPTIONS = (body) => ({
   method: 'PUT',
   headers: {
@@ -40,3 +38,5 @@ export const DELETE_REQUEST_OPTIONS = {
   },
   credentials: 'include',
 };
+
+export const CHATBOT_API_URL = `${process.env.REACT_APP_WEBSITE_URL}/api/v1/chatbot`;
