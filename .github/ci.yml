@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies for client
+      run: npm install
+      working-directory: ./client
+    
+    - name: Install dependencies for server
+      run: npm install
+      working-directory: ./server
+
+    - name: Run Eslint Checking
+      run: npm run lint
+
