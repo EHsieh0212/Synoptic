@@ -35,8 +35,8 @@ services:
     container_name: redis.redisshoppingcart
     restart: unless-stopped
     environment:
-      REDIS_PASSWORD: demo
-    command: redis-server --loadmodule "/usr/lib/redis/modules/rejson.so" --requirepass "demo"
+      REDIS_PASSWORD: ${REDIS_PWD}
+    command: redis-server --loadmodule "/usr/lib/redis/modules/rejson.so" --requirepass "${REDIS_PWD}"
     ports:
       - "127.0.0.1:6379:6379"
 

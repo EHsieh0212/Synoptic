@@ -6,9 +6,9 @@
   "scripts": {
     "develop-docker": "nodemon -L index.js",
     "develop": "nodemon index.js",
-    "server": "nodemon server",
-    "client": "cd ../client && yarn start",
-    "develop-whole": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "server": "nodemon index.js",
+    "client": "cd ../client && npm start",
+    "develop-whole": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "author": "Elaine Hsieh",
   "license": "ISC",
