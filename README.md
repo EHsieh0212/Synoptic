@@ -3,7 +3,7 @@
 ## Local Development
 ### Method1: docker-compose
 ```
-docker-compose -f docker-compose.docker.yml
+docker-compose -f docker-compose.docker.yml up
 ```
 ### Method2: local terminal
 ```
