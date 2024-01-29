@@ -192,6 +192,6 @@ const db = [
       title: 'Lavender Love Lace Camisole',
       description: 'Embrace feminine charm with this lavender love lace camisole that exudes romance and sophistication. Crafted from delicate lace fabric, it features a flattering V-neckline and adjustable spaghetti straps that ensure a comfortable and customizable fit. The soft lavender hue adds a touch of elegance and femininity, while the scalloped lace trim adds a hint of vintage-inspired charm. Whether worn as a standalone piece for a romantic evening or layered under a blazer for a polished look, this camisole adds a touch of grace and allure.'
     }
-  ]
+  ];
 
 module.exports = db;

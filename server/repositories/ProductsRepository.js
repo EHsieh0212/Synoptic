@@ -13,7 +13,7 @@ class ProductsRepository extends GenericRepository {
         const attributes = ['id'];
         const result = await this.findAllWithColumns(attributes, query).then(result => result.map(obj => get(obj, 'id')));
         if (result === undefined || result === ""){
-            throw new Error("Null Result in Product Repository")
+            throw new Error("Null Result in Product Repository");
         }
         return result;
     }
@@ -25,7 +25,7 @@ class ProductsRepository extends GenericRepository {
         const attributes = ['id'];
         const { count, rows } = await this.findAndCountAll(attributes, offset, limit, order);
         if (rows === undefined || rows === ""){
-            throw new Error("Null Result in Product Repository")
+            throw new Error("Null Result in Product Repository");
         }
         return { count, rows };
     }
@@ -44,7 +44,7 @@ class ProductsRepository extends GenericRepository {
         const ids = rows.map(obj => obj.id);
 
         if (rows === undefined || rows === ""){
-            throw new Error("Null Result in Product Repository")
+            throw new Error("Null Result in Product Repository");
         }
         return { count, ids };
     }
@@ -56,7 +56,7 @@ class ProductsRepository extends GenericRepository {
         const query = { id };
         const result = await this.findOne(query);
         if (result === undefined || result === ""){
-            throw new Error("Null Result in Product Repository")
+            throw new Error("Null Result in Product Repository");
         }
         return result;
     }
@@ -68,7 +68,7 @@ class ProductsRepository extends GenericRepository {
         const query = { id: { [Op.in]: ids } };
         const result = await this.findAll(query);
         if (result === undefined || result === ""){
-            throw new Error("Null Result in Product Repository")
+            throw new Error("Null Result in Product Repository");
         }
         return result;
     }

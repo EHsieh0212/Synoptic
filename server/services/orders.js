@@ -15,7 +15,7 @@ const checkout = async ({ email, postalCode, firstName, lastName, address, addre
     const userRepositoryInstance = userRepository();
     // check user existence
     let guestUserId;
-    const ifGuestExists = await userRepositoryInstance.checkExistence({email})
+    const ifGuestExists = await userRepositoryInstance.checkExistence({email});
     if (ifGuestExists !== 1){
         guestUserId = uuidv4();
         await userRepositoryInstance.registerGuestUser(guestUserId, email, phone, address);
@@ -34,4 +34,4 @@ const checkout = async ({ email, postalCode, firstName, lastName, address, addre
 
 module.exports = {
     checkout,
-}
+};

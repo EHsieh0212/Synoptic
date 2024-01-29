@@ -1,6 +1,6 @@
 const OpenAI = require('openai');
 const openai = new OpenAI({ apiKey: process.env.CHAT_GPT_TOKEN });
-const db = require('./db')
+const db = require('./db');
 
 const functions = [
     {

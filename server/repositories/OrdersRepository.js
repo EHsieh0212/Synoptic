@@ -1,4 +1,3 @@
-const { Op } = require('sequelize');
 const { once } = require('lodash');
 const { dbClient } = require('../database/mysql/init');
 const { GenericRepository } = require('./base/GenericRepository');
@@ -18,7 +17,7 @@ class OrdersRepository extends GenericRepository {
 
     async checkoutWithTransaction({ guestUserId, email, postalCode, firstName, lastName, address, addressDetails, phone, amount, cartDetails, thePrime }) {
         try {
-            await dbClient.transaction(async (t) => {
+            await dbClient.transaction(async () => {
                 // 1. create 1 order row
                 const orderQuery = {
                     userId: guestUserId,
@@ -34,7 +33,6 @@ class OrdersRepository extends GenericRepository {
                 const createdOrder = await this.insertOne(orderQuery);
                 // 2. create multiple orderd_item rows
                 const orderId = createdOrder.dataValues.id;
-                const itemCount = cartDetails.length;
                 const orderedItemsRepositoryInstance = orderedItemsRepository();
                 await orderedItemsRepositoryInstance.createOrderItems(orderId, cartDetails);
                 // 3. tappay payment 
@@ -47,10 +45,10 @@ class OrdersRepository extends GenericRepository {
                 await this.updateSuccessPayment(orderId, successPaymentDetail);
                 const variantsRepositoryInstance = variantsRepository();
                 await variantsRepositoryInstance.updateMultipleVariantStocks(cartDetails);
-            })
+            });
             return { status: 1 };
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 

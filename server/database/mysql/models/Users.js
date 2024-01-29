@@ -16,4 +16,4 @@ const Users = dbClient.define('users', {
 
 module.exports = {
     Users,
-}
+};

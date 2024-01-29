@@ -1,6 +1,3 @@
-const { get } = require('lodash');
-const { dbClient } = require('../../database/mysql/init');
-
 class GenericRepository {
     constructor(model) {
         this.model = model;
@@ -40,7 +37,7 @@ class GenericRepository {
           const fieldValues = result.map(entity => entity.get(returnField));
           return fieldValues;
         } catch (error) {
-          throw error
+          throw error;
         }
       }
 

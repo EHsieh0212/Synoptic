@@ -13,4 +13,4 @@ const Variants = dbClient.define('variants', {
 
 module.exports = {
     Variants,
-}
+};

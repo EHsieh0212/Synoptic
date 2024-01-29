@@ -1,5 +1,4 @@
-const { once, get } = require('lodash');
-const { Op } = require('sequelize');
+const { once } = require('lodash');
 const { GenericRepository } = require('./base/GenericRepository');
 const { Users } = require('../database/mysql/models/Users');
 const bcrypt = require("bcrypt");

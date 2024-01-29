@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { asyncHandler } = require('../utils/asyncHandler');
-const recommendationByChatbot = require('../services/chatbot')
+const recommendationByChatbot = require('../services/chatbot');
 
 router.post('/chatroomRecommend', asyncHandler(async (req, res) => {
     const customerReq = req.body.customerReq;

@@ -15,4 +15,4 @@ const Products = dbClient.define('products', {
 
 module.exports = {
     Products,
-}
+};

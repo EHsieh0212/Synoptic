@@ -9,14 +9,12 @@ class RedisClient {
     }
 
     async scan(pattern) {
-        let matchingKeysCount = 0;
         let keys = [];
 
         const recursiveScan = async (cursor = '0') => {
             const [newCursor, matchingKeys] = await this.redis.scan(cursor, 'MATCH', pattern);
             cursor = newCursor;
 
-            matchingKeysCount += matchingKeys.length;
             keys = keys.concat(matchingKeys);
 
             if (cursor === '0') {

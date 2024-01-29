@@ -1,7 +1,6 @@
-const { Op } = require('sequelize');
 const { GenericRepository } = require('./base/GenericRepository');
 const { OrderedItems } = require('../database/mysql/models/OrderedItems');
-const { once, get } = require('lodash');
+const { once } = require('lodash');
 
 class OrderedItemsRepository extends GenericRepository {
     async createOrderItems(orderId, cartDetails) {

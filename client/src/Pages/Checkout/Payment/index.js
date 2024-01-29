@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-hot-toast";
 import { getTPDirect } from '../../../Utils/tappay';
 import { POST_REQUEST_OPTIONS, DELETE_REQUEST_OPTIONS } from "../../../Utils";
 import { CART_API_URL } from '../../../Utils/product';

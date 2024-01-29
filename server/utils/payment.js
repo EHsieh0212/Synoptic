@@ -14,7 +14,7 @@ const tapPayAction = async (thePrime, amount, firstName, lastName, email, phone,
             "name": `${firstName}_${lastName}`,
             "email": email
         },
-    }
+    };
     const result = await axios.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', body, {
         headers: {
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ const tapPayAction = async (thePrime, amount, firstName, lastName, email, phone,
     } else {
         throw result.data;
     }
-}
+};
 
 
 module.exports = { tapPayAction };

@@ -8,13 +8,13 @@ const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const cookieParser = require("cookie-parser");
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 const cors = require('cors');
 const compression = require('compression');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const { redisClient, redisClientService } = require('./database/redis/init')
+const { redisClient, redisClientService } = require('./database/redis/init');
 
 //////////////////////////////////////////////////////////////////////////////////
 // SSL certification
@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
         res.json({ error: { message: err.message } });
         console.error(err);
     } else {
-        next()
+        next();
     }
 });
 
@@ -89,4 +89,4 @@ app.use((err, req, res, next) => {
 // server starter
 app.listen(port, () => {
     console.log(`Hello server ${port} port.`);
-})
+});

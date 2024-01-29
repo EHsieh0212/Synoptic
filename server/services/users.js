@@ -27,12 +27,12 @@ const fbSignIn = async (fbUid, fbAccessToken, loginDate) => {
     const usersRepositoryInstance = usersRepository();
     const updatedFbUser = await usersRepositoryInstance.loginUserFromFb(fbUid, fbAccessToken, loginDate);
     return updatedFbUser;
-}
+};
 
 module.exports = {
     natvieRegister,
     fbRegister,
     fbSignIn
-}
+};
 
 

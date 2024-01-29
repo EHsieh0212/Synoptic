@@ -1,9 +1,9 @@
+/* eslint-disable camelcase */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const usersRepository = require('../repositories/UsersRepository');
-
 
 // native register authentication
 // check name, email duplication
@@ -47,7 +47,7 @@ passport.use('login', new LocalStrategy(
     if (!verifyPassword) {
       return done(false, { errMsg: 'Passport Unauthorized: Wrong Password.' });
     }
-    const { id } = await usersRepoInstance.findOne({email})
+    const { id } = await usersRepoInstance.findOne({email});
     return done(null, { id });
   }
 ));
@@ -61,6 +61,7 @@ const facebookOptions = {
   callbackURL: process.env.REACT_APP_WEBSITE_URL + "/api/v1/users/fbRegisterSignin/callback",
   profileFields: ['id', 'displayName', 'email']
 };
+
 passport.use("fb", new FacebookStrategy(facebookOptions,
   async (accessToken, refreshToken, profile, done) => {
     const usersRepoInstance = usersRepository();
@@ -99,7 +100,7 @@ const extractJwtFromCookie = (cookieName) => {
           token = request.cookies[cookieName];
       }
       return token;
-  }
+  };
 };
 
 const jwtOptions = {
@@ -118,7 +119,7 @@ passport.use('jwt', new JwtStrategy(jwtOptions, async (payload, done) => {
   } else {
     return done(false, { errMsg: 'User not signed in.' });
   }  
-}))
+}));
 
 
 

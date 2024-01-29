@@ -20,5 +20,5 @@ const Orders = dbClient.define('orders', {
 
 module.exports = {
     Orders,
-}
+};
 

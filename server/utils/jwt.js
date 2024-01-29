@@ -22,4 +22,4 @@ const signJwt = (req, res, next) => {
 
 module.exports = {
     signJwt,
-}
+};

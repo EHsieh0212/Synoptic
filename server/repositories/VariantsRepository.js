@@ -11,7 +11,7 @@ class VariantsRepository extends GenericRepository {
         const query = { productId: id };
         const result = await this.findOne(query);
         if (result === undefined || result === "") {
-            throw new Error("Null Result in Variant Repository")
+            throw new Error("Null Result in Variant Repository");
         }
         return result;
     }
@@ -23,7 +23,7 @@ class VariantsRepository extends GenericRepository {
         const query = { productId: { [Op.in]: ids } };
         const result = await this.findAll(query);
         if (result === undefined || result === "") {
-            throw new Error("Null Result in Variant Repository")
+            throw new Error("Null Result in Variant Repository");
         }
         return result;
     }

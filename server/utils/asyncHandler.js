@@ -6,8 +6,8 @@ const asyncHandler = (callback) => {
             next(err);
         }
     };
-}
+};
 
 module.exports = {
     asyncHandler
-}
+};

@@ -12,4 +12,4 @@ const OrderedItems = dbClient.define('ordered_items', {
 
 module.exports = {
     OrderedItems,
-}
+};

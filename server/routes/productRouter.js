@@ -5,7 +5,7 @@ const { asyncHandler } = require('../utils/asyncHandler');
 
 router.get("/search/:search",
     asyncHandler(async (req, res) => {
-        console.log(req.params)
+        console.log(req.params);
         const result = await products.getProductsByKeyword(req.params.search);
         if (result.dataCount) {
             res.json(result);
@@ -22,7 +22,7 @@ router.get("/details",
     asyncHandler(async (req, res) => {
         const result = await products.getProductDetailById(req.query.id);
         if (result) {
-            console.log(result.data[0])
+            console.log(result.data[0]);
             res.json(result);
             
         } else {
