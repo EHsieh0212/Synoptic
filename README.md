@@ -5,13 +5,13 @@
 2. Provide chatbot for recommendation integrating openai and chatroom configuration
 
 ## Tech Stack
-### Frontend
+#### Frontend
 - React, styled component, tailwind css
-### Backend
+#### Backend
 - Node.js, Python(openai)
-### Database
+#### Database
 - Mysql, Redis
-### CICD
+#### CICD
 - github action, vercel
 ### Development tools
 - Docker, eslint
