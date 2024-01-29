@@ -1,52 +1,33 @@
 const axios = require('axios');
 
-async function tapPayAction(prime){
-    try{
-        const post_data = {
-            "prime": prime,
-            "partner_key": "partner_6ID1DoDlaPrfHw6HBZsULfTYtDmWs0q0ZZGKMBpp4YICWBxgK97eK3RM",
-            "merchant_id": "GlobalTesting_CTBC",
-            "amount": 1,
-            "currency": "TWD",
-            "details": "An apple and a pen.",
-            "cardholder": {
-                "phone_number": "+886923456789",
-                "name": "jack",
-                "email": "example@gmail.com"
-            },
-            "remember": false
+const tapPayAction = async (thePrime, amount, firstName, lastName, email, phone, orderId, cartDetails) => {
+    const body = {
+        "prime": thePrime,
+        "partner_key": process.env.TP_PARTNER_KEY,
+        "merchant_id": process.env.TP_MERCHANT_ID,
+        "amount": amount,
+        "order_number": orderId.toString(),
+        "currency": "TWD",
+        "details": cartDetails.map(v => `${v.variantId}`).join(","),
+        "cardholder": {
+            "phone_number": phone,
+            "name": `${firstName}_${lastName}`,
+            "email": email
+        },
+    };
+    const result = await axios.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', body, {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.TP_PARTNER_KEY,
         }
-        await axios.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', post_data, {
-            headers: {
-                'x-api-key': 'partner_6ID1DoDlaPrfHw6HBZsULfTYtDmWs0q0ZZGKMBpp4YICWBxgK97eK3RM'
-            }
-        })
-        .then(async(response) => {
-            try{
-                return(await getResponse(response));
-            } catch(error){
-                console.log(error)
-                throw error;
-            }
-        })
-    } catch(error){
-        throw error;
+    });
+
+    if (parseInt(result.data.status) === 0) {
+        return result.data;
+    } else {
+        throw result.data;
     }
-}
-
-function getResponse(response){
-    return new Promise((resolve, reject) => {
-        const paymentDetails = response.data;
-        const paymentStatus = response.data.status;
-        result = {paymentDetails, paymentStatus};
-        resolve(result);
-        reject(new Error("errrrr"));
-    })
-}
+};
 
 
-module.exports = {tapPayAction};
-
-
-// why promises cannot reach to router?
-// todo: cannot get data from async func. fix it
+module.exports = { tapPayAction };

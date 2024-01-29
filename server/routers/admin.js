@@ -15,7 +15,7 @@ router.post('/upload', uploadImage, async(req, res) => {
         let details = JSON.parse(req.body.details);    // details taken from innerHtml, so it would be a string wraps an array of objects
         // (1) insert to product table 7 columns
         let insertProduct = `INSERT INTO product(product_id, category_id, product_name, product_price, product_img, product_origin, product_textDescription) 
-                             VALUES (?, ?, ?, ?, ?, ?, ?);`
+                             VALUES (?, ?, ?, ?, ?, ?, ?);`;
         let insertProductTarget = [pId, Number(product_category), product_name, Number(product_price), product_image, product_origin, product_textDescription];
         const insertProductQuery = await dbSqlCommand(insertProduct, insertProductTarget);
         // (2) insert to product_inventory table 4 columns
@@ -23,7 +23,7 @@ router.post('/upload', uploadImage, async(req, res) => {
             let oneEntry = details[i];
             let {product_quantity, product_color, product_size} = oneEntry;
             let insertProductInven = `INSERT INTO product_inventory(product_id, product_color, product_size, product_quantity) 
-                                      VALUES (?, ?, ?, ?);`
+                                      VALUES (?, ?, ?, ?);`;
             let insertProductInvenTarget = [pId, product_color, product_size, Number(product_quantity)];
             await dbSqlCommand(insertProductInven, insertProductInvenTarget);
             if ((i+1) == details.length){
@@ -36,6 +36,6 @@ router.post('/upload', uploadImage, async(req, res) => {
             msg: error.message
         });
     }
-})
+});
 
 module.exports = router;
