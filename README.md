@@ -14,7 +14,7 @@
 #### CICD
 - github action, vercel
 #### Development tools
-- Docker, eslint
+- Docker, eslint, AWS
 
 
 ## Local Development
