@@ -13,7 +13,7 @@
 - Mysql, Redis
 #### CICD
 - github action, vercel
-### Development tools
+#### Development tools
 - Docker, eslint
 
 
