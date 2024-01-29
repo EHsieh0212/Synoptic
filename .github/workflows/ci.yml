@@ -16,13 +16,17 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Install dependencies for server
       run: npm install
-      working-directory: ./server
+      working-directory: server
 
   eslint:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Install eslint packages
       run: npm install
     - name: Run Eslint Checking
