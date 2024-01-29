@@ -1,5 +1,9 @@
 # Synoptic
 
+## Project Goal
+1. Website for online garment shopping
+2. Provide chatbot for recommendation integrating openai and chatroom configuration
+
 ## Tech Stack
 ### Frontend
 - React, styled component, tailwind css
