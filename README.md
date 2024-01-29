@@ -1,5 +1,16 @@
 # Synoptic
 
+## Tech Stack
+### Frontend
+- React, styled component, tailwind css
+### Backend
+- Node.js, Python(openai)
+### Database
+- Mysql, Redis
+### CICD
+- github action, vercel
+
+
 ## Local Development
 ### Method1: docker-compose
 ```
