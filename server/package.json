@@ -4,8 +4,11 @@
   "description": "SYNOPTIC: Modern Fashion Laboratory",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "develop": "nodemon index.js"
+    "develop-docker": "nodemon -L index.js",
+    "develop": "nodemon index.js",
+    "server": "nodemon server",
+    "client": "cd ../client && yarn start",
+    "develop-whole": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "author": "Elaine Hsieh",
   "license": "ISC",

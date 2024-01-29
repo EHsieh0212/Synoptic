@@ -8,7 +8,7 @@ const tapPayAction = async (thePrime, amount, firstName, lastName, email, phone,
         "amount": amount,
         "order_number": orderId.toString(),
         "currency": "TWD",
-        "details": cartDetails.map(v => `${v.variantId}*${v.number}`).join(","),
+        "details": cartDetails.map(v => `${v.variantId}`).join(","),
         "cardholder": {
             "phone_number": phone,
             "name": `${firstName}_${lastName}`,
