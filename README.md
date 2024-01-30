@@ -18,6 +18,17 @@
 
 
 ## Local Development
+### Prerequiste: based on your setting, alter env config
+```
+cp .env.example .env
+
+cd client
+cp .env.example .env
+
+cd server
+cp .env.example .env
+```
+
 ### Method1: docker-compose
 ```
 docker-compose -f docker-compose.docker.yml up
