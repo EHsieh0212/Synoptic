@@ -8,7 +8,8 @@
     "develop": "nodemon index.js",
     "server": "nodemon index.js",
     "client": "cd ../client && npm start",
-    "develop-whole": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "develop-whole": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "node index.js"
   },
   "author": "Elaine Hsieh",
   "license": "ISC",
