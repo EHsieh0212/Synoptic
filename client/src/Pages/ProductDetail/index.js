@@ -7,7 +7,7 @@ import {
     RightUp, StyledTitle, StyledPrice, RightMiddle, MiddleText, SizeBlock, SizeBlockContainer,
     DescriptionText, AddToBag, StyledToaster
 } from "./productDetailStyle";
-import SelectMenu from "./SelectMenu";
+import SelectMenu from "./selectMenu";
 import { getColorNameByCode, DEFAULTSIZES, CART_API_URL } from "../../Utils/product";
 import { catchErrors, PUT_REQUEST_OPTIONS } from "../../Utils";
 import Loader from "../../Components/Loader";

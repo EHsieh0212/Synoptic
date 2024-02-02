@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const port = 4000;
 const router = require("./routes");
-const path = require("path");
+// const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -48,9 +48,6 @@ app.use(
     })
 );
 
-// static files
-app.use('/', express.static(path.join(__dirname, './public')));
-
 // redis related
 app.set('redisClientService', redisClientService);
 app.use(
@@ -66,6 +63,13 @@ app.use(
         }
     })
 );
+
+// react production build
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
+
 
 // all routers
 app.use("/api/v1", router);
@@ -90,3 +94,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Hello server ${port} port.`);
 });
+
+module.exports = app;
