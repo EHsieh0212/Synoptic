@@ -6,11 +6,15 @@ class CartIndexController {
     }
     async index(req, res){
         const cartId = req.session.cartId;
+        console.log('==============')
+        console.log(cartId)
         let existedCartItems = await this.redisClientService.jsonGet(`cart:${cartId}`);
         if (!existedCartItems){
             return res.status(StatusCodes.BAD_REQUEST).send({ message: `Cannot retrieve cart data. session id: ${cartId}` });
         }
         existedCartItems = JSON.parse(existedCartItems).content;
+        console.log('==============')
+        console.log(existedCartItems)
         
         return res.send({cart: existedCartItems});
     }
