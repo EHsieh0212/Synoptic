@@ -87,6 +87,9 @@ app.use((err, req, res, next) => {
     }
 });
 
+app.get('/test', function (req, res) {
+    res.send('hello world');
+})
 
 
 ///////////////////////////////////////////////////////////////////////////////////
