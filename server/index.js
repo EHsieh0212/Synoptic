@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const port = 4000;
 const router = require("./routes");
-const path = require("path");
+// const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -94,3 +94,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Hello server ${port} port.`);
 });
+
+module.exports = app;
