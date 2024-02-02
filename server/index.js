@@ -88,9 +88,14 @@ app.use((err, req, res, next) => {
 });
 
 
+app.get('/home', (req, res) => {
+    res.status(200).json('Welcome, your app is working well');
+  })
 
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter
 app.listen(port, () => {
     console.log(`Hello server ${port} port.`);
 });
+
+module.exports = app
