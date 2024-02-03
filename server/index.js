@@ -7,6 +7,7 @@ const router = require("./routes");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
+
 const cookieParser = require("cookie-parser");
 // const https = require('https');
 // const fs = require('fs');
@@ -56,20 +57,16 @@ app.use(
         secret: 'synoptic-secret',
         resave: false,
         saveUninitialized: false,
+        proxy: true,
         rolling: true,
         cookie: {
-            secure: false,
-            maxAge: 3600 * 1000 * 3
+            secure: true,
+            sameSite: 'none',
+            httpOnly: true,
+            maxAge: 3600 * 1000 * 3,
         }
     })
 );
-
-// react production build
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
-
 
 // all routers
 app.use("/api/v1", router);
@@ -87,10 +84,9 @@ app.use((err, req, res, next) => {
     }
 });
 
-
-app.get('/home', (req, res) => {
-    res.status(200).json('Welcome, your app is working well');
-  })
+app.get('/test', function (req, res) {
+    res.send('synoptic test routing success status');
+});
 
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter

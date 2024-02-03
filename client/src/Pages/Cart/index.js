@@ -109,8 +109,12 @@ const Cart = () => {
             updateRedis(filteredCart);
             localStorage.setItem("cartLength", filteredCart.length);
             window.dispatchEvent(new Event("storage"));
-            setIsLoading(true);
-            window.location.reload();
+            // setIsLoading(true);
+            navigate('/cart');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000)
+            // window.location.reload();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [renewed, deletedItem, updatedItem, cartItems]);

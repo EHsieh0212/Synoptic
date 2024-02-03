@@ -1,4 +1,4 @@
-name: CI
+name: Synoptic CI
 
 on:
   push:
@@ -6,29 +6,22 @@ on:
       - develop
 
 jobs:
-  checking:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-  
   install:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install dependencies for server
-      run: npm install
-      working-directory: server
-
+      - name: "🔧 Checkout code"
+        uses: actions/checkout@v2
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: server
   eslint:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install eslint packages
-      run: npm install
-    - name: Run Eslint Checking
-      run: npm run lint
+      - name: "🔧 Checkout code"
+        uses: actions/checkout@v2
+      - name: "📦 Install eslint packages"
+        run: npm install
+      - name: "🔍 Run Eslint Checking"
+        run: npm run lint
+
 
