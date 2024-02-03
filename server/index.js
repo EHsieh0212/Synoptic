@@ -73,7 +73,7 @@ app.use(
 // });
 
 // proxy
-// app.use('/api/v1', createProxyMiddleware({ target: 'https://synoptic-backend-3.onrender.com', changeOrigin: true }));
+app.use('/api/v1/cart', createProxyMiddleware({ target: 'https://synoptic-backend-3.onrender.com', changeOrigin: true }));
 
 // all routers
 app.use("/api/v1", router);
