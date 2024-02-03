@@ -57,11 +57,12 @@ app.use(
         store: new RedisStore({ client: redisClient }),
         secret: 'synoptic-secret',
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         rolling: true,
         cookie: {
             secure: false,
-            maxAge: 3600 * 1000 * 3
+            maxAge: 3600 * 1000 * 3,
+            sameSite: 'none'
         }
     })
 );
