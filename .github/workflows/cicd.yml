@@ -32,3 +32,4 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
           api-key: ${{ secrets.RENDER_API_KEY }}
+          timeout: 6000
