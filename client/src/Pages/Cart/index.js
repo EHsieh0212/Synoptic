@@ -98,6 +98,8 @@ const Cart = () => {
             setRenewed(true);
             updateRedis(renewedCartItems);
         }
+        console.log('=========deleted item=======')
+        console.log(deletedItem)
         if (deletedItem.length > 0) {
             const toDelete = deletedItem[0];
             const filteredCart = comparison.filter(item => (
