@@ -111,7 +111,7 @@ const Cart = () => {
             updateRedis(filteredCart);
             localStorage.setItem("cartLength", filteredCart.length);
             window.dispatchEvent(new Event("storage"));
-            setIsLoading(true);
+            // setIsLoading(true);
             navigate('/cart');
             // window.location.reload();
         }
