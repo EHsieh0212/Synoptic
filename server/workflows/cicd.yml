@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📦 Deploy to production"
+        working-directory: ./server
         uses: bounceapp/render-action@0.8.0
         with:
           render-token: ${{ secrets.RENDER_API_KEY }}
@@ -36,4 +37,3 @@ jobs:
           retries: 20
           wait: 16000
           sleep: 30000
-        working-directory: server
