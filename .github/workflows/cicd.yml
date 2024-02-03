@@ -1,0 +1,35 @@
+name: Synoptic CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🔧 Checkout code"
+        uses: actions/checkout@v2
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: server
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🔧 Checkout code"
+        uses: actions/checkout@v2
+      - name: "📦 Install eslint packages"
+        run: npm install
+      - name: "🔍 Run Eslint Checking"
+        run: npm run lint
+
+  deploy:
+    needs: [install, eslint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_KEY }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
