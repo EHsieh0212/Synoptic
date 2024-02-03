@@ -58,10 +58,12 @@ app.use(
         secret: 'synoptic-secret',
         resave: false,
         saveUninitialized: false,
+        proxy: true,
         rolling: true,
         cookie: {
             secure: true,
             sameSite: 'none',
+            httpOnly: true,
             maxAge: 3600 * 1000 * 3,
             domain: 'synoptics.onrender.com'
         }
