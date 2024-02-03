@@ -57,7 +57,7 @@ app.use(
         store: new RedisStore({ client: redisClient }),
         secret: 'synoptic-secret',
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         rolling: true,
         cookie: {
             secure: false,
