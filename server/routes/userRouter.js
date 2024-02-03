@@ -20,7 +20,6 @@ router.post('/register', authenticator('register'), asyncHandler(async (req, res
     } else {
         const errMsg = "Router Level Error: Resource not found (Return Empty)";
         const err = Object.assign(new Error(errMsg), { status: 404, msg: errMsg });
-        console.log(signupResult);
         throw err;
     }
 }));

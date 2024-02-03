@@ -6,7 +6,6 @@ const router = require("./routes");
 // const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 const cookieParser = require("cookie-parser");
@@ -69,15 +68,6 @@ app.use(
     })
 );
 
-// react production build
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
-
-// proxy
-// app.use('/api/v1/cart', createProxyMiddleware({ target: 'https://synoptic-backend-3.onrender.com', changeOrigin: true }));
-
 // all routers
 app.use("/api/v1", router);
 
@@ -95,9 +85,8 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/test', function (req, res) {
-    res.send('hello world');
+    res.send('synoptic test routing success status');
 });
-
 
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter
