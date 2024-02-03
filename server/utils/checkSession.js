@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
     }
 
     req.session.cartId = crypto.randomBytes(16).toString('hex');
+    console.log(req.session.cartId)
 
     return next();
 };
