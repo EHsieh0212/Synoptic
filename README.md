@@ -12,7 +12,7 @@
 #### Database
 - Mysql, Redis
 #### CICD
-- github action, vercel
+- github action, render
 #### Development tools
 - Docker, eslint, AWS
 
