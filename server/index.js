@@ -6,6 +6,8 @@ const router = require("./routes");
 // const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 
 const cookieParser = require("cookie-parser");
 // const https = require('https');
@@ -70,6 +72,8 @@ app.use(
 //     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 // });
 
+// proxy
+app.use('/api/v1', createProxyMiddleware({ target: 'https://synoptic-backend-3.onrender.com', changeOrigin: true }));
 
 // all routers
 app.use("/api/v1", router);
