@@ -31,6 +31,6 @@ jobs:
       - name: Deploy to production
         uses: bounceapp/render-action@0.6.0
         with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          service-id: srv-cmubkr6d3nmc739a1utg?key=4rkhLOvPuEc
           render-token: ${{ secrets.RENDER_TOKEN }}
           retries: 10
