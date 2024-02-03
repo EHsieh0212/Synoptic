@@ -115,7 +115,7 @@ const Cart = () => {
             navigate('/cart');
             setTimeout(() => {
                 window.location.reload();
-            })
+            }, 1000)
             // window.location.reload();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
