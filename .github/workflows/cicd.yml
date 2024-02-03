@@ -28,8 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📦 Deploy to production"
-        uses: johnbeynon/render-deploy-action@v0.0.8
+        uses: ttskch/render-deploy@v1.0.0
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
           api-key: ${{ secrets.RENDER_API_KEY }}
-          wait-for-success: true
