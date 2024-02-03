@@ -23,17 +23,4 @@ jobs:
         run: npm install
       - name: "🔍 Run Eslint Checking"
         run: npm run lint
-  deploy:
-    needs: [install, eslint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: "📦 Deploy to production"
-        uses: bounceapp/render-action@0.8.0
-        with:
-          render-token: ${{ secrets.RENDER_API_KEY }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          service-id: ${{ secrets.RENDER_SERVICE_KEY }}
-          retries: 20
-          wait: 16000
-          sleep: 30000
-          working-directory: ./server
+
