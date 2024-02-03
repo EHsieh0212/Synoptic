@@ -65,7 +65,6 @@ app.use(
             sameSite: 'none',
             httpOnly: true,
             maxAge: 3600 * 1000 * 3,
-            domain: 'synoptics.onrender.com'
         }
     })
 );
