@@ -113,6 +113,9 @@ const Cart = () => {
             window.dispatchEvent(new Event("storage"));
             // setIsLoading(true);
             navigate('/cart');
+            setTimeout(() => {
+                window.location.reload();
+            })
             // window.location.reload();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
