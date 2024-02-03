@@ -23,13 +23,13 @@ jobs:
         run: npm install
       - name: "🔍 Run Eslint Checking"
         run: npm run lint
-
   deploy:
     needs: [install, eslint]
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to production
+      - name: "📦 Deploy to production"
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
           api-key: ${{ secrets.RENDER_API_KEY }}
+          wait-for-success: true
