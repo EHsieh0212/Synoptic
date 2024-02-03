@@ -6,28 +6,27 @@ on:
       - develop
 
 jobs:
-  pre-deploy:
-    install:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Install dependencies for server
-          run: npm install
-          working-directory: server
-    eslint:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Install eslint packages
-          run: npm install
-        - name: Run Eslint Checking
-          run: npm run lint
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: server
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install eslint packages
+        run: npm install
+      - name: Run Eslint Checking
+        run: npm run lint
 
 deploy:
   name: Deploy
-  needs: [pre-deploy]
+  needs: [install, eslint]
   runs-on: ubuntu-latest
   steps:
     - name: Deploy to production
