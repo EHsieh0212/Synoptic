@@ -39,3 +39,6 @@ docker-compose -f docker-compose.local.yml up -d
 cd server
 npm run develop-whole
 ```
+
+## Showcase
+![Image Alt text](/.readme_description/save.gif
