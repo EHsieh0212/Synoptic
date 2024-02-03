@@ -28,8 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📦 Deploy to production"
-        uses: ttskch/render-deploy@v1.0.0
+        uses: bounceapp/render-action@0.6.0
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
-          timeout: 6000
+          render-token: ${{ secrets.RENDER_API_KEY }}
+          wait: 16000
+          sleep: 30000
