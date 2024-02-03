@@ -42,3 +42,6 @@ npm run develop-whole
 
 ## Showcase
 ![til](./.readme_description/save.gif)
+![til](./.readme_description/add.gif)
+![til](./.readme_description/thanks.gif)
+![til](./.readme_description/chatbot.gif)
