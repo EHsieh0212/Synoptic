@@ -32,5 +32,6 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
           render-token: ${{ secrets.RENDER_API_KEY }}
+          github-token: ${{ secrets.G_TOKEN }}
           wait: 16000
           sleep: 30000
