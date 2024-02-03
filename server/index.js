@@ -63,7 +63,7 @@ app.use(
             secure: true,
             sameSite: 'none',
             maxAge: 3600 * 1000 * 3,
-            domain: 'https://synoptics.onrender.com'
+            domain: 'synoptics.onrender.com'
         }
     })
 );
