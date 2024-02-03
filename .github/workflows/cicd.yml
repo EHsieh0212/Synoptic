@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: "📦 Deploy to production"
         uses: bounceapp/render-action@0.6.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           service-id: ${{ secrets.RENDER_SERVICE_KEY }}
           render-token: ${{ secrets.RENDER_API_KEY }}
