@@ -61,6 +61,8 @@ const CartItem = ({ id, imgSrc, title, price, size, color, quantity, stockMaxQua
             size,
             color,
         };
+        console.log('===============')
+        console.log(deletedItem)
         setDeletedItem([deletedItem]);
     };
 
