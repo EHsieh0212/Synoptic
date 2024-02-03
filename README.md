@@ -41,4 +41,4 @@ npm run develop-whole
 ```
 
 ## Showcase
-![Image Alt text](/.readme_description/save.gif
+![til](./.readme_description/save.gif)
