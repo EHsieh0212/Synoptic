@@ -112,6 +112,7 @@ const Cart = () => {
             localStorage.setItem("cartLength", filteredCart.length);
             window.dispatchEvent(new Event("storage"));
             setIsLoading(true);
+            navigate('/cart');
             // window.location.reload();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
