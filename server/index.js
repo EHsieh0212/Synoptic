@@ -60,9 +60,10 @@ app.use(
         saveUninitialized: false,
         rolling: true,
         cookie: {
-            secure: false,
+            secure: true,
+            sameSite: 'none',
             maxAge: 3600 * 1000 * 3,
-            sameSite: 'none'
+            domain: 'https://synoptics.onrender.com'
         }
     })
 );
