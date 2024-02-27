@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
 
-if (!process.env.DB_HOST ||
-    !process.env.DB_USER ||
-    !process.env.DB_PWD) {
-    throw new Error("HOST/USER/PWD should be set in environment variables");
+if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PWD) {
+  throw new Error('HOST/USER/PWD should be set in environment variables');
 }
 
 const dbClient = new Sequelize({
