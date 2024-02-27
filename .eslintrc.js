@@ -88,6 +88,28 @@ module.exports = {
     //         'node/no-unpublished-require': 'off',
     //     },
     // },
+    // For Typescript
+    {
+      files: ['**/*.ts'],
+      plugins: ['@typescript-eslint'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: ['./tsconfig.json'],
+      },
+      rules: {
+        'unicorn/filename-case': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        'import/extensions': [
+          'error',
+          'ignorePackages',
+          {
+            js: 'never',
+            ts: 'never',
+          },
+        ],
+      },
+    },
   ],
   ignorePatterns: ['server/routes/adminRouter.js', 'server/utils/payment.js'],
 };
