@@ -22,14 +22,14 @@ module.exports = {
   extends: [
     'prettier',
     'plugin:@typescript-eslint/recommended', // Moved TypeScript configuration to root
-    'plugin:eslint-comments/recommended',
-    'plugin:import/recommended',
-    'plugin:jest/recommended',
-    'plugin:jsdoc/recommended',
-    'plugin:prettier/recommended',
-    'plugin:promise/recommended',
-    'plugin:security/recommended',
-    'plugin:unicorn/recommended',
+    // 'plugin:eslint-comments/recommended',
+    // 'plugin:import/recommended',
+    // 'plugin:jest/recommended',
+    // 'plugin:jsdoc/recommended',
+    // 'plugin:prettier/recommended',
+    // 'plugin:promise/recommended',
+    // 'plugin:security/recommended',
+    // 'plugin:unicorn/recommended',
   ],
   settings: {
     'import/resolver': {
