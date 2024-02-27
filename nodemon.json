@@ -1,0 +1,8 @@
+{
+    "delay": "500",
+    "watch": [
+      "node_modules/",
+      "server/",
+      "client/"
+    ]
+  }
