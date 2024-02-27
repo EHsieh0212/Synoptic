@@ -2,13 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 4000;
-const router = require("./routes");
+const router = require('./routes');
 // const path = require("path");
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 // const https = require('https');
 // const fs = require('fs');
 const cors = require('cors');
@@ -29,7 +28,6 @@ const { redisClient, redisClientService } = require('./database/redis/init');
 //  res.end("Welcome to Node.js HTTPS Server");
 // }).listen(8443)
 
-
 ///////////////////////////////////////////////////////////////////////////////////
 // middlewares & routes
 // configuration
@@ -41,57 +39,57 @@ app.use(compression());
 app.use(urlencodedParser);
 
 app.use(
-    cors({
-        origin(origin, callback) {
-            callback(null, true);
-        },
-        credentials: true
-    })
+  cors({
+    origin(origin, callback) {
+      callback(null, true);
+    },
+    credentials: true,
+  }),
 );
 
 // redis related
 app.set('redisClientService', redisClientService);
 app.use(
-    session({
-        store: new RedisStore({ client: redisClient }),
-        secret: 'synoptic-secret',
-        resave: false,
-        saveUninitialized: false,
-        proxy: true,
-        rolling: true,
-        cookie: {
-            secure: true,
-            sameSite: 'none',
-            httpOnly: true,
-            maxAge: 3600 * 1000 * 3,
-        }
-    })
+  session({
+    store: new RedisStore({ client: redisClient }),
+    secret: 'synoptic-secret',
+    resave: false,
+    saveUninitialized: false,
+    proxy: true,
+    rolling: true,
+    cookie: {
+      secure: true,
+      sameSite: 'none',
+      httpOnly: true,
+      maxAge: 3600 * 1000 * 3,
+    },
+  }),
 );
 
 // all routers
-app.use("/api/v1", router);
+app.use('/api/v1', router);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // (3)global-status error catching middleware
 // Global error handler
 app.use((err, req, res, next) => {
-    if (err) {
-        res.status(err.status || 500);
-        res.json({ error: { message: err.message } });
-        console.error(err);
-    } else {
-        next();
-    }
+  if (err) {
+    res.status(err.status || 500);
+    res.json({ error: { message: err.message } });
+    console.error(err);
+  } else {
+    next();
+  }
 });
 
 app.get('/test', function (req, res) {
-    res.send('synoptic test routing success status');
+  res.send('synoptic test routing success status');
 });
 
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter
 app.listen(port, () => {
-    console.log(`Hello server ${port} port.`);
+  console.log(`Hello server ${port} port.`);
 });
 
 module.exports = app;
