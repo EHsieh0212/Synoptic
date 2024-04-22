@@ -13,7 +13,6 @@ const cookieParser = require('cookie-parser');
 const client = require('prom-client');
 const { histogram } = require('./synoptic-application-monitor/histogram');
 const { gauge } = require('./synoptic-application-monitor/gauge');
-const { summary } = require('./synoptic-application-monitor/summary');
 const { counter } = require('./synoptic-application-monitor/counter');
 const cors = require('cors');
 const compression = require('compression');
@@ -46,22 +45,11 @@ client.collectDefaultMetrics({
   register,
 });
 
-const httpRequestDurationMicroseconds = new client.Histogram({
-  name: 'http_request_duration_seconds',
-  help: 'Duration of HTTP requests in seconds',
-  labelNames: ['method', 'route', 'code'],
-  buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10], // 0.1 to 10 seconds
-});
-register.registerMetric(httpRequestDurationMicroseconds);
-
 // histogram
 histogram(register);
 
 // gauge
 gauge(register);
-
-// summary
-summary(register);
 
 // counter
 counter(register);
