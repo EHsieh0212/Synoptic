@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: "synoptic-app"
     static_configs:
-      - targets: ["synoptic-app:4000"]
+      - targets: ["docker.for.mac.localhost:4000"]

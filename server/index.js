@@ -12,8 +12,7 @@ const cookieParser = require('cookie-parser');
 // const https = require('https');
 const client = require('prom-client');
 const { histogram } = require('./synoptic-application-monitor/histogram');
-const { gauge } = require('./synoptic-application-monitor/gauge');
-const { counter } = require('./synoptic-application-monitor/counter');
+const { summary } = require('./synoptic-application-monitor/summary');
 const cors = require('cors');
 const compression = require('compression');
 const session = require('express-session');
@@ -48,25 +47,15 @@ client.collectDefaultMetrics({
 // histogram
 histogram(register);
 
-// gauge
-gauge(register);
-
-// counter
-counter(register);
+// summary
+summary(register);
 
 // Must set Prometheus before setting session
 app.get('/metrics', async (req, res) => {
   try {
-    // Start the timer
-    const end = httpRequestDurationMicroseconds.startTimer();
-    const route = req.route.path;
-
     const metrics = await register.metrics();
     res.setHeader('Content-Type', register.contentType);
     res.end(metrics);
-
-    // End timer and add labels
-    end({ route, code: res.statusCode, method: req.method });
   } catch (error) {
     console.error('Error generating metrics:', error);
     res.status(500).json({ error: 'Internal server error from Prometheus' });
