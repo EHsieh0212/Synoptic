@@ -38,7 +38,7 @@ const register = new client.Registry();
 // Add a default metrics and enable the collection of it
 client.collectDefaultMetrics({
   app: 'synoptic-monitoring-app',
-  prefix: 'node_',
+  prefix: 'synoptic_',
   timeout: 10000,
   gcDurationBuckets: [0.001, 0.01, 0.1, 1, 2, 5], // These are the default buckets.
   register,
