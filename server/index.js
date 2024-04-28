@@ -8,8 +8,10 @@ const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const cookieParser = require('cookie-parser');
-// const https = require('https');
 // const fs = require('fs');
+// const https = require('https');
+const client = require('prom-client');
+const httpRequestHistogramMiddleware = require('./prom-middleware');
 const cors = require('cors');
 const compression = require('compression');
 const session = require('express-session');
@@ -27,6 +29,35 @@ const { redisClient, redisClientService } = require('./database/redis/init');
 //  res.writeHead(200);
 //  res.end("Welcome to Node.js HTTPS Server");
 // }).listen(8443)
+
+//////////////////////////////////////////////////////////////////////////////////
+// Prometheus Server Setting
+// Must set Prometheus before setting session
+if (process.env.APP_ENV === 'test') {
+  const register = new client.Registry();
+
+  // Add a default metrics and enable the collection of it
+  client.collectDefaultMetrics({
+    app: 'synoptic-monitoring-app',
+    prefix: 'node_',
+    timeout: 10000,
+    gcDurationBuckets: [0.001, 0.01, 0.05, 0.1, 0.5, 1, 2, 5], // These are the default buckets.
+    register,
+  });
+
+  app.use(httpRequestHistogramMiddleware(register));
+
+  app.get('/metrics', async (req, res) => {
+    try {
+      const metrics = await register.metrics();
+      res.setHeader('Content-Type', register.contentType);
+      res.end(metrics);
+    } catch (error) {
+      console.error('Error generating metrics:', error);
+      res.status(500).json({ error: 'Internal server error from Prometheus' });
+    }
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 // middlewares & routes
@@ -82,14 +113,10 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.get('/test', function (req, res) {
-  res.send('synoptic test routing success status');
-});
-
 ///////////////////////////////////////////////////////////////////////////////////
 // server starter
 app.listen(port, () => {
   console.log(`Hello server ${port} port.`);
 });
 
-module.exports = app
+module.exports = app;
