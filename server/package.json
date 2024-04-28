@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.0",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
     "connect-redis": "^5.0.0",
@@ -34,19 +34,26 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "node-fetch": "^2.6.7",
+    "on-finished": "^2.4.1",
     "openai": "^4.26.0",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pm2": "^5.2.0",
+    "prom-client": "^15.1.2",
     "redis": "^3.0.2",
     "redis-rejson": "^1.0.0",
+    "response-time": "^2.3.2",
     "sequelize": "^6.33.0",
+    "url": "^0.11.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
     "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
