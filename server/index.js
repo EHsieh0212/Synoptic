@@ -33,29 +33,31 @@ const { redisClient, redisClientService } = require('./database/redis/init');
 //////////////////////////////////////////////////////////////////////////////////
 // Prometheus Server Setting
 // Must set Prometheus before setting session
-const register = new client.Registry();
+if (process.env.APP_ENV === 'test') {
+  const register = new client.Registry();
 
-// Add a default metrics and enable the collection of it
-client.collectDefaultMetrics({
-  app: 'synoptic-monitoring-app',
-  prefix: 'node_',
-  timeout: 10000,
-  gcDurationBuckets: [0.001, 0.01, 0.05, 0.1, 0.5, 1, 2, 5], // These are the default buckets.
-  register,
-});
+  // Add a default metrics and enable the collection of it
+  client.collectDefaultMetrics({
+    app: 'synoptic-monitoring-app',
+    prefix: 'node_',
+    timeout: 10000,
+    gcDurationBuckets: [0.001, 0.01, 0.05, 0.1, 0.5, 1, 2, 5], // These are the default buckets.
+    register,
+  });
 
-app.use(httpRequestHistogramMiddleware(register));
+  app.use(httpRequestHistogramMiddleware(register));
 
-app.get('/metrics', async (req, res) => {
-  try {
-    const metrics = await register.metrics();
-    res.setHeader('Content-Type', register.contentType);
-    res.end(metrics);
-  } catch (error) {
-    console.error('Error generating metrics:', error);
-    res.status(500).json({ error: 'Internal server error from Prometheus' });
-  }
-});
+  app.get('/metrics', async (req, res) => {
+    try {
+      const metrics = await register.metrics();
+      res.setHeader('Content-Type', register.contentType);
+      res.end(metrics);
+    } catch (error) {
+      console.error('Error generating metrics:', error);
+      res.status(500).json({ error: 'Internal server error from Prometheus' });
+    }
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 // middlewares & routes
