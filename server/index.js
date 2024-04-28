@@ -11,8 +11,7 @@ const cookieParser = require('cookie-parser');
 // const fs = require('fs');
 // const https = require('https');
 const client = require('prom-client');
-const { histogram } = require('./synoptic-application-monitor/histogram');
-const { summary } = require('./synoptic-application-monitor/summary');
+const httpRequestHistogramMiddleware = require('./prom-middleware');
 const cors = require('cors');
 const compression = require('compression');
 const session = require('express-session');
@@ -33,24 +32,20 @@ const { redisClient, redisClientService } = require('./database/redis/init');
 
 //////////////////////////////////////////////////////////////////////////////////
 // Prometheus Server Setting
+// Must set Prometheus before setting session
 const register = new client.Registry();
 
 // Add a default metrics and enable the collection of it
 client.collectDefaultMetrics({
   app: 'synoptic-monitoring-app',
-  prefix: 'synoptic_',
+  prefix: 'node_',
   timeout: 10000,
-  gcDurationBuckets: [0.001, 0.01, 0.1, 1, 2, 5], // These are the default buckets.
+  gcDurationBuckets: [0.001, 0.01, 0.05, 0.1, 0.5, 1, 2, 5], // These are the default buckets.
   register,
 });
 
-// histogram
-histogram(register);
+app.use(httpRequestHistogramMiddleware(register));
 
-// summary
-summary(register);
-
-// Must set Prometheus before setting session
 app.get('/metrics', async (req, res) => {
   try {
     const metrics = await register.metrics();
@@ -114,10 +109,6 @@ app.use((err, req, res, next) => {
   } else {
     next();
   }
-});
-
-app.get('/test', function (req, res) {
-  res.send('synoptic test routing success status');
 });
 
 ///////////////////////////////////////////////////////////////////////////////////
